@@ -163,6 +163,20 @@ function looksLikeWholeCodeBlock(segment: string): boolean {
 
 type Run = { kind: "prose" | "code"; text: string };
 
+/** Соседние блоки `code` (часто из-за пустой строки `\n\n` внутри одного примера) — один `<pre>`. */
+function mergeAdjacentCodeRuns(runs: Run[]): Run[] {
+  const out: Run[] = [];
+  for (const r of runs) {
+    const last = out[out.length - 1];
+    if (r.kind === "code" && last?.kind === "code") {
+      last.text = `${last.text}\n\n${r.text}`;
+    } else {
+      out.push({ kind: r.kind, text: r.text });
+    }
+  }
+  return out;
+}
+
 /** Внутри одного абзаца (между \n\n): чередование текста и кода при одном \n. */
 function splitPartIntoRuns(part: string): Run[] {
   const lines = part.split("\n");
@@ -226,7 +240,7 @@ function parseQuestionToRuns(text: string): Run[] {
     all.push(...splitPartIntoRuns(p));
   }
 
-  return all;
+  return mergeAdjacentCodeRuns(all);
 }
 
 /**
