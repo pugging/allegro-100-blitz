@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
+import { QuestionText } from "@/components/QuestionText";
 import { DifficultyBadge } from "./DifficultyBadge";
 import { RoleBadge } from "./RoleBadge";
 import type { Question, AnswerKey } from "@/lib/types";
@@ -46,7 +47,7 @@ export function QuizQuestion({
         </div>
       </div>
 
-      <p className="text-lg font-medium leading-relaxed">{question.text}</p>
+      <QuestionText text={question.text} />
 
       <div className="grid gap-2">
         {keys.map((key) => {
@@ -85,9 +86,11 @@ export function QuizQuestion({
                 >
                   {key}
                 </span>
-                <span className="text-sm leading-relaxed">
-                  {question.options[key]}
-                </span>
+                <QuestionText
+                  variant="inline"
+                  text={question.options[key]}
+                  className="text-foreground"
+                />
               </CardContent>
             </Card>
           );
@@ -101,7 +104,11 @@ export function QuizQuestion({
           aria-live="polite"
         >
           <span className="font-semibold text-primary">Пояснение: </span>
-          {question.explanation}
+          <QuestionText
+            variant="inline"
+            text={question.explanation}
+            className="text-foreground font-normal"
+          />
         </div>
       )}
     </div>

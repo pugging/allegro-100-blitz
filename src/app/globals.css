@@ -131,4 +131,23 @@
   html {
     @apply font-sans;
   }
+
+  /* Кликабельные элементы — курсор «рука» */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  a[href],
+  summary {
+    cursor: pointer;
+  }
+}
+
+/* Блоки кода в тексте вопросов (доп. к Tailwind в QuestionText) */
+.question-code-block {
+  tab-size: 2;
+}
+
+.question-code-block code {
+  white-space: pre;
+  word-break: normal;
+  overflow-wrap: normal;
 }
