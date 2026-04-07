@@ -390,10 +390,11 @@ function highlightInline(text: string): ReactNode {
             </code>
           );
         }
+        /* Только «настоящие» фрагменты кода: не считать конец «…текст (ЦВЕ)» кодом */
         if (
           /^\[[^\]]+\]$/.test(part) ||
-          /\([^)]*\)$/.test(part) ||
-          /Error$/.test(part)
+          /^[A-Za-z_][A-Za-z0-9_]*\s*\([^)]*\)$/.test(part) ||
+          /^[A-Za-z_][A-Za-z0-9_]*Error$/.test(part)
         ) {
           return (
             <code
