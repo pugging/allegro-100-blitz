@@ -15,7 +15,12 @@ import {
 } from "@/components/ui/card";
 import { isSupabaseConfigured } from "@/lib/supabase/browser";
 
-type SignUpState = { error?: string; ok?: true };
+type SignUpState = {
+  error?: string;
+  hint?: string;
+  ok?: true;
+  needsEmailConfirmation?: true;
+};
 
 export default function SignUpPage() {
   const [state, formAction, pending] = useActionState(signUpAction, {} as SignUpState);
@@ -40,25 +45,55 @@ export default function SignUpPage() {
             </p>
           )}
           {state.error && (
-            <p
-              className="mb-4 rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive"
+            <div
+              className="mb-4 space-y-2 rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive"
               role="alert"
             >
-              {state.error}
-            </p>
+              <p className="font-medium">{state.error}</p>
+              {state.hint && (
+                <p className="text-xs leading-relaxed text-foreground/90">
+                  {state.hint}
+                </p>
+              )}
+            </div>
           )}
           {state.ok && (
-            <p
-              className="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-950"
+            <div
+              className="mb-4 space-y-2 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-950"
               role="status"
             >
-              Аккаунт создан. Если в Supabase включено подтверждение email —
-              перейдите по ссылке из письма, затем{" "}
-              <Link href="/auth/login" className="font-medium text-primary underline">
-                войдите
-              </Link>
-              .
-            </p>
+              <p>
+                {state.needsEmailConfirmation
+                  ? "Регистрация принята. Нужно подтвердить email."
+                  : "Аккаунт создан — можно входить."}
+              </p>
+              {state.needsEmailConfirmation && (
+                <p className="text-xs leading-relaxed">
+                  Проверьте почту и папку «Спам». После перехода по ссылке откройте{" "}
+                  <Link
+                    href="/auth/login"
+                    className="font-medium text-primary underline"
+                  >
+                    Вход
+                  </Link>
+                  . В Supabase можно временно отключить подтверждение: Authentication →
+                  Providers → Email → выключить «Confirm email».
+                </p>
+              )}
+              {!state.needsEmailConfirmation && (
+                <p className="text-xs">
+                  <Link
+                    href="/auth/login"
+                    className="font-medium text-primary underline"
+                  >
+                    Перейти ко входу
+                  </Link>
+                </p>
+              )}
+              {state.hint && (
+                <p className="text-xs leading-relaxed opacity-90">{state.hint}</p>
+              )}
+            </div>
           )}
           <form action={formAction} className="space-y-4">
             <div className="space-y-2">
