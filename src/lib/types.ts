@@ -40,6 +40,8 @@ export interface BlitzResult {
   correctCount: number;
   totalCount: number;
   completedAt: string;
+  /** Секунды от старта до завершения (для саммари и повторного просмотра). */
+  durationSeconds?: number;
 }
 
 export interface UserProgress {

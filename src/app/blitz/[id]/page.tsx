@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, use } from "react";
+import { useState, useEffect, useCallback, use, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { getBlitzSetById } from "@/lib/data";
 import { loadProgressFromStorage } from "@/lib/storage";
@@ -30,6 +30,9 @@ export default function BlitzPage({ params }: PageProps) {
   >([]);
   const [finished, setFinished] = useState(false);
   const [seconds, setSeconds] = useState(0);
+  const sessionStartMsRef = useRef<number | null>(null);
+  const secondsRef = useRef(0);
+  secondsRef.current = seconds;
 
   useEffect(() => {
     if (finished || !set) return;
@@ -46,6 +49,12 @@ export default function BlitzPage({ params }: PageProps) {
       setAnswers(prev.answers);
       setFinished(true);
       setCurrentIndex(Math.max(0, n - 1));
+      setSeconds(
+        typeof prev.durationSeconds === "number" ? prev.durationSeconds : 0,
+      );
+      sessionStartMsRef.current = null;
+    } else if (sessionStartMsRef.current === null) {
+      sessionStartMsRef.current = Date.now();
     }
   }, [blitzId, hydrated, set]);
 
@@ -71,34 +80,78 @@ export default function BlitzPage({ params }: PageProps) {
     [allQuestions],
   );
 
-  const handleNext = () => {
-    if (currentIndex < allQuestions.length - 1) {
-      setCurrentIndex((i) => i + 1);
-    }
-  };
+  const handleNext = useCallback(() => {
+    setCurrentIndex((i) =>
+      i < allQuestions.length - 1 ? i + 1 : i,
+    );
+  }, [allQuestions.length]);
 
-  const handlePrev = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex((i) => i - 1);
-    }
-  };
+  const handlePrev = useCallback(() => {
+    setCurrentIndex((i) => (i > 0 ? i - 1 : i));
+  }, []);
 
-  const handleFinish = () => {
+  const handleFinish = useCallback(() => {
+    const byTick = secondsRef.current;
+    const wallSeconds =
+      sessionStartMsRef.current != null
+        ? Math.floor((Date.now() - sessionStartMsRef.current) / 1000)
+        : byTick;
+    const finalDuration = Math.max(byTick, wallSeconds);
+
     const correctCount = allQuestions.filter(
       (q) => answers[q.id] === q.correct,
     ).length;
 
     const result: BlitzResult = {
-      blitzId: set.id,
+      blitzId: blitzId,
       answers,
       correctCount,
       totalCount: allQuestions.length,
       completedAt: new Date().toISOString(),
+      durationSeconds: finalDuration,
     };
 
     void persistBlitzResult(result, topicResults);
+    setSeconds(finalDuration);
     setFinished(true);
-  };
+  }, [
+    allQuestions,
+    answers,
+    blitzId,
+    persistBlitzResult,
+    topicResults,
+  ]);
+
+  useEffect(() => {
+    if (finished) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Enter") return;
+      const el = document.activeElement;
+      if (
+        el instanceof HTMLButtonElement ||
+        el instanceof HTMLAnchorElement ||
+        el?.getAttribute("role") === "button"
+      ) {
+        return;
+      }
+      const currentId = allQuestions[currentIndex]?.id;
+      if (!currentId || !answers[currentId]) return;
+      e.preventDefault();
+      if (currentIndex < allQuestions.length - 1) {
+        setCurrentIndex((i) => i + 1);
+      } else if (Object.keys(answers).length === allQuestions.length) {
+        handleFinish();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [
+    finished,
+    answers,
+    currentIndex,
+    allQuestions,
+    handleFinish,
+  ]);
 
   const answeredCount = Object.keys(answers).length;
   const allAnswered = answeredCount === allQuestions.length;
@@ -234,6 +287,16 @@ export default function BlitzPage({ params }: PageProps) {
           </Button>
         )}
       </div>
+
+      {!finished && (
+        <p className="mt-2 text-center text-xs text-muted-foreground">
+          После выбора ответа:{" "}
+          <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 font-mono text-[0.7rem]">
+            Enter
+          </kbd>{" "}
+          — следующий вопрос или завершение
+        </p>
+      )}
 
       {finished && (
         <div className="mt-8 rounded-xl border border-border/60 bg-card p-6 text-center">

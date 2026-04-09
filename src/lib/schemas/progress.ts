@@ -9,6 +9,7 @@ export const blitzResultSchema = z.object({
   correctCount: z.number().int().min(0).max(9),
   totalCount: z.number().int().min(1).max(9),
   completedAt: z.string().min(1),
+  durationSeconds: z.number().int().min(0).max(86400).optional(),
 });
 
 export const completedBlitzesSchema = z.record(
