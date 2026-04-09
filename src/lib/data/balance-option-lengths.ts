@@ -292,6 +292,7 @@ function balanceQuestionOptions(q: Question): Question {
   const opts: Record<AnswerKey, string> = { ...q.options };
   const wrongKeys = KEYS.filter((k) => k !== q.correct);
   const len = (k: AnswerKey) => charLen(opts[k]!);
+  const hash = fnv(q.id);
 
   // Step 1: Trim redundant tails from correct answer (em-dash explanations, etc.)
   const trimmed = trimTail(opts[q.correct]!);
@@ -330,6 +331,30 @@ function balanceQuestionOptions(q: Question): Question {
       q.topic,
       fnv(`${q.id}_correct`),
     );
+  }
+
+  // (No Step 6 — expansion artifact mitigation handled at clause level)
+
+  // Step 7: PARENS BALANCE — if correct has parens and no wrong does,
+  // add a parenthetical to one wrong answer to break the "only-parens = correct" tell.
+  const correctHasParens = /\(/.test(opts[q.correct]!);
+  const wrongWithParens = wrongKeys.filter((k) => /\(/.test(opts[k]!));
+  if (correctHasParens && wrongWithParens.length === 0) {
+    // Pick one wrong answer deterministically and add a parenthetical
+    const targetK = wrongKeys[hash % wrongKeys.length]!;
+    const t = opts[targetK]!;
+    // Only if it looks natural (not too short, not code)
+    if (charLen(t) > 15 && !/^[<{]/.test(t)) {
+      const parenOptions = [
+        " (по умолчанию)",
+        " (в общем случае)",
+        " (на практике)",
+        " (условно)",
+        " (формально)",
+        " (в теории)",
+      ];
+      opts[targetK] = t + parenOptions[hash % parenOptions.length]!;
+    }
   }
 
   return { ...q, options: opts };
