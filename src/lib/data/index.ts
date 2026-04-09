@@ -1,5 +1,6 @@
 import type { BlitzSet } from "../types";
 import { balanceBlitzSets } from "./balance-answer-keys";
+import { balanceOptionLengthsInSets } from "./balance-option-lengths";
 import { batch1 } from "./batch1";
 import { batch2 } from "./batch2";
 import { batch3 } from "./batch3";
@@ -14,8 +15,10 @@ const rawBlitzSets: BlitzSet[] = [
   ...batch5,
 ];
 
-/** Без смещения буквы правильного ответа к B/C; см. `balance-answer-keys.ts`. */
-export const allBlitzSets: BlitzSet[] = balanceBlitzSets(rawBlitzSets);
+/** Без смещения буквы правильного ответа; выравнивание длины формулировок — `balance-option-lengths.ts`. */
+export const allBlitzSets: BlitzSet[] = balanceOptionLengthsInSets(
+  balanceBlitzSets(rawBlitzSets),
+);
 
 export function getBlitzSetById(id: number): BlitzSet | undefined {
   return allBlitzSets.find((s) => s.id === id);
