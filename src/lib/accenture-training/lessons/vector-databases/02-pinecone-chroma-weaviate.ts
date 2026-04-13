@@ -4,51 +4,51 @@ export const lesson: Lesson = {
   id: "vector-databases-02",
   skillId: "vector-databases",
   order: 2,
-  title: "Pinecone, Chroma & Weaviate",
+  title: "Сосновая шишка, цветность и плетение",
   subtitle:
-    "Three popular stacks for vector storage—managed cloud, local open source, and hybrid search—plus minimal Python patterns for upsert and query.",
+    "Три популярных стека векторного хранилища — управляемое облако, локальный открытый исходный код и гибридный поиск — а также минимальные шаблоны Python для обновления и запроса.",
   estimatedMinutes: 15,
   objectives: [
-    "Contrast Pinecone (managed), Chroma (embedded/local), and Weaviate (hybrid) for typical GenAI workloads.",
-    "Perform basic upsert, fetch, and query operations in Python against each ecosystem’s client patterns.",
-    "Decide when serverless vs. self-hosted vs. hybrid keyword+vector search wins.",
+    "Contrast Pinecone (управляемый), Chroma (встроенный/локальный) и Weaviate (гибридный) для типичных рабочих нагрузок GenAI.",
+    "Выполняйте базовые операции обновления, выборки и запроса на Python в соответствии с клиентскими шаблонами каждой экосистемы.",
+    "Решите, когда победит бессерверный поиск, автономный или гибридный поиск по ключевым словам + векторный поиск.",
   ],
   content: [
     {
       type: "text",
       content:
-        "Vector databases are specialized stores for high-dimensional vectors plus **metadata** you filter on (tenant IDs, timestamps, ACL tags). In client projects you rarely build indexes from scratch—you integrate a vendor or OSS stack, embed content offline or online, and tune recall/latency.",
+        "Базы данных векторов — это специализированные хранилища для многомерных векторов, а также **метаданных**, по которым вы фильтруете (идентификаторы клиентов, временные метки, теги ACL). В клиентских проектах вы редко создаете индексы с нуля — вы интегрируете стек поставщика или OSS, встраиваете контент в автономном или онлайн-режиме и настраиваете отзыв/задержку.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Landscape at a glance",
+      content: "Пейзаж с первого взгляда",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**Pinecone:** Fully managed, serverless-friendly; you bring vectors via API, minimal ops.",
-        "**Chroma:** Developer-friendly, runs in-process or as a server; great for notebooks and prototypes.",
-        "**Weaviate:** Open-source core with cloud offering; strong **hybrid** (BM25 + vector) and GraphQL-style APIs.",
+        "**Сосновая шишка:** полностью управляемая, бессерверная; вы передаете векторы через API, минимальные операции.",
+        "**Цветность:** удобна для разработчиков, работает внутри процесса или на сервере; отлично подходит для ноутбуков и прототипов.",
+        "**Weaviate:** ядро ​​с открытым исходным кодом и облачные возможности; сильные **гибридные** (BM25 + вектор) и API-интерфейсы в стиле GraphQL.",
       ],
     },
     {
       type: "callout",
       variant: "success",
-      title: "Enterprise lens",
+      title: "Корпоративный объектив",
       content:
-        "Shortlist on: data residency, SSO/RBAC, backup/restore, SLAs, cost model (per pod vs. per vector), and whether you need hybrid lexical search out of the box.",
+        "Короткий список по следующим вопросам: местонахождение данных, SSO/RBAC, резервное копирование/восстановление, соглашения об уровне обслуживания, модель стоимости (на модуль или на вектор), а также нужен ли вам готовый гибридный лексический поиск.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Comparison table",
+      content: "Сравнительная таблица",
     },
     {
       type: "text",
       content:
-        "Exact feature names change quarterly—always verify in official docs before production. This table captures the decision shape interns should recognize in architecture discussions.",
+        "Точные названия функций меняются ежеквартально — всегда проверяйте их в официальной документации перед началом производства. В этой таблице отражена форма решения, которую стажеры должны принять во время обсуждений архитектуры.",
     },
     {
       type: "code",
@@ -130,14 +130,14 @@ collection = client.create_collection(name="policies")
 collection.add(
     ids=["p-1", "p-2"],
     documents=[
-        "Passwords must be rotated every 90 days.",
-        "Customer PII cannot leave the EU region.",
+        "Пароли необходимо менять каждые 90 дней.",
+        "Личная информация клиента не может покинуть регион ЕС.",
     ],
     metadatas=[{"dept": "it"}, {"dept": "legal"}],
 )
 
 results = collection.query(
-    query_texts=["How often rotate passwords?"],
+    query_texts=["Как часто меняются пароли?"],
     n_results=2,
 )
 print(results["ids"], results["distances"])`,
@@ -166,7 +166,7 @@ client = weaviate.connect_to_local()  # or connect_to_wcs(...)
 coll = client.collections.get("DocumentChunk")
 
 uuid = coll.data.insert(
-    properties={"title": "On-call runbook", "text": "Restart pod if..."},
+    properties={"title": "Учебник по вызову", "text": "Перезапустите модуль, если..."},
     vector=[0.01] * 1536,  # if not using a server-side vectorizer
 )
 

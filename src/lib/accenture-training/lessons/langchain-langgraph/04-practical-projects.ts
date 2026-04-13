@@ -4,35 +4,35 @@ export const lesson: Lesson = {
   id: "langchain-langgraph-04",
   skillId: "langchain-langgraph",
   order: 4,
-  title: "Practical Projects & Tips",
+  title: "Практические проекты и советы",
   subtitle:
-    "End-to-end RAG with LangChain, research assistants with LangGraph, debugging with LangSmith, testing and performance, and portfolio ideas for interviews.",
+    "Комплексная RAG с LangChain, ассистенты по исследованиям с LangGraph, отладка с LangSmith, тестирование и продуктивность, а также портфолио идей для собеседований.",
   estimatedMinutes: 17,
   objectives: [
-    "Outline a minimal production-shaped RAG stack using LangChain components.",
-    "Describe a LangGraph research flow with retrieval, synthesis, and review.",
-    "Use tracing and tests to harden chains and graphs.",
-    "Plan low-cost practice setups (free tiers, Ollama) and portfolio demos.",
+    "Нарисуйте минимальный производственный стек RAG с использованием компонентов LangChain.",
+    "Опишите поток исследования LangGraph с поиском, синтезом и обзором.",
+    "Используйте трассировку и тесты для усиления цепочек и графиков.",
+    "Запланируйте недорогие практические установки (уровни бесплатного пользования, Ollama) и демонстрационные версии портфолио.",
   ],
   content: [
     {
       type: "text",
       content:
-        "This lesson ties the track together: ship **RAG** with LangChain primitives, add **multi-step reasoning** with LangGraph, and operationalize with **LangSmith**, tests, and sensible performance choices—exactly the stories that resonate in a one-hour technical interview.",
+        "В этом уроке все вместе: воспользуйтесь **RAG** ​​с примитивами LangChain, добавьте **многоэтапные рассуждения** с помощью LangGraph и введите в подключение с помощью **LangSmith** тесты и разумный выбор производительности – именно это история, которая вызывает отклик в часовом техническом интервью.",
     },
     {
       type: "heading",
       level: 2,
-      content: "RAG chatbot end-to-end (LangChain)",
+      content: "Сквозной чат-бот RAG (LangChain)",
     },
     {
       type: "list",
       ordered: true,
       items: [
-        "Load and chunk documents; embed with `OpenAIEmbeddings` or a local model.",
-        "Store vectors in Chroma, FAISS, or a hosted DB; attach metadata (source, page).",
-        "Build a retriever (`similarity_search_with_score` or MMR) and a `RunnablePassthrough.assign(context=...)` chain.",
-        "Prompt: system rules + context + user question; parse or stream the answer.",
+        "Загружать и разбивать документы; встроить с помощью OpenAIEmbeddings или локальной модели.",
+        "Храните векторы в Chroma, FAISS или в размещенной базе данных; прикрепите метаданные (источник, страница).",
+        "Создайте ретривер (`similarity_search_with_score` или MMR) и цепочку `RunnablePassthrough.assign(context=...)`.",
+        "Подсказка: системные правила + контекст + вопрос пользователя; проанализировать или передать ответ.",
       ],
     },
     {
@@ -48,14 +48,14 @@ from langchain_core.runnables import RunnablePassthrough
 
 embeddings = OpenAIEmbeddings()
 vectorstore = Chroma.from_texts(
-    ["LangGraph adds durable stateful workflows.", "RAG grounds answers in retrieved text."],
+    ["LangGraph добавляет надежные рабочие процессы с отслеживанием состояния.", "RAG обосновывает ответы полученным текстом."],
     embedding=embeddings,
 )
 retriever = vectorstore.as_retriever(search_kwargs={"k": 4})
 
 prompt = ChatPromptTemplate.from_messages([
-    ("system", "Answer using only the context. Cite chunk ideas briefly."),
-    ("human", "Context:\\n{context}\\n\\nQuestion: {question}"),
+    ("system", "Отвечайте, используя только контекст. Кратко процитируйте идеи фрагментов."),
+    ("human", "Контекст:\\\n{контекст}\\\n\\\nВопрос: {вопрос}"),
 ])
 
 llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
@@ -70,21 +70,21 @@ chain = (
     | StrOutputParser()
 )
 
-answer = chain.invoke({"question": "What is LangGraph good for?"})`,
+answer = chain.invoke({"question": "Чем хорош LangGraph?"})`,
     },
     {
       type: "heading",
       level: 2,
-      content: "Research assistant with LangGraph",
+      content: "Стажер-исследователь в LangGraph",
     },
     {
       type: "text",
       content:
-        "Model **plan → search → read → synthesize → critique** as nodes. Conditional edges send weak drafts back to retrieval or to a human approval node before emailing a summary. Persist `thread_id` per research task so analysts can resume.",
+        "Смоделируйте **план → поиск → чтение → синтез → критика** как узлы. Условные ребра отправляют слабые черновики обратно на узел поиска или на узел утверждения человеком перед отправкой сводки по электронной почте. Сохраняйте `thread_id` для каждой исследовательской задачи, чтобы аналитики могли возобновить работу.",
     },
     {
       type: "diagram",
-      alt: "Research assistant graph from plan through retrieve and synthesize to optional human review",
+      alt: "График помощника исследователя от плана, извлечения и синтеза до дополнительной проверки человеком",
       content: `flowchart TD
   P[plan queries] --> R[retrieve sources]
   R --> S[synthesize draft]
@@ -98,133 +98,133 @@ answer = chain.invoke({"question": "What is LangGraph good for?"})`,
     {
       type: "heading",
       level: 2,
-      content: "Debugging with LangSmith",
+      content: "Отладка с помощью LangSmith",
     },
     {
       type: "text",
       content:
-        "**LangSmith** (or OpenTelemetry exporters) captures traces: prompts, token usage, latency per node, and tool I/O. For interviews, describe how you reproduced a bug by finding the retrieval step returning empty context, then fixed chunking—not by guessing.",
+        "**LangSmith** (или экспортеры OpenTelemetry) фиксирует следы: запросы, использование токенов, задержку на узел и ввод-вывод инструментов. Для интервью опишите, как вы воспроизвели ошибку, найдя этап извлечения, возвращающий пустой контекст, а затем исправив фрагментацию, а не путем догадок.",
     },
     {
       type: "callout",
       variant: "warning",
-      title: "Data handling",
+      title: "Обработка данных",
       content:
-        "Traces may contain PII and secrets. Configure sampling, redaction, and environment separation (dev vs prod) per client policy.",
+        "Следы могут содержать персональные данные и секреты. Настройте выборку, редактирование и разделение сред (разработка и производство) для каждой политики клиента.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Testing strategies",
+      content: "Стратегии тестирования",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**Unit tests**: mock LLM responses to assert prompt shape and parser output.",
-        "**Golden tests**: freeze expected answers for fixed retrieval fixtures.",
-        "**Eval harnesses**: LLM-as-judge or rule checks on citations and refusal behavior.",
+        "**Модульные тесты**: имитируйте ответы LLM, чтобы подтвердить форму приглашения и результаты синтаксического анализа.",
+        "**Золотые тесты**: замораживание ожидаемых ответов для фиксированных настроек поиска.",
+        "**Оценочные средства**: LLM в качестве судьи или проверка правил на цитаты и отказное поведение.",
       ],
     },
     {
       type: "heading",
       level: 2,
-      content: "Performance optimization",
+      content: "Оптимизация производительности",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "Cache embeddings for static corpora; batch embed where APIs allow.",
-        "Trim context: smaller k, re-ranking, or hierarchical summaries.",
-        "Stream tokens to the UI; parallelize independent retrievals with `RunnableParallel`.",
-        "Right-size models: small for routing, large for final answer if budget allows.",
+        "Встраивание кэша для статических корпусов; пакетное встраивание, если это позволяют API.",
+        "Контекст обрезки: уменьшение k, изменение ранжирования или иерархические сводки.",
+        "Потоковые токены в пользовательский интерфейс; распараллелить независимые поиски с помощью RunnableParallel.",
+        "Модели подходящего размера: маленькие для маршрутизации, большие для окончательного ответа, если позволяет бюджет.",
       ],
     },
     {
       type: "heading",
       level: 2,
-      content: "Community resources",
+      content: "Ресурсы сообщества",
     },
     {
       type: "text",
       content:
-        "Official LangChain docs, GitHub discussions, Discord, and release notes are primary. For enterprise, skim security advisories and LTS guidance—versions move quickly.",
+        "Официальная документация LangChain, обсуждения на GitHub, Discord и примечания к выпуску являются основными. Для предприятий просмотрите рекомендации по безопасности и рекомендации по LTS — версии меняются быстро.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Practice at home: free tiers and Ollama",
+      content: "Практикуйтесь дома: бесплатные уровни и Оллама",
     },
     {
       type: "text",
       content:
-        "Use **OpenAI / Anthropic free credits** or low-cost keys for short sessions. Run **Ollama** locally for Llama/Mistral models to practice LangChain `ChatOllama` without cloud spend—expect slower inference on laptops but excellent learning value.",
+        "Используйте **бесплатные кредиты OpenAI / Anthropic** или недорогие ключи для коротких сеансов. Запустите **Ollama** локально для моделей Llama/Mistral, чтобы попрактиковаться в LangChain `ChatOllama` без затрат на облако — ожидайте более медленного вывода на ноутбуках, но отличную обучающую ценность.",
     },
     {
       type: "tip",
       content:
-        "Portfolio: a GitHub repo with README architecture diagram, `.env.example`, and a 3-minute Loom beats a slide deck alone.",
+        "Портфолио: репозиторий GitHub со схемой архитектуры README, `.env.example` и трехминутным Loom лучше, чем просто слайд-шоу.",
     },
     {
       type: "callout",
       variant: "success",
-      title: "Portfolio ideas for Accenture-style interviews",
+      title: "Идеи портфолио для собеседований в стиле Accenture",
       content:
-        "Policy Q&A bot over PDFs with citations; ticket triage agent with human handoff; contract clause extractor graph with confidence routing; internal API copilot with tool auth. Pick one, instrument it, and document failure modes.",
+        "Бот вопросов и ответов по вопросам политики для PDF-файлов с цитатами; агент по сортировке билетов с передачей вручную; граф экстрактора условий контракта с доверительной маршрутизацией; внутренний второй пилот API с инструментальной аутентификацией. Выберите один, инструментируйте его и задокументируйте режимы сбоя.",
     },
   ],
   keyTakeaways: [
-    "RAG in LangChain = retriever + context assembly + prompt + model + optional parsers/streaming.",
-    "LangGraph adds durable, branchy workflows suited to research and compliance gates.",
-    "LangSmith-style tracing plus tests turns demos into engineering stories.",
-    "Local models (Ollama) and careful caching make practice affordable.",
+    "RAG в LangChain = ретривер + сборка контекста + приглашение + модель + дополнительные парсеры/потоковая передача.",
+    "LangGraph добавляет надежные и разветвленные рабочие процессы, подходящие для исследований и соблюдения требований.",
+    "Трассировка и тесты в стиле ЛэнгСмита превращают демонстрации в инженерные истории.",
+    "Локальные модели (Ollama) и тщательное кэширование делают практику доступной.",
   ],
   interviewTips: [
-    "Walk through one trace screenshot: \"Here retrieval was empty because k=1 and chunking split tables wrong.\"",
-    "Quantify: latency budget, cost per 1k queries, and when you would re-rank.",
-    "State security: secrets in env vars, no PII in prompts sent to third parties without review.",
-    "End with what you would monitor in week one of production: errors, empty retrieval rate, thumbs feedback.",
+    "Просмотрите один скриншот трассировки: «Здесь выборка была пустой, потому что k = 1 и неправильное разделение таблиц».",
+    "Определите количественно: бюджет задержки, стоимость за 1 тыс. запросов и время повторного ранжирования.",
+    "Государственная безопасность: секреты в переменных окружения, отсутствие личных данных в запросах, отправляемых третьим лицам без проверки.",
+    "Закончите тем, что вы будете отслеживать на первой неделе производства: ошибки, частота пустых запросов, отзывы.",
   ],
   exercises: [
     {
       type: "scenario",
       id: "lc04-sc-rag-debug",
       scenario:
-        "In LangSmith you see high latency and answers that ignore the retrieved context. Logs show 12 large chunks stuffed into the prompt every time.",
+        "В LangSmith вы видите высокую задержку и ответы, игнорирующие полученный контекст. Журналы каждый раз показывают 12 больших кусков, вставленных в приглашение.",
       question:
-        "Name two concrete changes and what you would verify after each.",
+        "Назовите два конкретных изменения и укажите, что вы будете проверять после каждого.",
       sampleAnswer:
-        "Reduce k and add MMR or a re-ranker to shrink context, then re-run golden questions to check answer overlap with sources. Second, add a post-generation check that the answer must reference at least one retrieved source title or abstain—verify via eval set precision.",
+        "Уменьшите k и добавьте MMR или измените рейтинг, чтобы сузить контекст, а затем повторно запустите золотые вопросы, чтобы проверить совпадение ответов с источниками. Во-вторых, добавьте после генерации проверку того, что ответ должен ссылаться хотя бы на одно полученное название источника, или воздержитесь — проверьте с помощью точности набора eval.",
       keyPoints: [
-        "Context trimming / better retrieval selection.",
-        "Evaluation loop after changes.",
+        "Обрезка контекста/лучший выбор при поиске.",
+        "Цикл оценки после изменений.",
       ],
       interviewNote:
-        "Mention token cost drops as a business benefit, not only latency.",
+        "Упомяните снижение стоимости токенов как преимущество для бизнеса, а не только задержку.",
     },
     {
       type: "multiple-choice",
       id: "lc04-mc-ollama",
       question:
-        "You want to practice LangChain locally without cloud API charges. Which setup is most appropriate for iterative hacking on a laptop?",
+        "Вы хотите практиковать LangChain локально без платы за облачный API. Какая настройка наиболее подходит для итеративного взлома на ноутбуке?",
       options: [
-        "Hardcode production AWS keys in the notebook",
-        "Ollama + `ChatOllama` (or similar local integration) with small models",
-        "Disable SSL verification globally",
-        "Paste customer PII into public Colab for embedding tests",
+        "Ключи AWS для создания жесткого кода в блокноте",
+        "Ollama + ChatOllama (или подобная локальная интеграция) с небольшими моделями",
+        "Отключить проверку SSL глобально",
+        "Вставьте персональные данные клиента в общедоступный Colab для встраивания тестов.",
       ],
       correctIndex: 1,
       explanation:
-        "Ollama runs open models locally for safe, low-cost iteration. Hardcoded keys, disabled TLS, and public PII violate security and privacy norms.",
+        "Оллама запускает открытые модели локально для безопасной и недорогой итерации. Жестко закодированные ключи, отключенный TLS и общедоступные персональные данные нарушают нормы безопасности и конфиденциальности.",
       interviewNote:
-        "Say you still use env vars for any cloud fallback and scrub notebooks before sharing.",
+        "Допустим, вы все еще используете переменные окружения для любого резервного облака и очищаете блокноты перед совместным использованием.",
     },
     {
       type: "code-completion",
       id: "lc04-cc-retriever",
       question:
-        "Complete the Runnable so `context` is filled by formatting retrieved documents before the prompt.",
+        "Завершите Runnable, чтобы «контекст» был заполнен путем форматирования полученных документов до запроса.",
       codeTemplate: `from langchain_core.runnables import RunnablePassthrough
 
 chain = (
@@ -239,37 +239,37 @@ chain = (
       correctAnswer: "retriever",
       acceptableAnswers: ["retriever"],
       explanation:
-        "The retriever object (from a vector store) accepts a query string via `.invoke` and returns documents to format into context.",
+        "Объект-получатель (из векторного хранилища) принимает строку запроса через `.invoke` и возвращает документы для форматирования в контекст.",
       interviewNote:
-        "Mention type hints: retriever might be `VectorStoreRetriever`.",
+        "Подсказки по типу упоминания: ретривером может быть VectorStoreRetriever.",
     },
     {
       type: "ordering",
       id: "lc04-ord-prod",
       question:
-        "Order these rollout steps for a client pilot (best practice first to last).",
+        "Закажите эти шаги по развертыванию для клиентского пилотного проекта (рекомендуемая практика от начала до конца).",
       items: [
-        "Define success metrics and a small golden eval set",
-        "Instrument traces and redact sensitive fields",
-        "Ship read-only tools and retrieval with ACLs enforced server-side",
-        "Iterate on prompts and chunking using trace insights",
+        "Определите показатели успеха и небольшой золотой набор оценок.",
+        "Отслеживание инструментов и редактирование чувствительных полей",
+        "Поставка инструментов только для чтения и извлечения данных с использованием списков управления доступом на стороне сервера.",
+        "Выполняйте итерации по подсказкам и фрагментам, используя данные трассировки.",
       ],
       correctOrder: [0, 1, 2, 3],
       explanation:
-        "Start with measurable goals, add observability with privacy controls, enforce backend authz on tools/data, then optimize prompts and retrieval using traces.",
+        "Начните с измеримых целей, добавьте наблюдаемость с помощью средств контроля конфиденциальности, включите внутреннюю аутентификацию для инструментов/данных, а затем оптимизируйте подсказки и извлечение с помощью трассировок.",
       interviewNote:
-        "If asked about agile, you can parallelize some tasks—but never skip ACL enforcement before widening users.",
+        "Если вас спросят об гибкой технологии, вы можете распараллелить некоторые задачи, но никогда не пропускайте принудительное применение ACL перед расширением числа пользователей.",
     },
     {
       type: "true-false",
       id: "lc04-tf-traces",
       statement:
-        "LangSmith traces alone are a substitute for automated regression tests on RAG quality.",
+        "Сами по себе трассировки LangSmith заменяют автоматические регрессионные тесты качества RAG.",
       correct: false,
       explanation:
-        "Traces help debug individual runs; automated tests and eval datasets catch regressions across releases. Use both: traces for investigation, tests for gates in CI/CD.",
+        "Трассировки помогают отлаживать отдельные запуски; автоматизированные тесты и наборы оценочных данных выявляют регрессии между выпусками. Используйте и то, и другое: трассировки для расследования, тесты на гейты в CI/CD.",
       interviewNote:
-        "Mention running evals on every prompt or retrieval config change.",
+        "Упоминайте о запуске оценок при каждом изменении конфигурации запроса или получения данных.",
     },
   ],
 };

@@ -4,67 +4,67 @@ export const lesson: Lesson = {
   id: "llm-basics-03",
   skillId: "llm-basics",
   order: 3,
-  title: "Embeddings & Semantic Search",
+  title: "Вложения и семантический поиск",
   subtitle:
-    "Turning text into vectors, measuring similarity, and building retrieval pipelines — the core mechanics behind semantic search and RAG.",
+    "Преобразование текста в векторы, измерение сходства и построение конвейеров поиска — основная механика семантического поиска и RAG.",
   estimatedMinutes: 17,
   objectives: [
-    "Define embeddings and contrast static word vectors with contextual and sentence embeddings.",
-    "Explain cosine similarity, dot product, and Euclidean distance and when each is appropriate.",
-    "Outline a production semantic search pipeline from indexing to ranking.",
-    "Read and extend simple Python for encoding documents and retrieving nearest neighbors.",
+    "Определите вложения и сопоставьте статические векторы слов с контекстными вложениями и вложениями предложений.",
+    "Объясните косинусное подобие, скалярное произведение и евклидово расстояние, а также когда каждое из них применимо.",
+    "Опишите производственный конвейер семантического поиска от индексации до ранжирования.",
+    "Прочтите и расширьте простой Python для кодирования документов и получения ближайших соседей.",
   ],
   content: [
     {
       type: "text",
       content:
-        "An **embedding** is a dense real-valued vector representation of text (token, sentence, paragraph, image patch, etc.) in ℝ^d. Similar meanings should map to nearby vectors under a chosen geometry so we can **search**, **cluster**, **classify**, or **retrieve** without hand-crafted rules. In GenAI systems, embeddings power **semantic search**, **RAG**, deduplication, and recommendation — interviewers expect you to connect vectors to business outcomes (latency, recall@k, freshness).",
+        "**Вложение** — это плотное векторное представление текста (токена, предложения, абзаца, фрагмента изображения и т. д.) в формате ℝ^d. Подобные значения должны сопоставляться с соседними векторами в выбранной геометрии, чтобы мы могли **искать**, **кластеризовать**, **классифицировать** или **извлекать** без составленных вручную правил. В системах GenAI встраивания обеспечивают **семантический поиск**, **RAG**, дедупликацию и рекомендации — интервьюеры ожидают, что вы свяжете векторы с бизнес-результатами (задержка, отзыв@k, актуальность).",
     },
     {
       type: "callout",
       variant: "info",
-      title: "Link to Accenture delivery",
+      title: "Ссылка на доставку Accenture",
       content:
-        "Clients rarely ask for \"embeddings\"; they ask for \"find policies like this question\" or \"group tickets by intent.\" Your job is to translate that into embedding models, indexes, and evaluation.",
+        "Клиенты редко просят «встраивания»; они просят «найти политику, подобную этому вопросу» или «группировать заявки по намерению». Ваша задача — воплотить это во встраивание моделей, индексов и оценок.",
     },
     {
       type: "heading",
       level: 2,
-      content: "From Word2vec intuition to modern vectors",
+      content: "От интуиции Word2vec к современным векторам",
     },
     {
       type: "text",
       content:
-        "**Word2vec** (2013) showed that predicting context from a word (or vice versa) learns linear structure: analogies like king − man + woman ≈ queen in vector space. Limitation: **one vector per word type** — \"bank\" (river) and \"bank\" (finance) collide. **Contextual embeddings** from transformers assign different vectors depending on surrounding tokens; **sentence / document embeddings** collapse a whole span into one vector for retrieval, often via mean pooling, CLS tokens, or dedicated sentence models.",
+        "**Word2vec** (2013) показал, что прогнозирование контекста по слову (или наоборот) изучает линейную структуру: аналогии типа король – мужчина + женщина ≈ королева в векторном пространстве. Ограничение: **один вектор на каждый тип слова** — «банк» (река) и «банк» (финансы) сталкиваются. **Контекстные встраивания** из преобразователей назначают разные векторы в зависимости от окружающих токенов; **Внедрение предложений/документов** сжимает весь диапазон в один вектор для извлечения, часто с помощью пула средних значений, токенов CLS или специальных моделей предложений.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Common embedding model families",
+      content: "Распространенные семейства моделей встраивания",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**OpenAI embedding APIs** (e.g. text-embedding-3-small/large): strong general quality, hosted, billed per token — typical default for greenfield cloud RAG.",
-        "**sentence-transformers** (SBERT family): open models you can run on CPU/GPU; `sentence-transformers` on Hugging Face is the standard Python stack for offline batching and air-gapped clients.",
-        "Domain-specific fine-tunes (legal, medical, code) when generic embeddings miss jargon or synonyms critical to recall.",
+        "**API для встраивания OpenAI** (например, text-embedding-3-small/large): высокое общее качество, размещение на хостинге, оплата за токен — минимальное значение по умолчанию для новой облачной RAG.",
+        "**предложения трансформаторов** (семейство SBERT): открытые модели, которые можно запускать на CPU/GPU; `sentence-transformers` на Hugging Face — это стандартный стек Python для автономной пакетной обработки и клиентов с зазором.",
+        "Точная настройка для конкретной предметной области (юридическая, медицинская, кодовая), когда в общих внедрениях отсутствует жаргонизм или синонимы, которые важно запомнить.",
       ],
     },
     {
       type: "tip",
       content:
-        "Always normalize vectors when you rely on cosine similarity — many APIs return L2-normalized embeddings so dot product equals cosine similarity.",
+        "Всегда нормализуйте векторы, когда вы полагаетесь на косинусное сходство — многие API возвращают встраивания, нормализованные на уровне L2, поэтому скалярное произведение равно косинусному сходству.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Similarity metrics",
+      content: "Метрики сходства",
     },
     {
       type: "text",
       content:
-        "Given vectors u, v (non-zero): **cosine similarity** = (u·v) / (||u|| ||v||) ∈ [-1, 1] for general vectors, often [0,1] for NLP if components are non-negative. It measures **angle**, not magnitude — good when length correlates with verbosity rather than importance. **Dot product** u·v equals cosine × ||u|| × ||v||; if norms differ a lot, dot product favors longer documents unless you normalize. **Euclidean distance** ||u − v||_2 is monotonic with cosine for **unit vectors** (smaller distance ⟺ higher cosine), but behaves differently otherwise.",
+        "Для векторов u, v (отличных от нуля): **косинусное подобие** = (u·v) / (||u|| ||v||) ∈ [-1, 1] для общих векторов, часто [0,1] для НЛП, если компоненты неотрицательны. Он измеряет **угол**, а не величину — хорошо, когда длина коррелирует с многословием, а не с важностью. **Скалярное произведение** u·v равно косинусу × ||u|| × ||v||; если нормы сильно различаются, скалярное произведение предпочитает более длинные документы, если вы не нормализуете. **Евклидово расстояние** ||u − v||_2 является монотонным с косинусом для **единичных векторов** (меньшее расстояние ⟺ больший косинус), но в противном случае ведет себя по-другому.",
     },
     {
       type: "code",
@@ -78,28 +78,28 @@ def cosine_sim(a: np.ndarray, b: np.ndarray) -> float:
 u = np.array([1.0, 2.0, 3.0])
 v = np.array([1.0, 2.0, 3.1])
 print("cosine:", cosine_sim(u, v))
-print("L2 distance:", np.linalg.norm(u - v))`,
+print("Расстояние L2:", np.linalg.norm(u - v))`,
     },
     {
       type: "heading",
       level: 2,
-      content: "Semantic search pipeline",
+      content: "Конвейер семантического поиска",
     },
     {
       type: "list",
       ordered: true,
       items: [
-        "**Ingest & chunk**: split documents into passages sized for the embedding model and downstream LLM context.",
-        "**Embed**: batch-encode chunks; store metadata (source URI, ACL, timestamps).",
-        "**Index**: load vectors into a vector store (FAISS, Milvus, Pinecone, pgvector, etc.) with the right metric (usually inner product or cosine on normalized vectors).",
-        "**Query**: embed the user query with the **same** model and hyperparameters; retrieve top-k neighbors.",
-        "**Rank / filter**: optional reranker (cross-encoder), metadata filters, freshness boosts.",
-        "**Generate (RAG)**: pass retrieved passages to the LLM with citations — covered in depth in the RAG track.",
+        "**Всасывание и фрагментирование**: разделение документов на фрагменты, размер которых соответствует модели внедрения и нисходящему контексту LLM.",
+        "**Встроить**: фрагменты пакетного кодирования; хранить метаданные (URI источника, ACL, метки времени).",
+        "**Индекс**: загрузка векторов в хранилище векторов (FAISS, Milvus, Pinecone, pgvector и т. д.) с правильной метрикой (обычно скалярное произведение или косинус для нормализованных векторов).",
+        "**Запрос**: встройте пользовательский запрос с **той же** моделью и гиперпараметрами; получить топ-k соседей.",
+        "**Ранг/фильтр**: дополнительный механизм изменения рейтинга (кросс-кодировщик), фильтры метаданных, повышение актуальности.",
+        "**Создание (RAG)**: передача извлеченных отрывков в LLM с цитатами, подробно описанными в треке RAG.",
       ],
     },
     {
       type: "diagram",
-      alt: "Semantic search data flow",
+      alt: "Поток данных семантического поиска",
       content: `flowchart LR
   docs[Documents] --> chunk[Chunking]
   chunk --> emb[Embedding model]
@@ -112,19 +112,19 @@ print("L2 distance:", np.linalg.norm(u - v))`,
     {
       type: "callout",
       variant: "warning",
-      title: "Metric mismatch breaks quality",
+      title: "Несоответствие показателей снижает качество",
       content:
-        "If the index is built for cosine but you feed unnormalized vectors and use inner product without checking, rankings drift. Align **model**, **normalization**, and **distance definition** across offline and online paths.",
+        "Если индекс построен для косинуса, но вы вводите ненормализованные векторы и используете внутренний продукт без проверки, рейтинг будет дрейфовать. Выровняйте **модель**, **нормализацию** и **определение расстояния** в автономном и онлайн-путях.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Practical Python: encode and compare",
+      content: "Практический Python: кодируем и сравниваем",
     },
     {
       type: "text",
       content:
-        "Below is a minimal pattern with `sentence-transformers`. Swap `model_name` for your approved corporate model; keep batch sizes tuned to GPU memory for large corpora.",
+        "Ниже приведен минимальный шаблон с «трансформаторами предложений». Замените «имя_модели» на утвержденную корпоративную модель; для больших корпусов сохраняйте размеры пакетов в соответствии с памятью графического процессора.",
     },
     {
       type: "code",
@@ -136,79 +136,79 @@ model_name = "all-MiniLM-L6-v2"  # small demo model; replace per enterprise poli
 model = SentenceTransformer(model_name)
 
 passages = [
-    "Return policy: refunds within 30 days with receipt.",
-    "Shipping to EU takes 5–7 business days.",
-    "API rate limit is 60 requests per minute per key.",
+    "Политика возврата: возврат средств в течение 30 дней с момента получения.",
+    "Доставка в ЕС занимает 5–7 рабочих дней.",
+    "Ограничение скорости API — 60 запросов в минуту на каждый ключ.",
 ]
-query = "How long do I have to refund a purchase?"
+query = "В течение какого времени я должен вернуть деньги за покупку?"
 
 q_emb = model.encode(query, convert_to_tensor=True)
 p_emb = model.encode(passages, convert_to_tensor=True)
 
 sims = util.cos_sim(q_emb, p_emb)[0]
 best = int(sims.argmax())
-print("best passage idx:", best, "score:", float(sims[best]))`,
+print("idx лучшего отрывка:", best, "score:", float(sims[best]))`,
     },
     {
       type: "callout",
       variant: "success",
-      title: "Interview framing",
+      title: "Оформление интервью",
       content:
-        "\"We embed queries and documents in the same space, then retrieve by nearest neighbors. Quality depends on chunking, model choice, and eval — not just vector dimension.\"",
+        "«Мы встраиваем запросы и документы в одно и то же пространство, а затем извлекаем их по ближайшим соседям. Качество зависит от фрагментации, выбора модели и оценки, а не только от векторного измерения».",
     },
   ],
   keyTakeaways: [
-    "Embeddings map text to vectors so semantic nearness approximates usefulness for search and clustering.",
-    "Word2vec explains the idea; modern sentence embeddings and APIs power enterprise RAG.",
-    "Cosine rewards direction; dot product mixes direction and magnitude unless normalized.",
-    "End-to-end pipelines chunk, embed, index, query, optionally rerank — consistency of model and metric matters.",
+    "Встраивание отображает текст в векторы, поэтому семантическая близость приближается к полезности для поиска и кластеризации.",
+    "Word2vec объясняет эту идею; современные встраивания предложений и API-интерфейсы способствуют развитию предприятия RAG.",
+    "Направление косинуса; Скалярное произведение смешивает направление и величину, если оно не нормализовано.",
+    "Сквозные конвейеры фрагментируют, встраивают, индексируют, запрашивают, при необходимости меняют ранжирование — важна согласованность модели и показателей.",
   ],
   interviewTips: [
-    "When asked \"how does semantic search work?\" draw ingest → embed → index → kNN → (optional) rerank in under 30 seconds.",
-    "Mention evaluation: MRR, nDCG, or simple recall@k on labeled query sets — hiring managers want measurement, not vibes.",
-    "Acknowledge cold-start and domain shift: embeddings trained on web text may underperform on internal acronyms until fine-tuned.",
-    "For regulated clients, note PII handling: some teams embed redacted text or run models inside VPC.",
+    "На вопрос «как работает семантический поиск?» нарисовать вставку → встроить → индекс → kNN → (необязательно) изменить рейтинг менее чем за 30 секунд.",
+    "Упомяните оценку: MRR, nDCG или простой отзыв @k в наборах помеченных запросов — менеджеры по найму хотят измерения, а не вибрации.",
+    "Признайте холодный запуск и смену домена: встраивания, обученные на веб-тексте, могут работать хуже при работе с внутренними аббревиатурами, пока они не будут точно настроены.",
+    "Для регулируемых клиентов обратите внимание на обработку личных данных: некоторые команды встраивают отредактированный текст или запускают модели внутри VPC.",
   ],
   exercises: [
     {
       type: "scenario",
       id: "llm03-sc-metric",
       scenario:
-        "A product manager says: \"Our knowledge base has both short FAQ lines and 2-page legal clauses. Rankings favor long clauses even when a short FAQ answers the question.\"",
+        "Менеджер по продукту говорит: «В нашей базе знаний есть как короткие строки часто задаваемых вопросов, так и двухстраничные юридические статьи. Рейтинги отдают предпочтение длинным статьям, даже если короткий FAQ отвечает на вопрос».",
       question:
-        "Which similarity metric issue might contribute, and what is one concrete mitigation?",
+        "Какая проблема с показателями сходства может способствовать этому и каково конкретное решение?",
       sampleAnswer:
-        "Raw dot product tends to correlate with vector norm; longer texts often produce larger-magnitude embeddings, so they can dominate dot-product ranking even when angle similarity is higher for a short FAQ. Mitigations: L2-normalize embeddings and use cosine (or inner product on normalized vectors), add length penalties, chunk long documents uniformly, or use a two-stage retriever plus cross-encoder reranking that scores query–passage pairs directly.",
+        "Необработанное скалярное произведение имеет тенденцию коррелировать с векторной нормой; более длинные тексты часто создают вложения большей величины, поэтому они могут доминировать в рейтинге скалярного произведения, даже если сходство углов выше для коротких часто задаваемых вопросов. Смягчение: нормализовать вложения L2 и использовать косинус (или внутреннее произведение для нормализованных векторов), добавить штрафы за длину, равномерно разбить длинные документы или использовать двухэтапный метод извлечения плюс перераспределение перекрестного кодирования, которое напрямую оценивает пары запрос-проход.",
       keyPoints: [
-        "Dot product vs cosine / normalization.",
-        "Chunking and length bias.",
-        "Reranking as a fix for coarse retrieval.",
+        "Скалярное произведение против косинуса/нормализации.",
+        "Разбиение на части и смещение длины.",
+        "Изменение ранжирования как исправление грубого поиска.",
       ],
       interviewNote:
-        "Shows you debug retrieval systems, not only call `embed()`.",
+        "Показывает отладку поисковых систем, а не только вызов `embed()`.",
     },
     {
       type: "multiple-choice",
       id: "llm03-mc-word2vec",
       question:
-        "What is the main limitation of classic Word2vec-style static embeddings for enterprise Q&A compared to contextual transformer embeddings?",
+        "В чем основное ограничение классических статических вложений в стиле Word2vec для корпоративных вопросов и ответов по сравнению с встраиваниями контекстных преобразователей?",
       options: [
-        "They require a GPU cluster for inference on every token.",
-        "Each word type has a single vector regardless of context, so polysemy and domain senses collide.",
-        "They cannot be converted to floating-point numbers.",
-        "They only work for Python source code, not natural language.",
+        "Им требуется кластер графического процессора для вывода каждого токена.",
+        "Каждый тип слов имеет один вектор независимо от контекста, поэтому полисемия и смыслы предметной области сталкиваются.",
+        "Их нельзя преобразовать в числа с плавающей запятой.",
+        "Они работают только с исходным кодом Python, а не с естественным языком.",
       ],
       correctIndex: 1,
       explanation:
-        "Static embeddings map \"bank\" to one point in space; contextual models (and good sentence embeddings) separate senses using surrounding text. Other options are false or irrelevant.",
+        "Статические вложения отображают «банк» в одну точку пространства; Контекстуальные модели (и хорошие встраивания предложений) разделяют смыслы с помощью окружающего текста. Остальные варианты являются ложными или нерелевантными.",
       interviewNote:
-        "Follow up with how chunk-level sentence embeddings are still a compression — trade-offs matter for RAG.",
+        "Проследите, почему встраивание предложений на уровне фрагментов по-прежнему является сжатием — для RAG важны компромиссы.",
     },
     {
       type: "code-completion",
       id: "llm03-cc-normalize",
       question:
-        "Fill in the NumPy expression to **L2-normalize** row vectors in matrix `X` (each row is one embedding) before computing inner products as cosine similarity.",
+        "Заполните выражение NumPy, чтобы **L2-нормализовать** векторы-строки в матрице X (каждая строка представляет собой одно вложение) перед вычислением внутренних произведений как косинусного подобия.",
       codeTemplate: `import numpy as np
 
 X = np.array([[3.0, 4.0], [1.0, 0.0], [2.0, 2.0]])
@@ -216,39 +216,39 @@ norms = np.linalg.norm(X, axis=1, keepdims=True)
 X_norm = X / ________`,
       language: "python",
       correctAnswer: "norms",
-      acceptableAnswers: ["norms + 1e-12"],
+      acceptableAnswers: ["нормы +1е-12"],
       explanation:
-        "Divide each row by its L2 norm so each embedding lies on the unit sphere; then dot products equal cosine similarities. Tiny epsilons (e.g. 1e-12) are sometimes added to norms for numerical safety.",
+        "Разделите каждую строку на ее норму L2, чтобы каждое вложение лежало на единичной сфере; тогда скалярные произведения равны сходству косинусов. Крошечные эпсилоны (например, 1e-12) иногда добавляются к нормам в целях числовой безопасности.",
       interviewNote:
-        "Mention zero-vector guards in production — empty strings should not crash normalization.",
+        "Упоминайте о защите нулевого вектора в производстве — пустые строки не должны вызывать сбои при нормализации.",
     },
     {
       type: "ordering",
       id: "llm03-ord-pipeline",
       question:
-        "Order the stages of a typical **batch** semantic search index build (top = first).",
+        "Упорядочите этапы типичного **пакетного** построения индекса семантического поиска (вверху = первый).",
       items: [
-        "Push vectors + metadata into a vector index (e.g. FAISS / vector DB)",
-        "Chunk source documents with consistent strategy and overlap policy",
-        "Encode each chunk with the chosen embedding model",
-        "Collect or crawl raw documents from sources of truth",
+        "Поместите векторы + метаданные в векторный индекс (например, FAISS / векторную базу данных)",
+        "Разбивка исходных документов с последовательной стратегией и политикой дублирования",
+        "Закодируйте каждый фрагмент с помощью выбранной модели внедрения.",
+        "Собирайте или сканируйте необработанные документы из источников правды.",
       ],
       correctOrder: [3, 1, 2, 0],
       explanation:
-        "Collect documents → chunk → embed → load index. Skipping chunking before embedding mixes scales badly and hurts retrieval granularity.",
+        "Собрать документы → чанк → внедрить → загрузить индекс. Пропуск фрагментации перед внедрением миксов приводит к плохому масштабированию и ухудшению детализации извлечения.",
       interviewNote:
-        "For streaming updates, mention incremental upserts and re-embedding when models change.",
+        "При потоковой передаче обновлений упоминайте инкрементные обновления и повторное внедрение при изменении моделей.",
     },
     {
       type: "true-false",
       id: "llm03-tf-cosine-euclidean",
       statement:
-        "For unit-length (L2-normalized) embedding vectors, ranking passages by highest cosine similarity always produces the identical ordering as ranking by lowest Euclidean distance to the query vector.",
+        "Для векторов внедрения единичной длины (нормализованных по L2) ранжирование отрывков по наибольшему косинусному сходству всегда приводит к тому же упорядочению, что и ранжирование по наименьшему евклидову расстоянию до вектора запроса.",
       correct: true,
       explanation:
-        "For unit vectors, ||q − p||^2 = 2 − 2 cos(q, p), so smaller Euclidean distance corresponds exactly to larger cosine similarity; the orderings match.",
+        "Для единичных векторов ||q - p||^2 = 2 - 2 cos(q, p), поэтому меньшее евклидово расстояние точно соответствует большему косинусному подобию; заказы совпадают.",
       interviewNote:
-        "Use this fact to justify using fast inner-product indexes after normalization.",
+        "Используйте этот факт, чтобы оправдать использование быстрых индексов внутреннего продукта после нормализации.",
     },
   ],
 };

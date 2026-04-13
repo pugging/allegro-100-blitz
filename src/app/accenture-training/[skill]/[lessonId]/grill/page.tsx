@@ -42,7 +42,7 @@ export default function GrillPage({ params }: PageProps) {
   if (loading) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-16 text-center">
-        <p className="text-muted-foreground">Loading exercises...</p>
+        <p className="text-muted-foreground">Загрузка заданий...</p>
       </div>
     );
   }
@@ -50,9 +50,9 @@ export default function GrillPage({ params }: PageProps) {
   if (!lesson || lesson.exercises.length === 0) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-16 text-center">
-        <h1 className="text-xl font-semibold">No exercises available yet</h1>
+        <h1 className="text-xl font-semibold">Для этого урока пока нет заданий</h1>
         <Link href={`/accenture-training/${skillId}/${slug}`}>
-          <Button className="mt-4">&larr; Back to lesson</Button>
+          <Button className="mt-4">&larr; К уроку</Button>
         </Link>
       </div>
     );
@@ -84,12 +84,12 @@ export default function GrillPage({ params }: PageProps) {
         <div className="rounded-xl border border-border/60 bg-card p-8 text-center">
           <h2 className="text-2xl font-bold">
             {score === total
-              ? "Perfect!"
+              ? "Идеально!"
               : score >= total * 0.8
-                ? "Excellent!"
+                ? "Отлично!"
                 : score >= total * 0.6
-                  ? "Good job!"
-                  : "Keep practicing!"}
+                  ? "Хорошая работа!"
+                  : "Продолжайте практиковаться!"}
           </h2>
           <p className="mt-3 text-4xl font-bold">
             <span
@@ -177,7 +177,7 @@ export default function GrillPage({ params }: PageProps) {
                     ? "bg-[color:var(--success)]"
                     : "bg-muted"
               }`}
-              aria-label={`Exercise ${i + 1}`}
+              aria-label={`Задание ${i + 1}`}
             />
           ))}
         </div>

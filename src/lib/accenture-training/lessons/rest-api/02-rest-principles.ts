@@ -4,55 +4,55 @@ export const lesson: Lesson = {
   id: "rest-api-02",
   skillId: "rest-api",
   order: 2,
-  title: "REST Architecture & Design",
+  title: "ОТДЫХ Архитектура и дизайн",
   subtitle:
-    "Constraints, resource modeling, CRUD mapping, versioning, HATEOAS, idempotency, and the Richardson Maturity Model—how to reason about APIs like a product engineer.",
+    "Ограничения, моделирование ресурсов, отображение CRUD, управление версиями, HATEOAS, идемпотентность и модель зрелости Ричардсона — как рассуждать об API, как инженер-разработчик.",
   estimatedMinutes: 15,
   objectives: [
-    "State REST’s architectural constraints and what they buy you in distributed systems.",
-    "Name resources with nouns, map CRUD to HTTP methods, and choose JSON vs XML with trade-offs.",
-    "Explain API versioning strategies and the idea of HATEOAS.",
-    "Apply idempotency and the Richardson Maturity Model to evaluate real-world APIs.",
+    "Расскажите об архитектурных ограничениях REST и о том, что они дают вам в распределенных системах.",
+    "Называйте ресурсы существительными, сопоставляйте CRUD с методами HTTP и выбирайте JSON или XML с компромиссами.",
+    "Объясните стратегии управления версиями API и идею HATEOAS.",
+    "Примените идемпотентность и модель зрелости Ричардсона для оценки реальных API.",
   ],
   content: [
     {
       type: "text",
       content:
-        "**REST** (Representational State Transfer) describes constraints that make networked systems scalable and evolvable. Roy Fielding’s dissertation formalized them; in practice, teams build **resource-oriented HTTP APIs** with consistent status codes and representations—often JSON—that clients and AI agents can consume predictably.",
+        "**REST** (Передача репрезентативного состояния) описывает ограничения, которые делают сетевые системы масштабируемыми и развиваемыми. Диссертация Роя Филдинга формализовала их; На практике команды создают **ресурсо-ориентированные HTTP API** с согласованными кодами состояния и представлениями (часто в формате JSON), которые клиенты и агенты ИИ могут предсказуемо использовать.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Core REST constraints (practical view)",
+      content: "Основные ограничения REST (практический взгляд)",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**Client–server** — Separation of concerns: UI/agents evolve independently from data services.",
-        "**Stateless** — Each request carries all context (auth, ids); the server does not store *session* state between calls. (Server data in databases is fine.)",
-        "**Cacheable** — Responses can be labeled cacheable to reduce load—important for read-heavy retrieval layers.",
-        "**Uniform interface** — Resources identified by URIs, manipulations via representations, self-descriptive messages, **HATEOAS** optional in pure theory but rare in JSON APIs.",
-        "**Layered system** — Clients cannot tell if they hit app server, gateway, or cache—enables proxies and CDNs.",
-        "**Code on demand (optional)** — Server can extend client behavior (rare for JSON APIs; more web-page oriented).",
+        "**Клиент-сервер** — Разделение задач: пользовательский интерфейс/агенты развиваются независимо от служб данных.",
+        "**Stateless** — каждый запрос содержит весь контекст (аутентификация, идентификаторы); сервер не сохраняет состояние *сессии* между вызовами. (С данными сервера в базах данных все в порядке.)",
+        "**Кэшируемый** — ответы можно пометить как кэшируемые для снижения нагрузки, что важно для слоев извлечения с большим объемом чтения.",
+        "**Единый интерфейс** — ресурсы, идентифицируемые с помощью URI, манипуляции с помощью представлений, самоописательные сообщения, **HATEOAS** необязательный в чистой теории, но редко встречающийся в API JSON.",
+        "**Многоуровневая система**. Клиенты не могут определить, обращаются ли они к серверу приложений, шлюзу или кешу. Включает прокси-серверы и CDN.",
+        "**Код по требованию (необязательно)** — сервер может расширять поведение клиента (редко для API JSON; больше ориентировано на веб-страницы).",
       ],
     },
     {
       type: "callout",
       variant: "info",
-      title: "Stateless and GenAI",
+      title: "Безгражданство и GenAI",
       content:
-        "A chatbot’s *conversation memory* is application state you store (DB, cache, LangGraph checkpoint)—not HTTP session stickiness on the load balancer. Each tool/API call should include identifiers the server needs.",
+        "*Память разговоров* чат-бота — это сохраняемое вами состояние приложения (БД, кеш, контрольная точка LangGraph), а не привязка HTTP-сессии к балансировщику нагрузки. Каждый вызов инструмента/API должен включать идентификаторы, необходимые серверу.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Resource naming conventions",
+      content: "Соглашения об именах ресурсов",
     },
     {
       type: "text",
       content:
-        "Model **nouns** (resources), not **verbs** in paths. Prefer plural collections: `/users`, `/users/{id}/orders`. Use sub-resources for containment relationships; query parameters for filtering, sorting, and sparse field sets.",
+        "В путях моделируйте **существительные** (ресурсы), а не **глаголы**. Предпочитайте коллекции во множественном числе: `/users`, `/users/{id}/orders`. Используйте субресурсы для сдерживающих отношений; параметры запроса для фильтрации, сортировки и разреженных наборов полей.",
     },
     {
       type: "code",

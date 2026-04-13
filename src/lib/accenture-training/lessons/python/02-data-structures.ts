@@ -4,34 +4,34 @@ export const lesson: Lesson = {
   id: "python-02",
   skillId: "python",
   order: 2,
-  title: "Data Structures: Lists, Dicts, Sets, Tuples",
+  title: "Структуры данных: списки, словари, множества, кортежи",
   subtitle:
-    "Choose the right container for the job — essential for pipelines, token batches, and configuration in GenAI systems.",
+    "Выбирайте правильный контейнер под задачу — это основа пайплайнов, батчей токенов и конфигурации в GenAI-системах.",
   estimatedMinutes: 20,
   objectives: [
-    "Manipulate lists with slicing, methods, and list comprehensions.",
-    "Model relationships with dictionaries, including iteration and nesting.",
-    "Use sets for uniqueness and fast membership; tuples for fixed records.",
-    "Describe typical time complexities for common operations at a high level.",
+    "Работать со срезами, методами списков и включениями списков (list comprehensions).",
+    "Описывать связи через словари, включая обход и вложенность.",
+    "Использовать множества для уникальности и быстрой проверки принадлежности; кортежи — для фиксированных записей.",
+    "На высоком уровне описывать типичную временную сложность распространённых операций.",
   ],
   content: [
     {
       type: "text",
       content:
-        "Data structures are where interview problems and production GenAI code meet: chunk metadata as dicts, token IDs as lists, vocabulary as sets, and immutable prompts as tuples. Knowing APIs and complexity avoids accidental O(n²) bottlenecks.",
+        "Структуры данных — место, где сходятся задачи на интервью и продакшен-код GenAI: метаданные чанков в словарях, ID токенов в списках, словарь — как множество токенов, неизменяемые промпты — кортежи. Знание API и сложности помогает избежать случайных узких мест O(n²).",
     },
     {
       type: "heading",
       level: 2,
-      content: "Lists: ordered, mutable sequences",
+      content: "Списки: упорядоченные изменяемые последовательности",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "Indexing l[i], negative indices from the end, slicing l[i:j] (end exclusive).",
-        "Common methods: append, extend, insert, pop, remove, sort (in place), reverse.",
-        "List comprehension: [expr for x in iterable if condition] — concise and fast in CPython for many patterns.",
+        "Индексация l[i], отрицательные индексы с конца, срез l[i:j] (правый конец не включается).",
+        "Частые методы: append, extend, insert, pop, remove, sort (на месте), reverse.",
+        "Включение списка: [выражение for x in итерируемое if условие] — лаконично и быстро в CPython для многих шаблонов.",
       ],
     },
     {
@@ -40,12 +40,12 @@ export const lesson: Lesson = {
       filename: "lists.py",
       code: `tokens = ["The", "quick", "brown", "fox"]
 tokens.append("!")
-first_two = tokens[:2]           # copy slice
-tokens[1:3] = ["slow", "red"]    # replace slice
+first_two = tokens[:2]           # копия среза
+tokens[1:3] = ["slow", "red"]    # замена среза
 lengths = [len(t) for t in tokens if t.isalpha()]
 print(lengths)
 
-# Sort pairs by second element
+# Сортировка пар по второму элементу
 pairs = [("doc_a", 0.9), ("doc_b", 0.4)]
 pairs.sort(key=lambda p: p[1], reverse=True)
 print(pairs[0][0])  # doc_a`,
@@ -53,19 +53,19 @@ print(pairs[0][0])  # doc_a`,
     {
       type: "callout",
       variant: "warning",
-      title: "Copy vs. reference",
+      title: "Копия и ссылка",
       content:
-        "Assignment copies a reference, not the list. Use list(old), old.copy(), or old[:] for a shallow copy. Nested structures still share inner objects unless you deepcopy.",
+        "Присваивание копирует ссылку, а не сам список. Для неглубокой копии используйте list(old), old.copy() или old[:]. Вложенные структуры всё ещё разделяют внутренние объекты, если не применить deepcopy.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Dictionaries: key → value maps",
+      content: "Словари: отображение ключ → значение",
     },
     {
       type: "text",
       content:
-        "Dict keys must be hashable (str, int, tuple of immutables, etc.). Insertion order is preserved in Python 3.7+. Use .get(key, default) to avoid KeyError and setdefault or collections.defaultdict for grouping.",
+        "Ключи словаря должны быть хешируемыми (str, int, кортеж из неизменяемых и т. д.). Порядок вставки сохраняется в Python 3.7+. Используйте .get(key, default), чтобы избежать KeyError, и setdefault или collections.defaultdict для группировки.",
     },
     {
       type: "code",
@@ -73,7 +73,7 @@ print(pairs[0][0])  # doc_a`,
       filename: "dicts.py",
       code: `from collections import defaultdict
 
-# Chunk metadata in a RAG-style pipeline
+# Метаданные чанка в пайплайне в стиле RAG
 chunk = {
     "id": "c-1042",
     "text": "Python is widely used in ML.",
@@ -81,21 +81,21 @@ chunk = {
     "tokens": 8,
 }
 
-# Safe read
+# Безопасное чтение
 score = chunk.get("score", 0.0)
 
-# Group filenames by extension
+# Группировка путей по расширению
 paths = ["a.py", "b.py", "note.md"]
 by_ext = defaultdict(list)
 for p in paths:
     name, _, ext = p.partition(".")
     by_ext[ext].append(p)
 
-# Iterate keys, values, items
+# Обход ключей, значений, пар
 for cid, meta in [("c1", chunk)]:
     print(cid, meta["tokens"])
 
-# Dict comprehension
+# Включение словаря
 word = "accenture"
 freq = {ch: word.count(ch) for ch in sorted(set(word))}
 print(freq)`,
@@ -103,7 +103,7 @@ print(freq)`,
     {
       type: "heading",
       level: 2,
-      content: "Sets: uniqueness and set algebra",
+      content: "Множества: уникальность и операции над множествами",
     },
     {
       type: "code",
@@ -112,11 +112,11 @@ print(freq)`,
       code: `a = {"python", "java", "go"}
 b = {"python", "rust", "java"}
 
-print(a & b)   # intersection
-print(a | b)   # union
-print(a - b)   # difference
+print(a & b)   # пересечение
+print(a | b)   # объединение
+print(a - b)   # разность
 
-# Membership is average O(1)
+# Проверка принадлежности в среднем O(1)
 stopwords = {"the", "a", "an"}
 tokens = ["the", "model", "works"]
 filtered = [t for t in tokens if t not in stopwords]
@@ -125,24 +125,24 @@ print(filtered)`,
     {
       type: "tip",
       content:
-        "When you need both ordering and uniqueness, common patterns are dict.fromkeys(seq) (Python 3.7+ preserves order) or a plain loop with a seen set.",
+        "Если нужны и порядок, и уникальность, часто используют dict.fromkeys(seq) (в Python 3.7+ порядок сохраняется) или простой цикл с множеством seen.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Tuples: fixed-shape records",
+      content: "Кортежи: записи фиксированной формы",
     },
     {
       type: "text",
       content:
-        "Tuples are immutable sequences. They are hashable when all elements are hashable — useful as dict keys (e.g. (layer, head) → tensor slice). Named tuples and dataclasses (next lesson) improve readability.",
+        "Кортежи — неизменяемые последовательности. Они хешируемы, если все элементы хешируемы — удобно как ключи словаря (например, (layer, head) → срез тензора). Именованные кортежи и датаклассы (следующий урок) улучшают читаемость.",
     },
     {
       type: "code",
       language: "python",
       filename: "tuples.py",
       code: `point = (10, 20)
-x, y = point  # unpacking
+x, y = point  # распаковка
 
 def minmax(nums: list[int]) -> tuple[int, int]:
     return min(nums), max(nums)
@@ -153,133 +153,133 @@ print(low, high)`,
     {
       type: "heading",
       level: 2,
-      content: "When to use which (rules of thumb)",
+      content: "Что когда использовать (эвристики)",
     },
     {
       type: "list",
       ordered: true,
       items: [
-        "List — ordered collection, duplicates allowed, need index access or stack/queue behavior.",
-        "Dict — associate identifiers with payloads (ids → embeddings metadata, config keys).",
-        "Set — test membership, dedupe, or mathematical set operations on unique elements.",
-        "Tuple — small fixed bundles; keys in dicts; return multiple values from a function.",
+        "Список — упорядоченная коллекция, дубликаты разрешены, нужен доступ по индексу или поведение стека/очереди.",
+        "Словарь — связать идентификаторы с полезной нагрузкой (id → метаданные эмбеддинга, ключи конфигурации).",
+        "Множество — проверка принадлежности, дедупликация или теоретико-множественные операции над уникальными элементами.",
+        "Кортеж — небольшие фиксированные наборы значений; ключи в словарях; возврат нескольких значений из функции.",
       ],
     },
     {
       type: "heading",
       level: 2,
-      content: "Complexity cheat sheet (typical CPython)",
+      content: "Шпаргалка по сложности (типичный CPython)",
     },
     {
       type: "diagram",
-      alt: "Table of average-case complexities for core operations",
+      alt: "Таблица средней сложности основных операций",
       content: `flowchart LR
-  subgraph list[List]
-    L1[index read/write] --> L1O[O of 1]
-    L2[append end] --> L2O[O of 1 amortized]
-    L3[search value in list] --> L3O[O of n]
+  subgraph list[Список]
+    L1[чтение/запись по индексу] --> L1O[O от 1]
+    L2[append в конец] --> L2O[O от 1 амортизированно]
+    L3[поиск значения в списке] --> L3O[O от n]
   end
-  subgraph dict[Dict and Set]
-    D1[get/set by key] --> D1O[O of 1 average]
-    D2[iterate all items] --> D2O[O of n]
+  subgraph dict[Словарь и множество]
+    D1[get/set по ключу] --> D1O[O от 1 в среднем]
+    D2[обход всех элементов] --> D2O[O от n]
   end`,
     },
     {
       type: "callout",
       variant: "success",
-      title: "Interview framing",
+      title: "Как формулировать на интервью",
       content:
-        "Say \"average O(1) hash table lookup\" for dict/set membership, and \"O(n) scan\" for finding a value in a list when you do not have an index. Worst cases exist (hash collisions); big-O is still the expected shorthand.",
+        "Говорите «в среднем O(1) для хеш-таблицы» для проверки принадлежности к dict/set и «O(n) полный проход» для поиска значения в списке без индекса. Худшие случаи бывают (коллизии хешей); в разговоре про big-O обычно имеют в виду ожидаемую оценку.",
     },
   ],
   keyTakeaways: [
-    "Slicing copies subranges; list methods like sort mutate in place.",
-    "dict.get and defaultdict reduce KeyError noise in real pipelines.",
-    "Sets excel at deduping and membership; lists preserve order.",
-    "Choosing the wrong container often shows up as hidden quadratic loops.",
+    "Срезы копируют поддиапазоны; методы списка вроде sort изменяют на месте.",
+    "dict.get и defaultdict убирают шум KeyError в реальных пайплайнах.",
+    "Множества отлично подходят для дедупликации и проверки принадлежности; списки сохраняют порядок.",
+    "Неверный выбор контейнера часто проявляется скрытыми квадратичными циклами.",
   ],
   interviewTips: [
-    "Before coding, say whether you need order, duplicates, or fast lookup — then pick the structure.",
-    "If asked to optimize, look for \"in list\" inside a loop over large n — consider a set or dict.",
-    "Mention that dict keys must be hashable; lists cannot be dict keys.",
+    "Перед кодом скажите, нужен ли порядок, дубликаты или быстрый поиск — и только потом выбирайте структуру.",
+    "Если просят оптимизировать, ищите «in список» внутри цикла по большому n — подумайте о множестве или словаре.",
+    "Упомяните, что ключи словаря должны быть хешируемыми; списки не могут быть ключами.",
   ],
   exercises: [
     {
       type: "scenario",
       id: "py02-sc-invert",
       scenario:
-        "You receive a list of log lines; each line is a string user_id. You must return a dict mapping each user_id to how many times it appeared.",
+        "Вам дают список строк логов; каждая строка — user_id. Нужно вернуть словарь: user_id → сколько раз он встретился.",
       question:
-        "Which data structure do you use as the accumulator and what is a clean loop body?",
+        "Какую структуру использовать как накопитель и как выглядит аккуратное тело цикла?",
       sampleAnswer:
-        "Use a dict counts = {}. For each uid in lines: counts[uid] = counts.get(uid, 0) + 1. Alternatively defaultdict(int) with counts[uid] += 1.",
+        "Словарь counts = {}. Для каждого uid в lines: counts[uid] = counts.get(uid, 0) + 1. Либо defaultdict(int) и counts[uid] += 1.",
       keyPoints: [
-        "Dict maps key → count.",
-        "get or defaultdict avoids branching on key existence.",
-        "Time is O(n) over n lines with O(1) average dict updates.",
+        "Словарь отображает ключ → счётчик.",
+        "get или defaultdict избавляют от ветвления «есть ли ключ».",
+        "Время O(n) по числу строк при O(1) в среднем на обновление словаря.",
       ],
       interviewNote:
-        "This pattern is identical to counting token frequencies or label counts in NLP preprocessing.",
+        "Тот же приём — подсчёт частот токенов или меток при предобработке в NLP.",
     },
     {
       type: "multiple-choice",
       id: "py02-mc-lookup",
       question:
-        "You have 1,000,000 unique string keys and need to test membership millions of times in a hot loop. Which structure minimizes average lookup cost?",
+        "У вас 1 000 000 уникальных строковых ключей и нужно миллионы раз проверять принадлежность в горячем цикле. Какая структура минимизирует среднюю стоимость проверки?",
       options: [
-        "list — simple and ordered",
-        "dict mapping keys to True (or set) — hash-based average O(1) membership",
-        "tuple of keys — immutable so always fastest",
-        "nested lists — parallel arrays for keys and flags",
+        "список — просто и с порядком",
+        "словарь «ключ → True» (или множество) — хеш-таблица, в среднем O(1) для проверки принадлежности",
+        "кортеж ключей — неизменяемый, значит всегда быстрее всего",
+        "вложенные списки — параллельные массивы ключей и флагов",
       ],
       correctIndex: 1,
       explanation:
-        "set and dict keys use hash tables; membership is average O(1). Scanning a list is O(n) per check, which explodes in nested loops.",
+        "Множество и ключи словаря используют хеш-таблицы; проверка принадлежности в среднем O(1). Проход по списку — O(n) на каждую проверку, что взрывается во вложенных циклах.",
       interviewNote:
-        "Relate to stopword filtering or allowed-tool name checks in agent loops.",
+        "Свяжите с фильтрацией стоп-слов или проверкой имён разрешённых инструментов в циклах агента.",
     },
     {
       type: "ordering",
       id: "py02-ord-complexity",
       question:
-        "Order these list operations from typically fastest average time to slowest (for large n).",
+        "Упорядочьте эти операции со списком от типично самой быстрой средней асимптотики к самой медленной (для большого n).",
       items: [
-        "lst.append(x) at the end",
-        "x in lst (membership test)",
-        "lst[i] = x (index assignment with valid i)",
-        "lst.sort() (Timsort in place)",
+        "lst.append(x) в конец",
+        "x in lst (проверка принадлежности)",
+        "lst[i] = x (присваивание по индексу при корректном i)",
+        "lst.sort() (Timsort на месте)",
       ],
       correctOrder: [2, 0, 3, 1],
       explanation:
-        "Index assign and append are O(1) amortized; sort is O(n log n); naive membership scan is O(n). For strict speed ranking at huge n: O(1) ops first, then sort, then linear search.",
+        "Присваивание по индексу и append — O(1) амортизированно; sort — O(n log n); наивный поиск по списку — O(n). Для строгого ранжирования при огромном n: сначала O(1), затем сортировка, затем линейный поиск.",
       interviewNote:
-        "If the question is ambiguous, clarify whether \"in\" uses list vs set — complexity changes completely.",
+        "Если формулировка неясна, уточните: «in» для списка или для множества — сложность принципиально меняется.",
     },
     {
       type: "code-completion",
       id: "py02-cc-comp",
       question:
-        "Complete the list comprehension to produce squares of even numbers from nums (e.g. [2,3,4] → [4, 16]). Fill in the blank after \"if\".",
+        "Допишите включение списка так, чтобы получить квадраты чётных чисел из nums (например, [2,3,4] → [4, 16]). Заполните пропуск после «if».",
       codeTemplate: `nums = [2, 3, 4, 5, 6]
 squares = [n * n for n in nums if ________]`,
       language: "python",
       correctAnswer: "n % 2 == 0",
       acceptableAnswers: ["n%2==0"],
       explanation:
-        "n % 2 == 0 selects even integers; the comprehension maps each to its square.",
+        "n % 2 == 0 отбирает чётные целые; включение преобразует каждое в квадрат.",
       interviewNote:
-        "Comprehensions are readable for simple filters; switch to a loop if logic grows complex.",
+        "Включения читаемы для простых фильтров; при усложнении логики переходите на обычный цикл.",
     },
     {
       type: "true-false",
       id: "py02-tf-dict-eq",
       statement:
-        "In Python 3, dict1 == dict2 is True when both have the same keys mapped to the same values, even if keys were inserted in a different order.",
+        "В Python 3 выражение dict1 == dict2 истинно, если у обоих одинаковые ключи с одинаковыми значениями, даже если ключи вставлялись в другом порядке.",
       correct: true,
       explanation:
-        "Mapping equality compares the key-value pairs, not insertion order. Example: {\"a\": 1, \"b\": 2} == {\"b\": 2, \"a\": 1} evaluates to True.",
+        "Равенство отображений сравнивает пары ключ–значение, а не порядок вставки. Пример: {\"a\": 1, \"b\": 2} == {\"b\": 2, \"a\": 1} даёт True.",
       interviewNote:
-        "Do not confuse iteration order (insertion-ordered in 3.7+) with equality semantics.",
+        "Не путайте порядок обхода (с 3.7+ — порядок вставки) с семантикой равенства.",
     },
   ],
 };

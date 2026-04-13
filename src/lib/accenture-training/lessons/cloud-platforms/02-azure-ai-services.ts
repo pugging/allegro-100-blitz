@@ -4,47 +4,47 @@ export const lesson: Lesson = {
   id: "cloud-platforms-02",
   skillId: "cloud-platforms",
   order: 2,
-  title: "Azure AI Services",
+  title: "Службы искусственного интеллекта Azure",
   subtitle:
-    "How Accenture-scale teams use Azure for GenAI: Azure OpenAI, Cognitive Services, AI Search, Azure ML, Functions, resource management, and how it differs from calling OpenAI directly.",
+    "Как команда Accenture использует Azure для GenAI: Azure OpenAI, Cognitive Services, AI Search, Azure ML, функции, управление задачами и чем это отличается от прямого вызова OpenAI.",
   estimatedMinutes: 15,
   objectives: [
-    "Explain Azure OpenAI Service: deployments, endpoints, keys, and responsible AI boundaries.",
-    "Map prebuilt Azure AI (Cognitive Services) capabilities to common product needs.",
-    "Describe hybrid search (vector + keyword) in Azure AI Search for RAG patterns.",
-    "Position Azure Machine Learning and Azure Functions in an AI solution architecture.",
-    "Use resource groups for governance and compare Azure OpenAI with the public OpenAI API at a high level.",
+    "Объясните службу Azure OpenAI: развертывания, конечные точки, ключи и границы ответственности ИИ.",
+    "Сопоставьте встроенные возможности Azure AI (Cognitive Services) с общими потребностями продукта.",
+    "Опишите гибридный поиск (вектор + ключевое слово) в Azure AI Search по шаблонам RAG.",
+    "Поместите машинное обучение Azure и функции Azure в архитектуру решений искусственного интеллекта.",
+    "Используйте группу ресурсов для управления и сравните Azure OpenAI с общедоступным API OpenAI на высоком уровне.",
   ],
   content: [
     {
       type: "text",
       content:
-        "**Microsoft Azure** is a primary cloud partner for Accenture across industries. For GenAI interviews, expect questions on **Azure OpenAI Service**, **Azure AI Search** (formerly Cognitive Search), and how you would **secure, deploy, and observe** models in an enterprise subscription—not only how to prompt a model.",
+        "**Microsoft Azure** — основной облачный партнер Accenture в различных отраслях. На собеседованиях с GenAI ожидайте вопросов о **Azure OpenAI Service**, **Azure AI Search** (ранее Cognitive Search) и о том, как вы будете **защищать, разворачивать и наблюдать** модели в корпоративной подписке, а не только о том, как предлагать модель.",
     },
     {
       type: "callout",
       variant: "success",
-      title: "Why interviewers emphasize Azure",
+      title: "Почему интервьюеры делают упор на Azure",
       content:
-        "Many client contracts standardize on Azure AD (Entra ID), private networking, and Microsoft agreements. Showing you can place AI resources inside **resource groups**, **VNets**, and **managed identity** patterns signals you can work on real delivery teams.",
+        "Многие клиентские контракты стандартизированы на основе соглашений Azure AD (Entra ID), международных сетей и соглашений Microsoft. Демонстрация того, что вы можете разместить ресурс ИИ внутри **группы ресурсов**, **виртуальных сетей** и шаблонов **управляемой идентификации**, означает, что вы можете работать в каждой команде доставки.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Azure OpenAI Service",
+      content: "Служба Azure OpenAI",
     },
     {
       type: "text",
       content:
-        "Azure OpenAI exposes **compatible APIs** for chat, completions, and embeddings using **models you deploy inside your tenant**. You create a **deployment** (model + capacity), then call the regional endpoint with an API key or **Azure AD** token. Content filtering and abuse monitoring are part of the platform contract—know they exist and that policies are configurable within Microsoft’s guardrails.",
+        "Azure OpenAI предоставляет **совместимые API** для чата, обеспечивает и обеспечивает использование **моделей, которые можно развертывать внутри своего клиента**. Вы производите **развертывание** (модель + емкость), а затем создаете региональную конечную точку с помощью переключателя API или токена **Azure AD**. Фильтрация контента и мониторинг злоупотреблений являются частью контракта платформы — знайте, что они существуют, и политика настраивается в рамках мер безопасности Microsoft.",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**Deployment:** Choose model family (e.g. GPT-4o, text-embedding-3) and throughput (TPM) in your Azure OpenAI resource.",
-        "**Endpoint:** Region-specific URL; never hardcode keys—use Key Vault, managed identity, or pipeline secrets.",
-        "**SDK:** `openai` Python package with Azure-specific client configuration (API version, Azure endpoint, deployment name).",
+        "**Развертывание.** Выберите семейство моделей (например, GPT-4o, text-embedding-3) и пропускную способность (TPM) в своем ресурсе Azure OpenAI.",
+        "**Конечная точка:** URL-адрес для конкретного региона; Никогда не кодируйте ключи жестко — используйте Key Vault, управляемое удостоверение или секреты конвейера.",
+        "**SDK:** Пакет Python `openai` для конфигурации клиента, специально предназначенный для Azure (версия API, конечная точка Azure, имя развертывания).",
       ],
     },
     {
@@ -63,87 +63,87 @@ client = AzureOpenAI(
 
 response = client.chat.completions.create(
     model=os.environ["AZURE_OPENAI_DEPLOYMENT"],  # deployment name, not raw OpenAI model id
-    messages=[{"role": "user", "content": "Summarize zero-trust in one paragraph."}],
+    messages=[{"role": "user", "content": "Обобщите нулевое доверие в одном абзаце."}],
 )
 print(response.choices[0].message.content)`,
     },
     {
       type: "heading",
       level: 2,
-      content: "Azure AI / Cognitive Services (prebuilt APIs)",
+      content: "Azure AI/Cognitive Services (предварительно созданные API)",
     },
     {
       type: "text",
       content:
-        "Beyond LLMs, **Azure AI services** include speech, vision, language, and decision APIs—for example transcription, document intelligence (layout OCR), translation, and custom classifiers. In solution design, you often **compose** a small specialized model with a general LLM rather than forcing one model to do everything.",
+        "Помимо LLM, **службы Azure AI** включают API речи, зрения, языка и принятия решений, например транскрипцию, анализ документов (распознавание текста макета), перевод и пользовательские классификаторы. При разработке решения вы часто **составляете** небольшую специализированную модель с общим LLM, а не заставляете одну модель делать все.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Azure AI Search",
+      content: "Поиск Azure с использованием искусственного интеллекта",
     },
     {
       type: "text",
       content:
-        "**Azure AI Search** is a managed search service that supports **full-text**, **facets**, **filters**, and **vector fields** for semantic search. A typical RAG pattern: chunk documents → embed with Azure OpenAI embeddings → upsert vectors + metadata into an index → at query time run **hybrid search** (keyword + vector) → inject top results into the chat prompt.",
+        "**Azure AI Search** — это служба управляемого поиска, которая поддерживает **полнотекстовый**, **фасеты**, **фильтры** и **векторные поля** для семантического поиска. Типичный шаблон RAG: фрагменты документов → встраивание с помощью внедрений Azure OpenAI → добавление векторов + метаданных в индекс → во время запроса запуск **гибридного поиска** (ключевое слово + вектор) → вставка лучших результатов в приглашение чата.",
     },
     {
       type: "tip",
       content:
-        "Interview soundbite: \"Hybrid search reduces the 'missed keyword' problem for proper nouns while vectors handle paraphrases.\"",
+        "Звуковое сопровождение интервью: «Гибридный поиск уменьшает проблему «пропущенных ключевых слов» для имен собственных, в то время как векторы обрабатывают перефразирования».",
     },
     {
       type: "heading",
       level: 2,
-      content: "Azure Machine Learning (AML)",
+      content: "Машинное обучение Azure (AML)",
     },
     {
       type: "text",
       content:
-        "**Azure Machine Learning** is the platform for training, tracking experiments (MLflow), registering models, and batch or online **managed endpoints**. For GenAI, teams use it for fine-tuning workflows, evaluation pipelines, and GPU compute—often alongside Azure OpenAI for base models.",
+        "**Azure Machine Learning** — это платформа для обучения, отслеживания экспериментов (MLflow), регистрации моделей и пакетного или онлайн-управляемых конечных точек**. Что касается GenAI, команды используют его для тонкой настройки рабочих процессов, конвейеров оценки и вычислений на графическом процессоре — часто вместе с Azure OpenAI для базовых моделей.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Azure Functions for AI endpoints",
+      content: "Функции Azure для конечных точек ИИ",
     },
     {
       type: "text",
       content:
-        "**Azure Functions** (and Azure Container Apps / App Service) host lightweight **HTTP APIs** that call Azure OpenAI, enqueue jobs, or validate requests. They integrate with **Application Insights** for tracing and give you a place to enforce **auth**, **rate limits**, and **PII redaction** before the model sees text.",
+        "**Функции Azure** (и приложения-контейнеры Azure/служба приложений) размещают упрощенные **HTTP API**, которые вызывают Azure OpenAI, ставят задания в очередь или проверяют запросы. Они интегрируются с **Application Insights** для отслеживания и дают вам возможность применять **аутентификацию**, **ограничения скорости** и **редактирование личных данных** до того, как модель увидит текст.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Resource groups and management",
+      content: "Группы ресурсов и управление",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**Resource group:** Logical container for related resources (OpenAI account, Search service, Function App) with shared lifecycle and tagging for cost allocation.",
-        "**RBAC:** Azure roles control who can read keys, deploy models, or change networking.",
-        "**Policies:** Azure Policy enforces org rules (e.g. deny public blob access) across subscriptions.",
+        "**Группа ресурсов:** Логический контейнер для связанных ресурсов (аккаунт OpenAI, служба поиска, приложение-функция) с общим жизненным циклом и тегами для распределения затрат.",
+        "**RBAC:** роли Azure контролируют, кто может читать ключи, развертывать модели или изменять сеть.",
+        "**Политики.** Политика Azure применяет правила организации (например, запрещает доступ к общедоступным двоичным объектам) во всех подписках.",
       ],
     },
     {
       type: "heading",
       level: 2,
-      content: "Azure OpenAI vs direct OpenAI API",
+      content: "Azure OpenAI против прямого OpenAI API",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**Data processing:** Enterprise deals often prefer Azure OpenAI for **Microsoft’s commercial data boundary** and existing Azure contracts—always confirm current terms with your engagement lead.",
-        "**Identity:** Azure AD–based auth integrates with corporate SSO; public OpenAI uses API keys and separate org billing.",
-        "**Model availability:** SKUs and regions differ; deployment names replace some \"model\" parameters you know from OpenAI docs.",
-        "**Features:** Parity moves quickly—verify API versions and features (e.g. assistants, batch) in official docs for your interview examples.",
+        "**Обработка данных.** Корпоративные сделки часто отдают предпочтение Azure OpenAI в качестве **границы коммерческих данных Microsoft** и существующих контрактов Azure. Всегда уточняйте текущие условия у своего руководителя по взаимодействию.",
+        "**Идентификация.** Проверка подлинности на основе Azure AD интегрируется с корпоративным единым входом; общедоступный OpenAI использует ключи API и отдельный биллинг организации.",
+        "**Доступность моделей:** Артикул и регионы различаются; имена развертываний заменяют некоторые параметры «модели», которые вы знаете из документации OpenAI.",
+        "**Функции:** Паритет меняется быстро — проверяйте версии и функции API (например, помощников, пакетную обработку) в официальных документах для примеров на собеседованиях.",
       ],
     },
     {
       type: "diagram",
-      alt: "RAG on Azure with OpenAI embeddings, AI Search index, and Function App API",
+      alt: "RAG в Azure с внедрением OpenAI, индексом поиска AI и API-интерфейсом приложения-функции.",
       content: `flowchart LR
   subgraph ingest [Ingest]
     DOC[Documents] --> CH[Chunk + embed]
@@ -160,30 +160,30 @@ print(response.choices[0].message.content)`,
     {
       type: "callout",
       variant: "warning",
-      title: "Compliance language",
+      title: "Язык соответствия",
       content:
-        "Do not invent legal guarantees in interviews. Say you would follow **client policy**, **DPA**, and **Microsoft documentation** for data residency, logging, and human review requirements.",
+        "Do not invent legal guarantees in interviews. Допустим, вы будете следовать **клиентской политике**, **DPA** и **документации Microsoft** в отношении требований к размещению данных, ведению журналов и проверке человеком.",
     },
   ],
   keyTakeaways: [
-    "Azure OpenAI uses **deployments** and Azure endpoints; SDK configuration differs slightly from the public OpenAI API.",
-    "Azure AI Search combines keyword and vector retrieval—common backbone for enterprise RAG.",
-    "Azure ML supports training, registry, and managed endpoints; Functions/App Service host secure front doors to models.",
-    "Resource groups, RBAC, and policies are how enterprises govern AI workloads at scale.",
-    "Accenture contexts often assume **Azure-first** integration with Entra ID and hybrid networking.",
+    "Azure OpenAI использует **развертывания** и конечные точки Azure; Конфигурация SDK немного отличается от общедоступного API OpenAI.",
+    "Azure AI Search сочетает в себе поиск по ключевым словам и векторам — общую основу для корпоративной RAG.",
+    "Azure ML поддерживает обучение, реестр и управляемые конечные точки; Функции/хост службы приложений обеспечивает безопасность входных дверей моделей.",
+    "Группы ресурсов, RBAC и политики — это то, как предприятия управляют рабочими нагрузками ИИ в масштабе.",
+    "Контексты Accenture часто предполагают интеграцию **Azure-first** с Entra ID и гибридными сетями.",
   ],
   interviewTips: [
-    "Draw a **box diagram**: client → API → search → LLM, and mention **where secrets live** (Key Vault).",
-    "Say **hybrid search** when asked how to improve retrieval quality—then name metadata filters.",
-    "If unsure on a SKU, say you would check **model catalog**, **quota**, and **region availability** in the portal.",
-    "Connect to **MLOps** vocabulary: environments, versioning, evaluation, and rollback—even for LLM apps.",
+    "Нарисуйте **блочную диаграмму**: клиент → API → поиск → LLM и укажите **где живут секреты** (Key Vault).",
+    "Когда вас спросят, как улучшить качество поиска, скажите **гибридный поиск**, а затем назовите фильтры метаданных.",
+    "Если вы не уверены в SKU, скажите, что вы бы проверили **каталог моделей**, **квота** и **доступность в регионе** на портале.",
+    "Подключитесь к словарю **MLOps**: среды, управление версиями, оценка и откат — даже для приложений LLM.",
   ],
   exercises: [
     {
       type: "code-completion",
       id: "cp02-cc-azure-client",
       question:
-        "Complete the Azure OpenAI Python client constructor argument that holds the **regional base URL** (not the deployment name).",
+        "Заполните аргумент конструктора клиента Azure OpenAI Python, который содержит **региональный базовый URL-адрес** (а не имя развертывания).",
       codeTemplate: `client = AzureOpenAI(
     api_key=os.environ["AZURE_OPENAI_API_KEY"],
     api_version="2024-02-15-preview",
@@ -192,71 +192,71 @@ print(response.choices[0].message.content)`,
       language: "python",
       correctAnswer: "azure_endpoint",
       explanation:
-        "`azure_endpoint` is the keyword argument for your resource URL (e.g. `https://myresource.openai.azure.com/`). The deployment name is passed separately when calling `chat.completions.create`.",
+        "`azure_endpoint` — это аргумент ключевого слова для URL-адреса вашего ресурса (например, `https://myresource.openai.azure.com/`). Имя развертывания передается отдельно при вызове «chat.completions.create».",
       interviewNote:
-        "Mention you would rotate keys via Key Vault and prefer managed identity in production.",
+        "Упомяните, что вы предпочитаете ротацию ключей через Key Vault и предпочитаете управляемую идентификацию в рабочей среде.",
     },
     {
       type: "multiple-choice",
       id: "cp02-mc-search",
       question:
-        "You need enterprise RAG over PDFs with **acronyms and product codes** that users type verbatim. Which retrieval approach do you advocate first on Azure?",
+        "Вам нужен корпоративный RAG для PDF-файлов с **аббревиатурами и кодами продуктов**, которые пользователи вводят дословно. Какой подход к поиску данных в Azure вы предпочитаете в первую очередь?",
       options: [
-        "Vector-only search in Azure AI Search",
-        "Hybrid search (keyword + vector) with metadata filters",
-        "Load every PDF into the prompt each request",
-        "Fine-tune the base model on all PDFs weekly",
+        "Только векторный поиск в Azure AI Search",
+        "Гибридный поиск (ключевое слово + вектор) с фильтрами метаданных",
+        "Загружайте каждый PDF-файл в подсказку каждого запроса.",
+        "Еженедельно настраивайте базовую модель для всех PDF-файлов.",
       ],
       correctIndex: 1,
       explanation:
-        "Hybrid search helps exact tokens and rare strings while vectors help paraphrases. Metadata filters narrow scope (e.g. by department). Vector-only can miss exact codes; full-PDF prompts do not scale; weekly full fine-tuning is heavy for volatile docs.",
+        "Гибридный поиск помогает точно находить токены и редкие строки, а векторы помогают перефразировать. Метаданные фильтруют узкую область действия (например, по отделам). Только векторные могут пропускать точные коды; Подсказки в формате полного PDF не масштабируются; еженедельная полная точная настройка сложна для нестабильных документов.",
       interviewNote:
-        "Add that you would measure hit rate, nDCG, or task success with a labeled eval set.",
+        "Добавьте, что вы будете измерять частоту попаданий, nDCG или успешность задачи с помощью помеченного набора оценок.",
     },
     {
       type: "ordering",
       id: "cp02-ord-rag-azure",
       question:
-        "Order these steps for a **batch ingest** into Azure AI Search with Azure OpenAI embeddings (first → last).",
+        "Закажите эти шаги для **пакетной загрузки** в Azure AI Search с внедрениями Azure OpenAI (первый → последний).",
       items: [
-        "Upsert documents with text + vector fields into the search index",
-        "Chunk source documents and call embedding deployment per chunk",
-        "Define or update the index schema to include a vector field and key",
-        "Extract text from source files (e.g. blob storage triggers)",
+        "Вставить документы с текстовыми и векторными полями в индекс поиска.",
+        "Исходные документы чанка и развертывание внедрения вызовов для каждого чанка",
+        "Определите или обновите схему индекса, включив в нее векторное поле и ключ.",
+        "Извлечение текста из исходных файлов (например, триггеров хранилища BLOB-объектов)",
       ],
       correctOrder: [2, 3, 1, 0],
       explanation:
-        "You need an index schema with a vector field before you can store vectors. Typical flow: extract text → chunk → embed → upsert into the index. (Exact automation varies; schema readiness always precedes first vector upsert.)",
+        "Прежде чем вы сможете хранить векторы, вам нужна схема индекса с векторным полем. Типичный процесс: извлечь текст → фрагмент → внедрить → добавить в индекс. (Точная автоматизация варьируется; готовность схемы всегда предшествует первому обновлению вектора.)",
       interviewNote:
-        "If challenged on parallelism, mention batched embedding calls and idempotent upserts.",
+        "Если вас спросят о параллелизме, упомяните пакетные вызовы внедрения и идемпотентные обновления.",
     },
     {
       type: "true-false",
       id: "cp02-tf-deployment-name",
       statement:
-        "In the Azure OpenAI Python SDK, the `model` parameter in `chat.completions.create` is always identical to the public OpenAI model string such as `gpt-4o` with no deployment concept.",
+        "В пакете SDK Azure OpenAI Python параметр model в Chat.completions.create всегда идентичен общедоступной строке модели OpenAI, такой как gpt-4o, без концепции развертывания.",
       correct: false,
       explanation:
-        "On Azure OpenAI you pass your **deployment name** as the `model` argument (deployment name you chose in Azure), which maps to a specific model SKU behind the scenes. It is not the same as copying raw OpenAI model IDs without checking your deployment configuration.",
+        "В Azure OpenAI вы передаете свое **имя развертывания** в качестве аргумента `model` (имя развертывания, которое вы выбрали в Azure), которое скрыто сопоставляется с конкретной моделью SKU. Это не то же самое, что копировать необработанные идентификаторы моделей OpenAI без проверки конфигурации развертывания.",
       interviewNote:
-        "Clarify that API *shape* is similar but *resource naming* is Azure-specific.",
+        "Уточните, что *форма* API аналогична, но *именование ресурсов* зависит от Azure.",
     },
     {
       type: "scenario",
       id: "cp02-sc-secure",
       scenario:
-        "A client wants an internal GenAI chatbot on Azure. Security mandates **no API keys in application code** and **auditability** of who called the model.",
+        "Клиенту нужен внутренний чат-бот GenAI в Azure. Безопасность требует **отсутствия ключей API в коде приложения** и **контролируемости** того, кто вызвал модель.",
       question:
-        "Outline two concrete Azure mechanisms you would mention in the design (not full implementation).",
+        "Опишите два конкретных механизма Azure, которые вы могли бы упомянуть в проекте (не полная реализация).",
       sampleAnswer:
-        "Use **managed identities** so the Function App or App Service calls Azure OpenAI without storing keys, backed by **Azure RBAC** on the Cognitive Services resource. Forward **Entra ID (Azure AD)** user identity or app roles at the API layer and log **request IDs, caller principal, and deployment name** to Log Analytics / Application Insights for audit trails.",
+        "Используйте **управляемые удостоверения**, чтобы приложение-функция или служба приложений вызывали Azure OpenAI без сохранения ключей, поддерживаемых **Azure RBAC** в ресурсе Cognitive Services. Пересылайте **Entra ID (Azure AD)** идентификатор пользователя или роли приложения на уровне API и записывайте **идентификаторы запроса, субъекта вызывающего абонента и имя развертывания** в Log Analytics/Application Insights для журналов аудита.",
       keyPoints: [
-        "Managed identity removes long-lived keys from code.",
-        "Entra ID for user/app authentication at the edge.",
-        "Centralized logging for compliance evidence.",
+        "Управляемое удостоверение удаляет из кода долгоживущие ключи.",
+        "Entra ID для аутентификации пользователя/приложения на периферии.",
+        "Централизованное ведение журнала для подтверждения соответствия.",
       ],
       interviewNote:
-        "Optionally mention private endpoints if the interviewer asks about network isolation.",
+        "При необходимости укажите частные конечные точки, если интервьюер спрашивает о сетевой изоляции.",
     },
   ],
 };

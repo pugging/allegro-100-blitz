@@ -188,7 +188,7 @@ function CodeCompletionExercise({
             if (e.key === "Enter") handleSubmit();
           }}
           disabled={submitted || isCompleted}
-          placeholder="Type your answer..."
+          placeholder="Введите ответ..."
           className={cn(
             "flex-1 rounded-lg border border-border bg-card px-3 py-2 text-sm font-mono",
             "focus:outline-none focus:ring-2 focus:ring-ring",
@@ -198,13 +198,13 @@ function CodeCompletionExercise({
         />
         {!submitted && !isCompleted && (
           <Button onClick={handleSubmit} disabled={!answer.trim()}>
-            Check
+            Проверить
           </Button>
         )}
       </div>
       {submitted && !isCorrect && (
         <p className="text-sm text-muted-foreground">
-          Correct answer:{" "}
+          Верный ответ:{" "}
           <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">
             {exercise.correctAnswer}
           </code>
@@ -315,11 +315,11 @@ function OrderingExercise({
         })}
       </div>
       {!submitted && !isCompleted && (
-        <Button onClick={handleSubmit}>Check Order</Button>
+        <Button onClick={handleSubmit}>Проверить порядок</Button>
       )}
       {submitted && !isCorrect && (
         <div className="text-sm text-muted-foreground">
-          <p className="font-medium">Correct order:</p>
+          <p className="font-medium">Верный порядок:</p>
           <ol className="mt-1 list-decimal pl-5">
             {exercise.correctOrder.map((itemIdx) => (
               <li key={itemIdx}>{exercise.items[itemIdx]}</li>
@@ -390,7 +390,7 @@ function TrueFalseExercise({
                 (answered || isCompleted) && "cursor-default",
               )}
             >
-              {val ? "True" : "False"}
+              {val ? "Истина" : "Ложь"}
             </button>
           );
         })}
@@ -426,7 +426,7 @@ function ScenarioExercise({
   return (
     <div className="space-y-4">
       <div className="rounded-xl border border-border/60 bg-muted/30 p-4 text-sm leading-relaxed">
-        <p className="mb-1 font-semibold text-foreground">Scenario:</p>
+        <p className="mb-1 font-semibold text-foreground">Ситуация:</p>
         <p className="text-foreground/90">{exercise.scenario}</p>
       </div>
       <p className="text-sm font-medium text-foreground">{exercise.question}</p>
@@ -434,23 +434,23 @@ function ScenarioExercise({
         value={userAnswer}
         onChange={(e) => setUserAnswer(e.target.value)}
         disabled={revealed || isCompleted}
-        placeholder="Write your answer here..."
+        placeholder="Напишите ответ здесь..."
         rows={4}
         className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
       />
       {!revealed && !isCompleted && (
         <Button onClick={handleReveal} disabled={!userAnswer.trim()}>
-          Show Sample Answer
+          Показать образец ответа
         </Button>
       )}
       {(revealed || isCompleted) && (
         <>
           <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 text-sm leading-relaxed">
-            <p className="mb-2 font-semibold text-primary">Sample answer:</p>
+            <p className="mb-2 font-semibold text-primary">Образец ответа:</p>
             <p className="text-foreground/90">{exercise.sampleAnswer}</p>
           </div>
           <div className="rounded-xl border border-border/60 bg-card p-4 text-sm">
-            <p className="mb-2 font-semibold text-foreground">Key points to cover:</p>
+            <p className="mb-2 font-semibold text-foreground">Ключевые моменты:</p>
             <ul className="space-y-1 pl-4 list-disc text-foreground/80">
               {exercise.keyPoints.map((pt, i) => (
                 <li key={i}>{pt}</li>
@@ -459,7 +459,7 @@ function ScenarioExercise({
           </div>
           {exercise.interviewNote && (
             <div className="rounded-xl border border-amber-300/30 bg-amber-50/50 p-3 text-sm text-amber-900">
-              <span className="font-semibold">Interview note: </span>
+              <span className="font-semibold">Совет для интервью: </span>
               {exercise.interviewNote}
             </div>
           )}
@@ -479,12 +479,12 @@ function ExplanationBox({
   return (
     <div className="space-y-3">
       <div className="rounded-xl border border-primary/25 bg-primary/5 p-4 text-sm leading-relaxed">
-        <span className="font-semibold text-primary">Explanation: </span>
+        <span className="font-semibold text-primary">Пояснение: </span>
         <span className="text-foreground">{explanation}</span>
       </div>
       {interviewNote && (
         <div className="rounded-xl border border-amber-300/30 bg-amber-50/50 p-3 text-sm text-amber-900">
-          <span className="font-semibold">Interview note: </span>
+          <span className="font-semibold">Совет для интервью: </span>
           {interviewNote}
         </div>
       )}

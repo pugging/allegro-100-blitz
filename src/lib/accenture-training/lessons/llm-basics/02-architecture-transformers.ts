@@ -4,48 +4,48 @@ export const lesson: Lesson = {
   id: "llm-basics-02",
   skillId: "llm-basics",
   order: 2,
-  title: "Transformer Architecture",
+  title: "Трансформаторная архитектура",
   subtitle:
-    "Attention, multi-head blocks, and why GPT-style decoder-only stacks power today’s LLMs — explained for technical interviews.",
+    "Внимание, многоголовочные блоки и почему сегодняшние LLM используют стеки только декодеров в стиле GPT — объяснено в технических интервью.",
   estimatedMinutes: 18,
   objectives: [
-    "Explain self-attention as soft lookup between positions and why it enables long-range dependencies.",
-    "Describe multi-head attention, feed-forward layers, residual connections, and layer normalization in a transformer block.",
-    "Contrast encoder-decoder (e.g. original seq2seq transformers) with decoder-only GPT and encoder-only BERT-style models.",
-    "Walk through autoregressive text generation at inference and compare BERT vs GPT objectives at a high level.",
+    "Объясните самовнимание как мягкий поиск между позициями и почему оно обеспечивает долгосрочные зависимости.",
+    "Опишите многоголовое внимание, слои прямой связи, остаточные соединения и нормализацию слоев в блоке трансформатора.",
+    "Сравните кодер-декодер (например, оригинальные преобразователи seq2seq) с моделями в стиле GPT, предназначенными только для декодера, и моделями в стиле BERT, предназначенными только для кодировщиков.",
+    "Пройдите через генерацию авторегрессионного текста при выводе и сравните цели BERT и GPT на высоком уровне.",
   ],
   content: [
     {
       type: "text",
       content:
-        "The 2017 paper **\"Attention Is All You Need\"** introduced the **transformer**: a network built from **attention** layers that process sequences in parallel (unlike RNNs). Modern LLMs are overwhelmingly **decoder-only transformers** (GPT family): they stack identical blocks and predict the next token. Interviewers expect you to connect **attention → context mixing → logits over vocabulary** without hand-waving.",
+        "В статье **«Внимание — это все, что вам нужно»** 2017 года был представлен **трансформатор**: сеть, построенная из слоев **внимания**, которые обрабатывают последовательности параллельно (в отличие от RNN). Современные LLM в подавляющем большинстве являются **трансформаторами, предназначенными только для декодеров** (семейство GPT): они складывают идентичные блоки и прогнозируют следующий токен. Интервьюеры ожидают, что вы свяжете **внимание → смешивание контекста → логиты со словарным запасом**, не размахивая руками.",
     },
     {
       type: "callout",
       variant: "info",
-      title: "What you can skip in an hour-long loop",
+      title: "Что можно пропустить в часовом цикле",
       content:
-        "You rarely derive softmax on a whiteboard. You should be able to sketch Q/K/V intuition, say that complexity is O(n²) in sequence length for standard attention, and name mitigations (sparse attention, linear attention, FlashAttention as an implementation win) at a high level.",
+        "Вы редко выводите softmax на доске. Вы должны быть в состоянии обрисовать интуицию Q/K/V, сказать, что сложность равна O(n²) по длине последовательности для стандартного внимания, и назвать средства смягчения последствий (редкое внимание, линейное внимание, FlashAttention как победа в реализации) на высоком уровне.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Why attention: long-range dependencies",
+      content: "Почему внимание: долгосрочные зависимости",
     },
     {
       type: "text",
       content:
-        "RNNs and early CNNs struggled to connect information many steps apart. **Attention** lets every position **look at** every other position in one layer (subject to masking in decoders). Each position builds a **weighted sum** of values from all positions; weights come from **compatibility** between a **query** and **keys**.",
+        "RNN и ранние CNN изо всех сил пытались связать информацию на расстоянии многих шагов. **Внимание** позволяет каждой позиции **просматривать** каждую другую позицию в одном слое (с учетом маскировки в декодерах). Каждая позиция формирует **взвешенную** сумму значений всех позиций; Вес определяется **совместимостью** между **запросом** и **ключами**.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Scaled dot-product self-attention",
+      content: "Масштабированное скалярное произведение самовнимания",
     },
     {
       type: "text",
       content:
-        "For each token, we form vectors **Q** (query), **K** (key), **V** (value) via learned linear projections of the input embedding. Attention weights are softmax(QK^T / √d_k) so larger dot products (more similar query–key direction) get more mass. Output is that softmax matrix times **V**: a **convex combination** of value vectors — interpretable as \"which positions to read from.\" Scaling by √d_k prevents dot products from growing too large in high dimensions, keeping softmax from saturating.",
+        "Для каждой токены мы образуем **Q** (запрос), **K** (ключ), **V** (значение) посредством изученных линейных проекций входного встраивания. Веса внимания — softmax(QK^T / √d_k), поэтому более крупные скалярные произведения (более похожее запрос и ключа) получают большую массу. Результатом является то, что матрица softmax умножена на **V**: **выпуклая комбинация** векторов результатов, которую можно интерпретировать как «из любых позиций читать». Масштабирование с помощью √d_k, слишком большой рост скалярных выражен в больших размерах, предотвращая насыщение softmax.",
     },
     {
       type: "code",
@@ -68,76 +68,76 @@ print(out.shape)  # torch.Size([1, 4, 8])`,
     {
       type: "heading",
       level: 2,
-      content: "Causal masking in decoder-only models",
+      content: "Причинная маскировка в моделях только для декодера",
     },
     {
       type: "text",
       content:
-        "GPT-style models apply a **causal mask** so position *i* cannot attend to positions *j > i*. Otherwise the model could \"cheat\" during next-token training by seeing the future. At generation time you append one token at a time; **KV caching** stores past keys and values so you do not recompute attention over the full prefix every step — critical for latency.",
+        "Модели в стиле GPT применяют **причинную маску**, поэтому позиция *i* не может соответствовать позициям *j > i*. В противном случае модель может «смошенничать» во время обучения следующего токена, видя будущее. Во время генерации вы добавляете по одному токену за раз; **KV-кэширование** сохраняет прошлые ключи и значения, поэтому вам не придется пересчитывать весь префикс на каждом этапе, что критично для задержки.",
     },
     {
       type: "tip",
       content:
-        "If an interviewer says \"self-attention,\" confirm they mean tokens attending to tokens in the same sequence (vs cross-attention where queries come from one sequence and keys/values from another — used in encoder–decoder stacks).",
+        "Если интервьюер говорит «самообслуживание», подтвердите, что они имеют в виду токены, относящиеся к токенам в одной и той же последовательности (в отличие от перекрестного внимания, когда запросы поступают из одной последовательности, а ключи/значения из другой — используются в стеках кодировщика-декодера).",
     },
     {
       type: "heading",
       level: 2,
-      content: "Multi-head attention",
+      content: "Многоголовое внимание",
     },
     {
       type: "text",
       content:
-        "**Multi-head attention** runs several attention operations in parallel with different learned projections, then concatenates and projects again. Heads can specialize (syntax vs semantics is a loose intuition; what matters is capacity and stable optimization). It is the default in GPT, BERT, and T5 blocks.",
+        "**Многоголовое внимание** выполняет несколько операций внимания параллельно с различными изученными проекциями, затем объединяет их и снова проецирует. Руководители могут специализироваться (синтаксис vs семантика — слабая интуиция, главное — мощность и стабильная оптимизация). Это значение по умолчанию в блоках GPT, BERT и T5.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Transformer block anatomy",
+      content: "Анатомия трансформаторного блока",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**Multi-head self-attention** sublayer with residual: x + Attention(LayerNorm(x)) (Pre-LN variants are common in modern stacks: LayerNorm before attention for training stability).",
-        "**Position-wise feed-forward network (FFN)**: two linear layers with a nonlinearity (e.g. GELU), applied independently per token — mixes channels per position after attention mixed information across positions.",
-        "**Residual connections** help gradients flow through deep stacks (dozens of layers).",
+        "**Подуровень многоголового самообслуживания** с остатком: x + Attention(LayerNorm(x)) (В современных стеках распространены варианты Pre-LN: LayerNorm перед вниманием для стабильности обучения).",
+        "**Сеть с прямой связью по позициям (FFN)**: два линейных слоя с нелинейностью (например, GELU), применяемые независимо для каждого токена — смешивает каналы для каждой позиции после того, как внимание смешало информацию между позициями.",
+        "**Остаточные связи** помогают градиентам проходить через глубокие стопки (десятки слоев).",
       ],
     },
     {
       type: "callout",
       variant: "warning",
-      title: "Pre-LN vs Post-LN",
+      title: "Pre-LN против Post-LN",
       content:
-        "Original paper used post-norm; many LLMs use pre-norm. If asked, say both exist; pre-LN often trains deeper models more reliably. You do not need vendor-specific diagrams memorized.",
+        "Исходная бумага использовалась нестандартно; многие LLM используют предварительную норму. Если спросят, скажите, что оба существуют; pre-LN часто более надежно обучает более глубокие модели. Вам не нужно запоминать диаграммы конкретных поставщиков.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Positional encoding",
+      content: "Позиционное кодирование",
     },
     {
       type: "text",
       content:
-        "Attention is **permutation-invariant** without position information. Transformers add **positional encodings** (sinusoidal, learned, or rotary **RoPE** in many modern LLMs) so order matters. RoPE encodes relative position via rotation in embedding space and scales well to long contexts in recent architectures.",
+        "Внимание **инвариантно к перестановкам** без информации о положении. Трансформаторы добавляют **позиционное кодирование** (синусоидальное, обученное или вращательное **RoPE** во многих современных LLM), поэтому порядок имеет значение. RoPE кодирует относительное положение посредством вращения во встраиваемом пространстве и хорошо масштабируется для длинных контекстов в новейших архитектурах.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Encoder–decoder vs decoder-only vs encoder-only",
+      content: "Кодер-декодер, только декодер и только кодер",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**Encoder–decoder** (e.g. original translation): encoder sees full source; decoder cross-attends to encoder memory while generating target — great for seq2seq, less central to single-stream chat LLMs.",
-        "**Decoder-only** (GPT): one stack, causal mask, next-token LM. Simplest path to massive generative models.",
-        "**Encoder-only** (BERT): bidirectional self-attention on the full input; trained with masked language modeling — strong for embeddings and classification, not autoregressive generation.",
+        "**Кодер-декодер** (например, оригинальный перевод): кодер видит полный исходный код; декодер перекрестно обращается к памяти кодера при создании цели — отлично подходит для seq2seq, менее важно для LLM однопоточного чата.",
+        "**Только декодер** (GPT): один стек, причинная маска, следующий токен LM. Самый простой путь к массовым генеративным моделям.",
+        "**Только для кодировщика** (BERT): двунаправленное автоматическое управление на полном входе; обучен моделированию языка в масках — хорошо подходит для встраивания и классификации, а не для авторегрессионной генерации.",
       ],
     },
     {
       type: "diagram",
-      alt: "Decoder-only autoregressive generation",
+      alt: "Генерация авторегрессии только для декодера",
       content: `flowchart LR
   subgraph one_step
     E[Token embeddings + positions]
@@ -151,126 +151,126 @@ print(out.shape)  # torch.Size([1, 4, 8])`,
     {
       type: "heading",
       level: 2,
-      content: "How GPT generates text",
+      content: "Как GPT генерирует текст",
     },
     {
       type: "text",
       content:
-        "Start with prompt tokens. Run the stack to get logits for the **next** position. Sample or argmax one token, **append** it to the context, repeat until stop token or max length. That loop is **autoregressive decoding**. Throughput optimizations (continuous batching, speculative decoding) are hot topics in MLOps interviews.",
+        "Начните с токенов подсказки. Запустите стек, чтобы получить логиты для **следующей** позиции. Отберите или аргументируйте один токен, **добавьте** его в контекст, повторяйте до тех пор, пока не остановится токен или максимальная длина. Этот цикл и есть **авторегрессивное декодирование**. Оптимизация пропускной способности (непрерывная пакетная обработка, спекулятивное декодирование) — горячие темы в интервью MLOps.",
     },
     {
       type: "heading",
       level: 3,
-      content: "BERT vs GPT (architecture comparison)",
+      content: "BERT против GPT (сравнение архитектур)",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**Objective**: BERT — masked tokens + next-sentence prediction (classic); GPT — causal next-token prediction along the sequence.",
-        "**Attention**: BERT allows full bidirectional context within the segment; GPT uses causal (left-to-right) masking.",
-        "**Typical use**: BERT-style encoders for classification, semantic similarity, feature extraction; GPT-style for open-ended generation and chat.",
+        "**Цель**: BERT — замаскированные токены + предсказание следующего предложения (классика); GPT — причинное предсказание следующего токена в последовательности.",
+        "**Внимание**: BERT допускает полный двунаправленный контекст внутри сегмента; GPT использует причинную (слева направо) маскировку.",
+        "**Типичное использование**: кодеры в стиле BERT для классификации, семантического сходства, извлечения признаков; GPT-стиль для открытой генерации и чата.",
       ],
     },
     {
       type: "callout",
       variant: "success",
-      title: "One clean interview answer",
+      title: "Один чистый ответ на собеседовании",
       content:
-        "\"GPT is a stack of causal self-attention blocks trained to predict the next token; at serve time we repeatedly append sampled tokens. BERT uses bidirectional attention and masking objectives — better as an encoder, not as a standard text generator.\"",
+        "«GPT — это стек причинно-следственных блоков самообслуживания, обученных прогнозировать следующий токен; во время обслуживания мы неоднократно добавляем выбранные токены. BERT использует двунаправленное внимание и цели маскировки — лучше в качестве кодировщика, чем в качестве стандартного генератора текста».",
     },
   ],
   keyTakeaways: [
-    "Self-attention mixes information across positions using query–key–value soft lookup; scaling stabilizes softmax.",
-    "Decoder-only causal transformers power GPT-like LLMs; masking prevents peeking at future tokens during training.",
-    "A block is attention + FFN + residuals (+ norm); multi-head attention increases representational flexibility.",
-    "Positional information must be injected; RoPE is a common modern choice for long contexts.",
-    "BERT encodes bidirectionally; GPT generates autoregressively — different objectives and serving patterns.",
+    "Самовнимание смешивает информацию между позициями через мягкий поиск «запрос–ключ–значение»; масштабирование стабилизирует softmax.",
+    "Причинные преобразователи, предназначенные только для декодеров, питают GPT-подобные LLM; маскирование предотвращает просмотр будущих токенов во время обучения.",
+    "Блок – внимание + ФФН + остатки (+норма); Многоголовое внимание увеличивает репрезентативную гибкость.",
+    "Информация о положении должна быть введена; RoPE — распространенный современный выбор для длинных контекстов.",
+    "BERT кодирует двунаправленно; GPT генерирует авторегрессионно — разные цели и модели обслуживания.",
   ],
   interviewTips: [
-    "Draw Q, K, V as three projections from the same hidden state — interviewers check whether you confuse self- with cross-attention.",
-    "Mention O(n²) attention over sequence length when discussing long documents — it motivates chunking and RAG.",
-    "If asked for improvements beyond vanilla attention, cite FlashAttention (IO-aware exact attention) or architectural sparsity at a headline level.",
-    "Connect KV cache to inference cost: caching avoids redundant computation for prefix tokens.",
+    "Нарисуйте Q, K, V как три проекции одного и того же скрытого состояния — интервьюеры проверят, не путаете ли вы само- и перекрестное внимание.",
+    "При обсуждении длинных документов упоминайте O(n²) о длине последовательности — это мотивирует разбиение на фрагменты и RAG.",
+    "Если вас спросят об улучшениях, выходящих за рамки стандартного внимания, укажите в заголовке FlashAttention (точное внимание с учетом ввода-вывода) или архитектурную разреженность.",
+    "Подключите кеш KV к стоимости вывода: кэширование позволяет избежать избыточных вычислений для токенов префикса.",
   ],
   exercises: [
     {
       type: "code-completion",
       id: "llm02-cc-mask",
       question:
-        "In PyTorch-style pseudocode, causal attention sets scores for j > i to negative infinity before softmax. Fill in the typical mask value used for \"disallowed\" positions.",
+        "В псевдокоде в стиле PyTorch причинное внимание задаёт для j > i оценки, стремящиеся к минус бесконечности до softmax. Укажите типичное значение маски для «запрещённых» позиций.",
       codeTemplate: `# scores shape: (batch, heads, seq, seq)
-# mask[i, j] = True means \"allow attention from i to j\"
+# mask[i, j] = True означает разрешить внимание от позиции i к позиции j
 scores = scores.masked_fill(~mask, ________)`,
       language: "python",
       correctAnswer: "float(\"-inf\")",
       acceptableAnswers: ["-float('inf')", "-torch.inf", "float('-inf')"],
       explanation:
-        "Softmax over -inf yields ~0 probability for illegal positions. Libraries may use a large negative constant instead; the idea is the same.",
+        "Softmax с -inf дает ~0 вероятность нелегальных позиций. Вместо этого библиотеки могут использовать большую отрицательную константу; идея та же.",
       interviewNote:
-        "If you use FlashAttention or fused kernels, you still explain masking conceptually — on-chip details are optional.",
+        "Если вы используете FlashAttention или объединенные ядра, вы все равно объясняете маскирование концептуально — детали на кристалле не являются обязательными.",
     },
     {
       type: "ordering",
       id: "llm02-ord-forward",
       question:
-        "Order these operations inside one forward step of autoregressive generation **after** the prompt is already cached (top = first).",
+        "Упорядочите эти операции внутри одного шага авторегрессионной генерации **после** того, как приглашение уже кэшировано (верхнее = первое).",
       items: [
-        "Append newly sampled token id to the running sequence",
-        "Compute logits for the next position from the final hidden state",
-        "Run transformer block(s) on the **latest** token(s) using KV cache",
-        "Sample or argmax the next token from the distribution",
+        "Добавить новый выбранный идентификатор токена к текущей последовательности.",
+        "Вычислить логиты для следующей позиции из окончательного скрытого состояния",
+        "Запуск блоков преобразователей на **последних** токенах с использованием кеша KV.",
+        "Выборка или argmax следующего токена из распределения",
       ],
       correctOrder: [2, 1, 3, 0],
       explanation:
-        "With KV cache, you typically forward the new token(s) through layers (using cached K/V for past positions), read logits for the last position, sample, then append the token id for the next iteration. Exact fused kernels reorder work but this is the logical story.",
+        "При использовании кэша KV вы обычно пересылаете новый токен(ы) через уровни (используя кэшированный K/V для прошлых позиций), считываете логиты для последней позиции, производите выборку, а затем добавляете идентификатор токена для следующей итерации. Точные слитые ядра меняют порядок работы, но это логичная история.",
       interviewNote:
-        "Narrate \"we only recompute for the new tail\" — that is the performance story clients care about.",
+        "Расскажите, что «мы пересчитываем только для нового хвоста» — это история производительности, которая волнует клиентов.",
     },
     {
       type: "true-false",
       id: "llm02-tf-causal",
       statement:
-        "During training of a GPT-style decoder, the attention mechanism at position i is allowed to attend to future positions j > i in the same sequence.",
+        "Во время обучения декодера в стиле GPT механизму внимания в позиции i разрешено обслуживать будущие позиции j > i в той же последовательности.",
       correct: false,
       explanation:
-        "Causal (autoregressive) masking blocks attention to future tokens so the next-token loss is legitimate — otherwise the model could see the answer it is trying to predict. Only past and current positions are visible.",
+        "Причинная (авторегрессивная) маскировка блокирует внимание к будущим токенам, поэтому потеря следующего токена является законной — в противном случае модель могла бы увидеть ответ, который она пытается предсказать. Видны только прошлые и текущие позиции.",
       interviewNote:
-        "Contrast with BERT bidirectional attention, which sees the full sequence in one pass — different training objective.",
+        "Сравните с двунаправленным вниманием BERT, которое видит всю последовательность за один проход — разные цели обучения.",
     },
     {
       type: "multiple-choice",
       id: "llm02-mc-bert-gpt",
       question:
-        "Which pairing best describes the classic distinction between BERT-style encoder models and GPT-style decoder LLMs?",
+        "Какая пара лучше всего описывает классическое различие между моделями кодеров в стиле BERT и LLM-декодерами в стиле GPT?",
       options: [
-        "BERT is trained with causal next-token prediction; GPT uses masked language modeling on random tokens.",
-        "BERT uses bidirectional self-attention on the input; GPT uses causal self-attention and is trained to predict the next token.",
-        "BERT cannot produce embeddings; GPT cannot be fine-tuned.",
-        "BERT and GPT differ only in tokenizer choice, not in architecture or training objective.",
+        "BERT обучается с помощью причинно-следственного прогнозирования следующего токена; GPT использует моделирование языка в масках для случайных токенов.",
+        "BERT использует двунаправленное самообслуживание на входе; GPT использует причинное внимание и обучен предсказывать следующий токен.",
+        "BERT не может создавать вложения; GPT не может быть точно настроен.",
+        "BERT и GPT различаются только выбором токенизатора, а не архитектурой или целью обучения.",
       ],
       correctIndex: 1,
       explanation:
-        "BERT's bidirectional attention and MLM objective contrast with GPT's left-to-right causal LM. Both families can be fine-tuned in various ways today; the option states the standard pedagogical distinction.",
+        "Двунаправленное внимание BERT и объективность MLM контрастируют с причинным LM слева направо GPT. Оба семейства сегодня можно усовершенствовать различными способами; в этом варианте указывается стандартное педагогическое различие.",
       interviewNote:
-        "Mention encoder–decoder models (T5, BART) as a third pattern if you want to show breadth.",
+        "Упомяните модели кодировщика-декодера (T5, BART) в качестве третьего шаблона, если вы хотите показать широту.",
     },
     {
       type: "scenario",
       id: "llm02-sc-attention",
       scenario:
-        "The interviewer asks: \"In one minute, explain self-attention to a senior architect who knows neural nets but not NLP.\"",
+        "Интервьюер спрашивает: «За одну минуту объясните самовнимание старшему архитектору, который знает нейронные сети, но не НЛП».",
       question:
-        "Give a tight explanation mentioning Q, K, V and what gets weighted.",
+        "Дайте подробное объяснение, упомянув Q, K, V и то, что имеет вес.",
       sampleAnswer:
-        "Each token is turned into three vectors: query, key, and value. We compare the query at position i to every key j to get attention weights — how much position i should read from position j. Those weights are softmax-normalized scores from dot products, scaled for stability. The output at i is the weighted sum of all value vectors — a soft, differentiable way to copy and blend information from other positions. Stacked layers let higher levels build richer representations.",
+        "Каждый токен преобразуется в три вектора: запрос, ключ и значение. Мы сравниваем запрос в позиции i с каждым ключом j, чтобы получить вес внимания — сколько позиции я должен прочитать из позиции j. Эти веса представляют собой нормализованные по softmax оценки скалярного произведения, масштабированные для обеспечения стабильности. Выходные данные в i — это взвешенная сумма всех векторов значений — мягкий, дифференцируемый способ копирования и смешивания информации из других позиций. Составные слои позволяют более высоким уровням создавать более богатые представления.",
       keyPoints: [
-        "Softmax-normalized compatibility weights.",
-        "Output is weighted sum of values (not keys).",
-        "Explains \"mixing\" information across the sequence.",
+        "Веса совместимости, нормализованные Softmax.",
+        "Выходные данные представляют собой взвешенную сумму значений (не ключей).",
+        "Объясняет «смешивание» информации в последовательности.",
       ],
       interviewNote:
-        "Keep it under 60 seconds; offer to draw a 3×3 grid of scores if they nod.",
+        "Держите его менее 60 секунд; предложите нарисовать сетку оценок 3х3, если они кивнут.",
     },
   ],
 };

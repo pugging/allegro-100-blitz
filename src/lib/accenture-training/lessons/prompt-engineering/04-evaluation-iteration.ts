@@ -4,68 +4,68 @@ export const lesson: Lesson = {
   id: "prompt-engineering-04",
   skillId: "prompt-engineering",
   order: 4,
-  title: "Evaluation & Iteration",
+  title: "Оценка и итерация",
   subtitle:
-    "Make prompt changes measurable: golden sets, A/B tests, LLM judges, human rubrics, and versioning that survives model upgrades.",
+    "Сделайте быстрые изменения измеримыми: «золотые наборы», A/B-тесты, судьи LLM, человеческие критерии и управление версиями, которое сохраняется при обновлении модели.",
   estimatedMinutes: 13,
   objectives: [
-    "Define metrics for prompt quality beyond subjective ‘vibes’.",
-    "Design A/B experiments and prompt versioning workflows suitable for teams.",
-    "Use LLM-as-judge carefully with bias controls and human spot checks.",
-    "Debug common failure modes and connect prompts to enterprise prompt libraries.",
+    "Определите показатели оперативного качества, выходящие за рамки субъективных «вибраций».",
+    "Разрабатывайте эксперименты A/B и подсказывайте рабочие процессы управления версиями, подходящие для команд.",
+    "Используйте LLM в качестве судьи осторожно, используя контроль предвзятости и выборочные проверки людьми.",
+    "Отладка распространенных режимов сбоев и подключение подсказок к корпоративным библиотекам подсказок.",
   ],
   content: [
     {
       type: "text",
       content:
-        "Shipping prompts without evaluation is like deploying untested business rules. For Accenture-style delivery, you need **repeatable** methods: labeled datasets, automated graders, regression suites, and change logs tied to model versions.",
+        "Доставка подсказок без оценки подобна внедрению непроверенных бизнес-правил. Для доставки в стиле Accenture вам нужны **повторяемые** методы: помеченные наборы данных, автоматические оценщики, наборы регрессионных методов и журналы изменений, привязанные к версиям модели.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Measuring prompt quality",
+      content: "Измерение оперативного качества",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**Task accuracy:** Exact match, F1 on labels, or semantic similarity to reference answers.",
-        "**Constraint adherence:** JSON schema pass rate, forbidden phrase checks, max length compliance.",
-        "**Latency & cost:** Tokens per request after prompt edits—long prompts add up at scale.",
-        "**Safety:** Rate of policy violations on an adversarial test set.",
+        "**Точность задания**: точное совпадение, F1 на ярлыках или семантическое сходство с эталонными ответами.",
+        "**Соблюдение ограничений:** процент прохождения схемы JSON, проверка запрещенных фраз, соответствие максимальной длине.",
+        "**Задержка и стоимость.** Токены за запрос после изменения приглашения — длинные запросы суммируются в масштабе.",
+        "**Безопасность.** Частота нарушений правил в состязательном наборе тестов.",
       ],
     },
     {
       type: "tip",
       content:
-        "Start with **20–50** diverse golden cases before scaling to hundreds—breadth beats polishing duplicates.",
+        "Начните с **20–50** разнообразных золотых футляров, а затем масштабируйте их до сотен — ширина лучше, чем полировка дубликатов.",
     },
     {
       type: "heading",
       level: 2,
-      content: "A/B testing prompts",
+      content: "Подсказки для A/B-тестирования",
     },
     {
       type: "text",
       content:
-        "Route a small percentage of traffic to **prompt variant B**, hold model and retrieval constant, and compare metrics. Watch for **Simpson’s paradox**: aggregate gains can hide regressions on a locale or product line—slice results.",
+        "Направьте небольшой процент трафика на **подсказку варианта B**, сохраните константу модели и извлечения и сравните показатели. Обратите внимание на **парадокс Симпсона**: совокупная прибыль может скрыть регресс в регионе или линейке продуктов — срезайте результаты.",
     },
     {
       type: "callout",
       variant: "success",
       title: "Checklist",
       content:
-        "Same model version, same temperature, same retrieval index snapshot, same post-processing—only the prompt text changes, or you cannot attribute effects.",
+        "Та же версия модели, та же температура, тот же снимок индекса поиска, та же постобработка — меняется только текст подсказки, иначе вы не сможете атрибутировать эффекты.",
     },
     {
       type: "heading",
       level: 2,
-      content: "LLM-as-judge evaluation",
+      content: "Оценка LLM как судьи",
     },
     {
       type: "text",
       content:
-        "A separate **judge** model scores helpfulness, correctness, or style with a rubric. Fast and scalable, but biased toward its own preferences (**self-bias** if the judge shares the generator family). Mitigate with **blinded** comparisons, multiple judges, and periodic human calibration.",
+        "Отдельная модель **судьи** оценивает полезность, правильность или стиль с помощью критериев. Быстрый и масштабируемый, но ориентированный на собственные предпочтения (**самопредвзятость**, если судья разделяет семейство генераторов). Смягчите ситуацию с помощью **слепых** сравнений, нескольких судей и периодической калибровки человеком.",
     },
     {
       type: "code",

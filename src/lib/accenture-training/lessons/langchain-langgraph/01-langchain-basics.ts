@@ -4,38 +4,38 @@ export const lesson: Lesson = {
   id: "langchain-langgraph-01",
   skillId: "langchain-langgraph",
   order: 1,
-  title: "LangChain Fundamentals",
+  title: "Основы LangChain",
   subtitle:
-    "What LangChain is, why orchestration frameworks matter, core abstractions (models, messages, prompts, parsers), and composing logic with LCEL.",
+    "Что такое LangChain, почему важны структуры оркестрации, основные абстракции (модели, сообщения, подсказки, парсеры) и составление логики с помощью LCEL.",
   estimatedMinutes: 18,
   objectives: [
-    "Explain what LangChain provides versus calling provider SDKs directly.",
-    "Use ChatModels and message types (system, human, AI) in Python.",
-    "Build prompts with templates and parse model output into structured data.",
-    "Compose runnables with LCEL pipe syntax and optional structured output.",
+    "Объясните, что предоставляет LangChain по сравнению с прямым вызовом SDK провайдера.",
+    "Используйте ChatModels и типы сообщений (система, человек, искусственный интеллект) в Python.",
+    "Создавайте подсказки с помощью шаблонов и анализируйте выходные данные модели в структурированные данные.",
+    "Создавайте исполняемые файлы с помощью синтаксиса канала LCEL и дополнительного структурированного вывода.",
   ],
   content: [
     {
       type: "text",
       content:
-        "**LangChain** is an open-source framework for building applications with large language models. It standardizes how you wire models, prompts, memory, tools, and retrieval so teams can ship prototypes faster and refactor toward production patterns (tracing, streaming, retries) without rewriting everything from scratch.",
+        "**LangChain** — это платформа с открытым исходным кодом для создания приложений с большими языковыми моделями. Он стандартизирует способы подключения моделей, подсказок, памяти, инструментов и извлечения данных, поэтому команды могут быстрее создавать прототипы и проводить рефакторинг в соответствии с производственными шаблонами (отслеживание, потоковая передача, повторные попытки), не переписывая все с нуля.",
     },
     {
       type: "callout",
       variant: "info",
-      title: "Why frameworks matter in interviews",
+      title: "Почему фреймворки важны на собеседованиях",
       content:
-        "Interviewers care that you can articulate trade-offs: LangChain reduces boilerplate and offers composable \"runnables,\" but adds abstraction weight and moving APIs. A strong answer names when you would drop to raw OpenAI/Anthropic SDKs (tight latency, minimal deps) vs when orchestration pays off (RAG, agents, eval hooks).",
+        "Интервьюеры заботятся о том, чтобы вы могли сформулировать компромиссы: LangChain обеспечивает шаблонность и предлагает компонуемые «исполняемые файлы», но включает весовые абстракции и гибкие API. Сильный ответ назовет, когда вы перейдете на сырой OpenAI/Anthropic SDK (малая задержка, минимальные задержки), а когда оркестрация окупается (RAG, агенты, крючки оценки).",
     },
     {
       type: "heading",
       level: 2,
-      content: "Installation and environment",
+      content: "Установка и окружающая среда",
     },
     {
       type: "text",
       content:
-        "Install the packages for your provider(s). LangChain splits functionality across `langchain-core` (shared types), integration packages (e.g. `langchain-openai`), and optional extras. Always load API keys from environment variables—never commit secrets.",
+        "Установите пакеты для вашего провайдера(ов). Раздел LangChain содержит функциональность `langchain-core` (общие типы), предложения решений (например, `langchain-openai`) и дополнительные дополнения. Всегда загружайте ключи API из среды доступности — никогда не передавайте секреты.",
     },
     {
       type: "code",
@@ -51,12 +51,12 @@ pip install -U langchain langchain-core langchain-openai langchain-anthropic pyt
     {
       type: "heading",
       level: 2,
-      content: "ChatModels: ChatOpenAI and ChatAnthropic",
+      content: "Модели чата: ChatOpenAI и ChatAnthropic.",
     },
     {
       type: "text",
       content:
-        "**Chat models** consume a list of **messages** and return an **AIMessage**. `ChatOpenAI` and `ChatAnthropic` are thin adapters over vendor APIs with a shared interface (`invoke`, `stream`, `batch`), so swapping providers is mostly a constructor change.",
+        "**Модели чата** обрабатывают список **сообщений** и возвращают **AIMessage**. ChatOpenAI и ChatAnthropic — это тонкие адаптеры API-интерфейсов поставщиков с общим интерфейсом («invoke», «stream», «batch»), поэтому замена поставщиков — это в основном изменение конструктора.",
     },
     {
       type: "code",
@@ -74,8 +74,8 @@ llm_openai = ChatOpenAI(model="gpt-4o-mini", temperature=0)
 llm_claude = ChatAnthropic(model="claude-3-5-sonnet-20241022", temperature=0)
 
 messages = [
-    SystemMessage(content="You are a concise solution architect."),
-    HumanMessage(content="Explain vector search in two sentences."),
+    SystemMessage(content="Вы — архитектор лаконичных решений."),
+    HumanMessage(content="Объясните векторный поиск в двух предложениях."),
 ]
 
 ai_msg = llm_openai.invoke(messages)
@@ -84,32 +84,32 @@ print(ai_msg.content)`,
     {
       type: "heading",
       level: 2,
-      content: "Messages and roles",
+      content: "Сообщения и роли",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**SystemMessage**: high-level instructions, tone, and safety rules—kept stable across turns when possible.",
-        "**HumanMessage**: end-user input (or simulated user in tests).",
-        "**AIMessage**: model output; may include tool calls in modern function-calling models.",
-        "**ToolMessage** (later lessons): results fed back after tool execution.",
+        "**Системное сообщение**: инструкции высокого уровня, тон и правила безопасности — по возможности сохраняются стабильными во время поворотов.",
+        "**HumanMessage**: данные конечного пользователя (или моделируемого пользователя в тестах).",
+        "**AIMessage**: выходные данные модели; может включать вызовы инструментов в современные модели вызова функций.",
+        "**ToolMessage** (более поздние уроки): результаты возвращаются после выполнения инструмента.",
       ],
     },
     {
       type: "tip",
       content:
-        "Treat the system message as your \"policy layer.\" In client work, align it with legal/compliance wording and version it like code.",
+        "Считайте системное сообщение своим «уровнем политики». В работе с клиентом согласуйте его с юридическими формулировками/соответствием требованиям и создайте версию кода.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Prompt templates",
+      content: "Шаблоны подсказок",
     },
     {
       type: "text",
       content:
-        "`ChatPromptTemplate` builds message lists from variables—safer than manual f-strings for escaping, reuse, and partial application. Pair templates with models using LCEL.",
+        "`ChatPromptTemplate` создает списки сообщений из переменных — это безопаснее, чем ручное создание f-строк, для экранирования, повторного использования и частичного применения. Сочетайте шаблоны с моделями с помощью LCEL.",
     },
     {
       type: "code",
@@ -118,22 +118,22 @@ print(ai_msg.content)`,
       code: `from langchain_core.prompts import ChatPromptTemplate
 
 prompt = ChatPromptTemplate.from_messages([
-    ("system", "Answer in {language}. Be factual."),
+    ("system", "Ответ на {языке}. Будьте правдивы."),
     ("human", "{question}"),
 ])
 
-formatted = prompt.invoke({"language": "English", "question": "What is RAG?"})
+formatted = prompt.invoke({"language": "English", "question": "Что такое РАГ?"})
 # formatted.to_messages() → list of BaseMessage`,
     },
     {
       type: "heading",
       level: 2,
-      content: "Output parsers and structured output",
+      content: "Анализаторы вывода и структурированный вывод",
     },
     {
       type: "text",
       content:
-        "**Parsers** turn model text into Python objects (JSON, lists, Pydantic models). LangChain provides `StrOutputParser` for plain text and `JsonOutputParser` / **structured output** helpers that bind a schema so the model returns machine-readable fields—critical for downstream tools and UIs.",
+        "**Парсеры** преобразуют текст модели в объекты Python (JSON, списки, модели Pydantic). LangChain предоставляет StrOutputParser для обычного текста и помощники JsonOutputParser/**структурированный вывод**, которые связывают схему, чтобы модель возвращала машиночитаемые поля, что критически важно для последующих инструментов и пользовательских интерфейсов.",
     },
     {
       type: "code",
@@ -146,13 +146,13 @@ from pydantic import BaseModel, Field
 
 class Summary(BaseModel):
     title: str = Field(description="Short title")
-    bullets: list[str] = Field(description="Key bullet points")
+    bullets: list[str] = Field(description="Ключевые пункты")
 
 llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
 
 # LCEL: prompt | model | parser
 prompt = ChatPromptTemplate.from_messages([
-    ("system", "Summarize for an executive."),
+    ("system", "Подведение итогов для руководителя."),
     ("human", "{text}"),
 ])
 
@@ -162,22 +162,22 @@ chain_text = prompt | llm | StrOutputParser()
 structured_llm = llm.with_structured_output(Summary)
 chain_structured = prompt | structured_llm
 
-out = chain_structured.invoke({"text": "Long article ..."})
+out = chain_structured.invoke({"text": "Длинная статья..."})
 # out is a Summary instance`,
     },
     {
       type: "heading",
       level: 2,
-      content: "LCEL: the pipe operator",
+      content: "LCEL: оператор трубопровода",
     },
     {
       type: "text",
       content:
-        "**LangChain Expression Language (LCEL)** lets you compose callables with `|` into a single **Runnable**. Data flows left to right; LangChain can batch, stream, and trace the graph. `RunnablePassthrough.assign(...)` is common for injecting retrieved context alongside the user query.",
+        "**Язык выражений LangChain (LCEL)** позволяет объединять вызываемые объекты с помощью `|` в один **Runnable**. Данные передаются слева направо; LangChain может пакетировать, передавать и отслеживать график. `RunnablePassthrough.assign(...)` обычно используется для внедрения полученного контекста вместе с пользовательским запросом.",
     },
     {
       type: "diagram",
-      alt: "LCEL chain flow from prompt through LLM to output parser",
+      alt: "Поток цепочки LCEL от приглашения через LLM до выходного синтаксического анализатора",
       content: `flowchart LR
   P[ChatPromptTemplate] --> M[ChatModel]
   M --> O[StrOutputParser]
@@ -188,49 +188,49 @@ out = chain_structured.invoke({"text": "Long article ..."})
       variant: "warning",
       title: "API drift",
       content:
-        "LangChain major versions rename imports and modules. In interviews, say you verify docs for your pinned version and pin dependencies in `requirements.txt` or Poetry for reproducible builds.",
+        "Основные версии LangChain переименовывают импорт и модули. Предположим, на собеседовании вы проверяете документы на наличие закрепленной версии и закрепляете зависимости в `requirements.txt` или Poetry для воспроизводимых сборок.",
     },
   ],
   keyTakeaways: [
-    "LangChain standardizes LLM apps: messages, prompts, models, parsers, and composition—reducing one-off glue code.",
-    "ChatModels share an interface; system/human/AI messages map cleanly to provider chat APIs.",
-    "Prompt templates separate data from instructions; parsers turn text into typed structures.",
-    "LCEL (`|`) builds Runnable pipelines suitable for streaming, batching, and observability.",
+    "LangChain стандартизирует приложения LLM: сообщения, подсказки, модели, анализаторы и композицию, сокращая количество одноразового связующего кода.",
+    "ChatModels имеют общий интерфейс; Сообщения системы/человека/ИИ четко сопоставляются с API-интерфейсами чата поставщика.",
+    "Шаблоны подсказок отделяют данные от инструкций; парсеры преобразуют текст в типизированные структуры.",
+    "LCEL (`|`) создает работоспособные конвейеры, подходящие для потоковой передачи, пакетной обработки и наблюдения.",
   ],
   interviewTips: [
-    "Contrast \"thin wrapper around OpenAI\" vs \"orchestration + swap-friendly interfaces + Runnable protocol.\"",
-    "Mention structured output when the interviewer asks about JSON APIs or tool arguments.",
-    "Name one risk: framework magic can hide errors—use logging and LangSmith (later lesson) to inspect steps.",
-    "If asked about latency, note each `|` step is still a network call unless you batch or cache.",
+    "Сравните «тонкую оболочку OpenAI» с «оркестрацией + интерфейсами, поддерживающими подкачку + Runnable-протоколом».",
+    "Упоминайте структурированный вывод, когда интервьюер спрашивает об API-интерфейсах JSON или аргументах инструментов.",
+    "Назовите один риск: магия фреймворка может скрыть ошибки — используйте ведение журнала и LangSmith (позже урок) для проверки шагов.",
+    "Если вас спросят о задержке, обратите внимание, что каждый шаг `|` по-прежнему является сетевым вызовом, если вы не выполняете пакетную обработку или кэширование.",
   ],
   exercises: [
     {
       type: "multiple-choice",
       id: "lc01-mc-lcel",
       question:
-        "You need a pipeline that formats a user question with a system policy, calls `ChatOpenAI`, and returns plain text. Which pattern best matches idiomatic LangChain v0.2+?",
+        "Вам нужен конвейер, который форматирует вопрос пользователя с помощью системной политики, вызывает ChatOpenAI и возвращает обычный текст. Какой шаблон лучше всего соответствует идиоматическому LangChain v0.2+?",
       options: [
-        "Call `openai.ChatCompletion.create` directly in a loop for each field",
-        "`ChatPromptTemplate | ChatOpenAI | StrOutputParser`",
-        "Subclass `BaseLLM` and override `_call` for every project",
-        "Store the entire conversation in one string and split on commas",
+        "Вызов openai.ChatCompletion.create непосредственно в цикле для каждого поля.",
+        "`ChatPromptTemplate | ЧатOpenAI | StrOutputParser`",
+        "Подкласс BaseLLM и переопределение _call для каждого проекта.",
+        "Сохраните весь разговор в одной строке и разделите его запятыми.",
       ],
       correctIndex: 1,
       explanation:
-        "LCEL composes a prompt template, model, and string parser into one Runnable. Raw SDK calls skip LangChain’s Runnable protocol; subclassing BaseLLM is rarely needed for standard chat; delimiter-splitting is fragile compared to message objects.",
+        "LCEL объединяет шаблон приглашения, модель и анализатор строк в один Runnable. Вызовы Raw SDK пропускают протокол LangChain Runnable; создание подкласса BaseLLM редко требуется для стандартного чата; Разделение разделителей хрупко по сравнению с объектами сообщений.",
       interviewNote:
-        "Add that you would attach callbacks or a tracer for production and consider streaming with `.stream()`.",
+        "Добавьте, что вы должны подключить обратные вызовы или трассировщик для производства и рассмотреть возможность потоковой передачи с помощью `.stream()`.",
     },
     {
       type: "code-completion",
       id: "lc01-cc-messages",
       question:
-        "Complete the import and constructor so `messages` is a valid chat input for `ChatOpenAI.invoke`.",
+        "Завершите импорт и конструктор, чтобы сообщения были допустимыми входными данными чата для ChatOpenAI.invoke.",
       codeTemplate: `from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, ________
 
 messages = [
-    SystemMessage(content="You are helpful."),
+    SystemMessage(content="Вы полезны."),
     ________(content="Hello!"),
 ]
 llm = ChatOpenAI(model="gpt-4o-mini")
@@ -239,53 +239,53 @@ print(llm.invoke(messages).content)`,
       correctAnswer: "HumanMessage",
       acceptableAnswers: ["HumanMessage"],
       explanation:
-        "User turns use `HumanMessage`. `AIMessage` is for model outputs; `SystemMessage` sets policy. Imports come from `langchain_core.messages`.",
+        "Пользователь по очереди использует HumanMessage. `AIMessage` предназначен для выходных данных модели; `SystemMessage` устанавливает политику. Импорт осуществляется из langchain_core.messages.",
       interviewNote:
-        "Mention you might add `HumanMessage` history in a loop for multi-turn chat.",
+        "Упомяните, что вы можете добавить историю HumanMessage в цикл для многоходового чата.",
     },
     {
       type: "ordering",
       id: "lc01-ord-runnable",
       question:
-        "Order these steps when a Runnable chain built with LCEL runs `chain.invoke({...})` (earliest first).",
+        "Упорядочите эти шаги, когда цепочка Runnable, построенная с помощью LCEL, запускает `chain.invoke({...})` (раньше сначала).",
       items: [
-        "ChatModel returns an AIMessage",
-        "Output parser converts the AIMessage to the final Python/str value",
-        "ChatPromptTemplate expands variables into a message list",
-        "Caller passes a dict of input variables",
+        "ChatModel возвращает AIMessage",
+        "Синтаксический анализатор вывода преобразует AIMessage в окончательное значение Python/str.",
+        "ChatPromptTemplate расширяет переменные в список сообщений",
+        "Вызывающий передает набор входных переменных",
       ],
       correctOrder: [3, 2, 0, 1],
       explanation:
-        "Invoke starts with input variables → prompt renders messages → model produces AIMessage → parser maps to the return type (e.g. string or structured object).",
+        "Вызов начинается с входных переменных → приглашение отображает сообщения → модель создает AIMessage → синтаксический анализатор сопоставляет тип возвращаемого значения (например, строку или структурированный объект).",
       interviewNote:
-        "If streaming, parsers may chunk differently—say you’d confirm behavior for your parser in docs.",
+        "При потоковой передаче парсеры могут фрагментировать по-другому — скажем, вы подтвердите поведение своего парсера в документации.",
     },
     {
       type: "true-false",
       id: "lc01-tf-black-box",
       statement:
-        "Using LangChain means you never need to understand the underlying OpenAI or Anthropic API request format.",
+        "Использование LangChain означает, что вам никогда не придется понимать базовый формат запросов OpenAI или Anthropic API.",
       correct: false,
       explanation:
-        "LangChain abstracts common paths, but debugging auth errors, rate limits, tool schemas, and model-specific quirks still requires provider knowledge. Treat the framework as leverage, not a black box.",
+        "LangChain абстрагирует общие пути, но отладка ошибок аутентификации, ограничений скорости, схем инструментов и особенностей модели по-прежнему требует знаний поставщика. Относитесь к системе как к рычагу воздействия, а не как к черному ящику.",
       interviewNote:
-        "Show seniority: you read raw requests in traces when outputs look wrong.",
+        "Покажите старшинство: вы читаете необработанные запросы в трассировках, когда выходные данные выглядят неправильно.",
     },
     {
       type: "scenario",
       id: "lc01-sc-client",
       scenario:
-        "A client wants a microservice that accepts `{ \"topic\": str }` and returns `{ \"summary\": str, \"risk_level\": \"low\"|\"medium\"|\"high\" }` for auditors. They use OpenAI.",
+        "Клиенту нужен микросервис, который принимает `{ \"topic\": str }` и возвращает `{ \"summary\": str, \"risk_level\": \"low\"|\"medium\"|\"high\" }` для аудиторов. Они используют OpenAI.",
       question:
-        "Which two LangChain ideas would you name in your design (one sentence each)?",
+        "Какие две идеи LangChain вы бы назвали в своем дизайне (по одному предложению каждая)?",
       sampleAnswer:
-        "Use `ChatOpenAI.with_structured_output` with a Pydantic model so the API returns validated fields instead of free-form text. Compose a `ChatPromptTemplate` with LCEL so the policy text and parsing stay testable and traceable.",
+        "Используйте ChatOpenAI.with_structured_output с моделью Pydantic, чтобы API возвращал проверенные поля вместо текста в произвольной форме. Создайте шаблон ChatPromptTemplate с LCEL, чтобы текст политики и синтаксический анализ оставались проверяемыми и отслеживаемыми.",
       keyPoints: [
-        "Structured output / schema binding for machine-readable JSON-like results.",
-        "Prompt template + LCEL for maintainability and observability.",
+        "Структурированный вывод/привязка схемы для машиночитаемых результатов в формате JSON.",
+        "Подскажите шаблон + LCEL для ремонтопригодности и наблюдаемости.",
       ],
       interviewNote:
-        "Mention Zod or JSON Schema on the API boundary if the service is not Python-only.",
+        "Упомяните Zod или JSON Schema на границе API, если служба не поддерживает только Python.",
     },
   ],
 };

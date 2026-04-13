@@ -4,84 +4,84 @@ export const lesson: Lesson = {
   id: "rest-api-01",
   skillId: "rest-api",
   order: 1,
-  title: "HTTP Protocol Fundamentals",
+  title: "Основы протокола HTTP",
   subtitle:
-    "How the web really talks: requests, responses, methods, status codes, headers, and URLs—foundation for every API you will build or call from GenAI services.",
+    "Как на самом деле говорит Интернет: запросы, ответы, методы, коды состояния, заголовки и URL-адреса — основа для каждого API, который вы создадите или вызовете из сервисов GenAI.",
   estimatedMinutes: 15,
   objectives: [
-    "Explain the HTTP request/response cycle and the role of clients, servers, and intermediaries.",
-    "Choose appropriate HTTP methods and interpret common status code families.",
-    "Use headers, query parameters, and message bodies correctly when designing or consuming APIs.",
-    "Read and construct well-formed URLs and simple raw HTTP messages for debugging.",
+    "Объясните цикл HTTP-запроса/ответа и роль клиентов, серверов и посредников.",
+    "Выберите подходящие методы HTTP и интерпретируйте общие семейства кодов состояния.",
+    "Правильно используйте заголовки, параметры запросов и тела сообщений при разработке или использовании API.",
+    "Чтение и создание корректных URL-адресов и простых необработанных HTTP-сообщений для отладки.",
   ],
   content: [
     {
       type: "text",
       content:
-        "HTTP (Hypertext Transfer Protocol) is the application-layer protocol most REST APIs use. A **client** (browser, mobile app, Python script, or an LLM tool-calling layer) sends a **request**; a **server** returns a **response**. Understanding this cycle is essential when you integrate models with search APIs, vector stores, or internal microservices at scale.",
+        "HTTP (протокол передачи гипертекста) — это протокол прикладного уровня, используемый большинством REST API. **Клиент** (браузер, мобильное приложение, скрипт Python или уровень вызова инструмента LLM) отправляет **запрос**; **сервер** возвращает **ответ**. Понимание этого цикла важно при интеграции моделей с поисковыми API, векторными хранилищами или внутренними микросервисами в большом масштабе.",
     },
     {
       type: "heading",
       level: 2,
-      content: "The request/response cycle",
+      content: "Цикл запрос/ответ",
     },
     {
       type: "diagram",
-      alt: "Client sends HTTP request to server; server returns HTTP response",
+      alt: "Клиент отправляет HTTP-запрос на сервер; сервер возвращает HTTP-ответ",
       content:
-        "flowchart LR\n  Client[Client] -->|HTTP Request| Server[Server]\n  Server -->|HTTP Response| Client",
+        "блок-схема LR\n  Клиент[Клиент] -->|HTTP-запрос| Сервер[Сервер]\n  Сервер -->|HTTP-ответ| Клиент",
     },
     {
       type: "text",
       content:
-        "Each **HTTP request** has a method, a target (path + optional query on the server), protocol version, and headers; it may include a **body** (payload). The **response** has a status line (version, status code, reason phrase), headers, and often a body (HTML, JSON, image bytes, etc.). Proxies, load balancers, and CDNs may sit in the middle but preserve this model.",
+        "Каждый **HTTP-запрос** имеет метод, цель (путь + необязательный запрос на сервере), версию протокола и заголовки; он может включать **тело** (полезную нагрузку). **Ответ** имеет строку состояния (версия, код состояния, фраза причины), заголовки и часто тело (HTML, JSON, байты изображения и т. д.). Прокси, балансировщики нагрузки и CDN могут находиться посередине, но сохраняют эту модель.",
     },
     {
       type: "callout",
       variant: "info",
-      title: "REST vs HTTP",
+      title: "REST против HTTP",
       content:
-        "REST is an *architectural style* for APIs; HTTP is the *transport*. You can use HTTP without being fully RESTful, but most REST APIs you meet are HTTP/JSON.",
+        "REST — это *архитектурный стиль* API; HTTP — это *транспорт*. Вы можете использовать HTTP, не будучи полностью RESTful, но большинство API REST, которые вы встречаете, — это HTTP/JSON.",
     },
     {
       type: "heading",
       level: 2,
-      content: "HTTP methods",
+      content: "HTTP-методы",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**GET** — Retrieve a resource. Should not change server state. Safe for caching when indicated by headers.",
-        "**POST** — Create a resource or trigger a process. Body usually carries the input; server assigns IDs or side effects.",
-        "**PUT** — Replace a resource at a known URI (full representation). Often treated as idempotent.",
-        "**PATCH** — Partial update; only changed fields. Semantics vary by API—always read the docs.",
-        "**DELETE** — Remove a resource. Typically idempotent (repeating yields the same end state).",
+        "**GET** — Получить ресурс. Не должно изменять состояние сервера. Безопасно для кэширования, если это указано в заголовках.",
+        "**POST** — Создайте ресурс или запустите процесс. Тело обычно несет входные данные; сервер назначает идентификаторы или побочные эффекты.",
+        "**PUT** — Заменить ресурс по известному URI (полное представление). Часто рассматривается как идемпотентный.",
+        "**PATCH** — частичное обновление; только изменённые поля. Семантика зависит от API — всегда читайте документацию.",
+        "**DELETE** — Удалить ресурс. Обычно идемпотентный (повторение приводит к одному и тому же конечному состоянию).",
       ],
     },
     {
       type: "tip",
       content:
-        "In interviews, tie methods to **intent** and **side effects**: GET for reads, POST for non-idempotent creates/actions, PUT/PATCH for updates, DELETE for removal. Mention that some APIs misuse POST for everything—know the difference between ideal design and legacy reality.",
+        "На собеседованиях связывайте методы с **намерением** и **побочными эффектами**: GET для чтения, POST для неидемпотентных созданий/действий, PUT/PATCH для обновлений, DELETE для удаления. Упомяните, что некоторые API неправильно используют POST — знайте разницу между идеальным дизайном и устаревшей реальностью.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Status codes (families)",
+      content: "Коды статуса (семейства)",
     },
     {
       type: "text",
       content:
-        "Status codes are three-digit numbers grouped by the first digit. Clients and intermediaries use them to decide retries, caching, and error handling.",
+        "Коды состояния представляют собой трехзначные числа, сгруппированные по первой цифре. Клиенты и посредники используют их для принятия решений о повторных попытках, кэшировании и обработке ошибок.",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**2xx Success** — 200 OK (generic success), 201 Created (resource created), 204 No Content (success with empty body).",
-        "**3xx Redirection** — 301/308 permanent, 302/307 temporary; clients may follow Location header.",
-        "**4xx Client errors** — 400 Bad Request, 401 Unauthorized (authentication), 403 Forbidden (authorized identity but no permission), 404 Not Found, 409 Conflict, 429 Too Many Requests.",
-        "**5xx Server errors** — 500 Internal Server Error, 502 Bad Gateway, 503 Service Unavailable (often with Retry-After).",
+        "**2xx Успех** — 200 OK (общий успех), 201 Created (ресурс создан), 204 No Content (успех с пустым телом).",
+        "**Перенаправление 3xx** — 301/308 постоянно, 302/307 временно; клиенты могут следовать заголовку Location.",
+        "**4xx Ошибки клиента** — 400 Неверный запрос, 401 Несанкционировано (аутентификация), 403 Запрещено (авторизованный идентификатор, но нет разрешения), 404 Не найдено, 409 Конфликт, 429 Слишком много запросов.",
+        "**Ошибки сервера 5xx** — 500 Внутренняя ошибка сервера, 502 Неверный шлюз, 503 Служба недоступна (часто с повторной попыткой).",
       ],
     },
     {
@@ -89,32 +89,32 @@ export const lesson: Lesson = {
       variant: "warning",
       title: "401 vs 403",
       content:
-        "Rough rule: **401** = “who are you?” (missing/invalid credentials). **403** = “I know who you are; you cannot do this.” Interviewers like this distinction for API gateways and OAuth-protected LLM endpoints.",
+        "Грубое правило: **401** = «кто ты?» (отсутствующие/неверные учетные данные). **403** = «Я знаю, кто ты, ты не можешь этого сделать». Интервьюерам нравится такое различие между шлюзами API и конечными точками LLM, защищенными OAuth.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Headers that matter every day",
+      content: "Заголовки, которые важны каждый день",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**Content-Type** — MIME type of the body (e.g. `application/json`; form posts use `application/x-www-form-urlencoded` or `multipart/form-data`).",
-        "**Accept** — What representation the client prefers (`application/json`, `text/html`).",
-        "**Authorization** — Credentials (e.g. `Bearer <token>`, `Basic ...`). Never log full tokens in production.",
-        "**User-Agent** — Identifies the client (browsers send rich strings; scripts often set a project name).",
+        "**Content-Type** — MIME-тип тела (например, `application/json`; в сообщениях формы используется `application/x-www-form-urlencoded` или `multipart/form-data`).",
+        "**Accept** — какое представление ресурса предпочитает клиент (`application/json`, `text/html`).",
+        "**Authorization** — учётные данные (например, `Bearer <token>`, `Basic ...`). В продакшене никогда не логируйте полные токены.",
+        "**User-Agent** — идентифицирует клиента (браузеры шлют длинные строки; в скриптах часто указывают имя проекта).",
       ],
     },
     {
       type: "heading",
       level: 2,
-      content: "Query parameters vs request body",
+      content: "Параметры запроса и тело запроса",
     },
     {
       type: "text",
       content:
-        "**Query string** appears after `?` in the URL (`/search?q=rag&limit=10`). Good for filters, pagination, and cacheable reads. **Body** carries larger or structured data (JSON for POST/PUT/PATCH). Sensitive data should not live in query strings (URLs leak via logs and Referer headers).",
+        "**Строка запроса** идёт после `?` в URL (`/search?q=rag&limit=10`). Удобна для фильтров, пагинации и кэшируемых чтений. **Тело** несёт более крупные или структурированные данные (JSON для POST/PUT/PATCH). Чувствительные данные не стоит класть в query: URL утекают в логи и заголовок Referer.",
     },
     {
       type: "code",
@@ -146,12 +146,12 @@ create.raise_for_status()`,
     {
       type: "heading",
       level: 2,
-      content: "URL structure",
+      content: "Структура URL",
     },
     {
       type: "text",
       content:
-        "A URL has a **scheme** (`https`), **authority** (host + optional port), **path** (`/v1/users/42`), optional **query**, and **fragment** (`#section`—usually client-side, not sent to server in HTTP). API design often versions in the path (`/v1/...`) or via headers—be ready to discuss trade-offs briefly.",
+        "URL включает **схему** (`https`), **authority** (хост и при необходимости порт), **path** (`/v1/users/42`), при необходимости **query** и **fragment** (`#section` — обычно на стороне клиента, в HTTP на сервер не уходит). Версии API часто задают в пути (`/v1/...`) или через заголовки — будьте готовы кратко обсудить компромиссы.",
     },
     {
       type: "code",
@@ -165,42 +165,42 @@ Authorization: Bearer eyJhbGciOi...`,
     {
       type: "callout",
       variant: "success",
-      title: "GenAI connection",
+      title: "Связь с GenAI",
       content:
-        "When your agent calls a retrieval or embeddings API, you are still doing HTTP: method + URL + headers + optional JSON body. Timeouts, retries on 429/503, and parsing JSON errors are the same skills as for any REST integration.",
+        "Когда агент вызывает API поиска или эмбеддингов, это всё равно HTTP: метод + URL + заголовки + при необходимости JSON-тело. Таймауты, повторы при 429/503 и разбор ошибок JSON — те же навыки, что и для любой REST-интеграции.",
     },
   ],
   keyTakeaways: [
-    "HTTP pairs requests (method, URL, headers, optional body) with responses (status, headers, body).",
-    "Match methods to intent; know idempotency and when GET must stay side-effect free.",
-    "Interpret 2xx/3xx/4xx/5xx at a glance and choose retries vs client fixes.",
-    "Use query params for filters on reads; put structured or sensitive data in the body with correct Content-Type.",
-    "URLs decompose into scheme, host, path, query, and fragment—design affects caching and logging.",
+    "HTTP сопоставляет запросы (метод, URL, заголовки, при необходимости тело) с ответами (статус, заголовки, тело).",
+    "Соотносите методы с намерением; помните об идемпотентности и о том, что GET не должен иметь побочных эффектов.",
+    "С первого взгляда интерпретируйте 2xx/3xx/4xx/5xx и решайте: повтор запроса или исправление на стороне клиента.",
+    "Для фильтров при чтении используйте query; структурированные или чувствительные данные — в теле с корректным Content-Type.",
+    "URL раскладывается на схему, хост, путь, query и fragment — от дизайна зависят кэширование и логирование.",
   ],
   interviewTips: [
-    "Give a crisp 30-second walkthrough of a GET vs POST call, including where parameters live.",
-    "Mention **timeouts** and **status-based retries** when discussing production API clients (relevant for LLM orchestration).",
-    "If asked about caching, tie **GET + cache headers** (Cache-Control, ETag) to safe reads.",
-    "Relate **429** to rate limits on third-party model or search APIs and backoff strategies.",
+    "Дайте чёткий разбор GET и POST за ~30 секунд, включая где лежат параметры.",
+    "В разговоре о продакшен-клиентах к API упоминайте **таймауты** и **повторы по коду статуса** (актуально для оркестрации LLM).",
+    "Про кэширование свяжите **GET + заголовки кэша** (Cache-Control, ETag) с безопасными чтениями.",
+    "Свяжите **429** с лимитами сторонних моделей или поисковых API и стратегиями backoff.",
   ],
   exercises: [
     {
       type: "multiple-choice",
       id: "rest-api-01-mc-methods",
       question:
-        "You need to fetch a paginated list of documents from a REST API without changing server state. Which method is most appropriate?",
+        "Нужно получить постраничный список документов из REST API, не меняя состояние сервера. Какой метод уместнее всего?",
       options: ["POST", "GET", "PUT", "PATCH"],
       correctIndex: 1,
       explanation:
-        "GET is for safe retrieval. Pagination and filters belong in the query string (or occasionally headers), not as a state-changing operation.",
+        "GET — для безопасного чтения. Пагинация и фильтры — в query (иногда в заголовках), а не как операция, меняющая состояние.",
       interviewNote:
-        "Shows you default to REST semantics instead of tunneling everything through POST.",
+        "Показывает, что вы по умолчанию следуете семантике REST, а не проталкиваете всё через POST.",
     },
     {
       type: "code-completion",
       id: "rest-api-01-cc-requests-get",
       question:
-        "Complete the `requests.get` call so the request includes an `Authorization: Bearer <token>` header and a 15-second timeout.",
+        "Дополните вызов `requests.get`, чтобы в запросе были заголовок `Authorization: Bearer <token>` и таймаут 15 секунд.",
       codeTemplate: `import requests
 
 TOKEN = "replace-me"
@@ -217,54 +217,54 @@ resp.raise_for_status()`,
         "headers={'Authorization': f'Bearer {TOKEN}'}, timeout=15",
       ],
       explanation:
-        "Pass `headers` for auth metadata; always set a finite `timeout` so agents and batch jobs do not hang forever.",
+        "Передайте `headers` для метаданных аутентификации; всегда задавайте конечный `timeout`, чтобы агенты и батчи не зависали.",
       interviewNote:
-        "Mention never hardcoding real tokens—use environment variables or a secret store in real systems.",
+        "Упомяните, что настоящие токены не хардкодят — в бою используют переменные окружения или секрет-хранилище.",
     },
     {
       type: "ordering",
       id: "rest-api-01-order-lifecycle",
       question:
-        "Order these steps in a typical successful HTTP/1.1 request/response round trip (client perspective).",
+        "Упорядочите шаги типичного успешного цикла HTTP/1.1 запрос–ответ (со стороны клиента).",
       items: [
-        "Client opens (or reuses) a TCP connection to host:port",
-        "Client sends request line, headers, optional body",
-        "Server processes and returns status line, headers, optional body",
-        "Client parses status code and body (e.g. JSON decode)",
+        "Клиент открывает (или переиспользует) TCP-соединение с host:port",
+        "Клиент отправляет строку запроса, заголовки, при необходимости тело",
+        "Сервер обрабатывает и возвращает строку статуса, заголовки, при необходимости тело",
+        "Клиент разбирает код статуса и тело (например, декодирует JSON)",
       ],
       correctOrder: [0, 1, 2, 3],
       explanation:
-        "Transport comes first, then request, then response processing. HTTP/2 multiplexes streams but the logical sequence is the same.",
+        "Сначала транспорт, затем запрос, затем обработка ответа. В HTTP/2 потоки мультиплексируются, но логическая последовательность та же.",
       interviewNote:
-        "You can briefly note HTTP/2 frames vs HTTP/1.1 text if the interviewer goes deeper.",
+        "При углублённом вопросе можно кратко сравнить фреймы HTTP/2 с текстовым HTTP/1.1.",
     },
     {
       type: "true-false",
       id: "rest-api-01-tf-301-body",
       statement:
-        "A 301 Moved Permanently response always includes a JSON body describing the new location.",
+        "Ответ 301 Moved Permanently всегда содержит JSON-тело с описанием нового местоположения ресурса.",
       correct: false,
       explanation:
-        "301 responses often have a small HTML body or empty body; clients should follow the Location header. APIs may return JSON, but it is not required by the status code itself.",
+        "У 301 часто небольшое HTML-тело или пустое тело; клиенты должны следовать заголовку Location. API могут вернуть JSON, но код статуса этого не требует.",
       interviewNote:
-        "Demonstrates you read specs pragmatically, not from assumptions.",
+        "Показывает, что вы читаете спецификации по факту, а не по догадкам.",
     },
     {
       type: "scenario",
       id: "rest-api-01-scenario-retries",
       scenario:
-        "Your GenAI batch job calls an external embeddings API. Roughly 2% of calls return HTTP 503 with no Retry-After header, while 98% return 200 with JSON.",
+        "Пакетный GenAI-процесс вызывает внешний API эмбеддингов. Примерно 2% запросов возвращают HTTP 503 без Retry-After, 98% — 200 с JSON.",
       question:
-        "How would you handle this at the HTTP layer before giving up? What would you log?",
+        "Как обработать это на уровне HTTP, прежде чем сдаться? Что логировать?",
       sampleAnswer:
-        "Use a bounded retry with exponential backoff and jitter on 503 (and optionally 502), cap total attempts, and fail the batch item with context if still failing. Log correlation id, endpoint, attempt count, latency, and status—not response bodies that may contain sensitive text. Respect 429 if it appears by backing off more aggressively.",
+        "Ограниченные повторы с экспоненциальным backoff и джиттером на 503 (и при необходимости 502), верхняя граница числа попыток; если не удалось — пометить элемент батча с контекстом. Логировать correlation id, endpoint, число попыток, задержку и статус — не целиком тела ответов с чувствительным текстом. Если появится 429 — отступать агрессивнее.",
       keyPoints: [
-        "Retries belong in client design for transient 5xx",
-        "Backoff + jitter avoids thundering herds",
-        "Avoid logging secrets or full payloads",
+        "Повторы на транзиентные 5xx закладывают в дизайн клиента",
+        "Backoff + джиттер снижает эффект «стада»",
+        "Не логировать секреты и полные полезные нагрузки",
       ],
       interviewNote:
-        "Tie answer to production SLOs and idempotent retry safety for POST if applicable.",
+        "Свяжите ответ с SLO в проде и безопасностью идемпотентных повторов для POST, если применимо.",
     },
   ],
 };

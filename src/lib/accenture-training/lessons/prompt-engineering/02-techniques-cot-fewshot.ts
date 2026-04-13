@@ -4,31 +4,31 @@ export const lesson: Lesson = {
   id: "prompt-engineering-02",
   skillId: "prompt-engineering",
   order: 2,
-  title: "Advanced Techniques: CoT & Few-Shot",
+  title: "Продвинутые методы: CoT и малое количество выстрелов",
   subtitle:
-    "Teach by example, reason step by step, and orchestrate multi-step thought patterns—without letting verbosity mask weak grounding.",
+    "Обучайте на примере, рассуждайте шаг за шагом и организуйте многоэтапные модели мышления, не позволяя многословию маскировать слабую обоснованность.",
   estimatedMinutes: 14,
   objectives: [
-    "Design few-shot prompts with diverse, canonical examples that map to production edge cases.",
-    "Apply Chain-of-Thought (CoT), zero-shot CoT, self-consistency, and Tree of Thoughts at a high level.",
-    "Contrast ReAct-style reasoning+acting with pure text CoT for tool-using agents.",
-    "Compare techniques by latency, cost, interpretability, and failure modes.",
+    "Создавайте короткие подсказки с разнообразными каноническими примерами, которые соответствуют крайним случаям производства.",
+    "Применяйте цепочку мыслей (ЦП), нулевой ЦП, самосогласованность и древо мыслей на высоком уровне.",
+    "Сравните рассуждения и действия в стиле ReAct с чистым текстовым CoT для агентов, использующих инструменты.",
+    "Сравните методы по задержке, стоимости, интерпретируемости и режимам сбоя.",
   ],
   content: [
     {
       type: "text",
       content:
-        "Frontier models handle many tasks zero-shot, but **few-shot** demonstrations still sharpen format adherence, domain jargon, and reasoning templates. **Chain-of-Thought** prompting asks the model to externalize intermediate steps—improving multi-step math, logic, and planning when paired with capable models.",
+        "Модели Frontier справляются со многими задачами с нуля, но демонстрации **несколько шагов** по-прежнему оттачивают соблюдение формата, жаргон предметной области и шаблоны рассуждений. Подсказка **Цепочки мыслей** требует от модели реализовать промежуточные шаги, улучшая многоэтапную математику, логику и планирование в сочетании с соответствующими моделями.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Few-shot prompting",
+      content: "Подсказка из нескольких кадров",
     },
     {
       type: "text",
       content:
-        "Provide **input → output** exemplars in the prompt (typically 1–8). Choose examples that are **diverse**, **correct**, and **representative** of tricky cases—near duplicates waste context. Label each example clearly (e.g., “Example 1”). For classification, balance classes to avoid bias.",
+        "Укажите в приглашении примеры **ввод → вывод** (обычно 1–8). Выбирайте примеры, которые **разнообразны**, **правильны** и **репрезентативны** для сложных случаев — почти дублируют ненужный контекст. Четко обозначьте каждый пример (например, «Пример 1»). При классификации сбалансируйте классы, чтобы избежать предвзятости.",
     },
     {
       type: "code",
@@ -37,15 +37,15 @@ export const lesson: Lesson = {
       code: `Classify the ticket into {billing, bug, feature_request}.
 
 Example 1:
-Ticket: "I was double charged on April 2 for seat SKU-88."
+Ticket: "2 апреля с меня сняли двойную плату за место SKU-88."
 Label: billing
 
 Example 2:
-Ticket: "Export to CSV hangs at 10k rows since v2.3."
+Ticket: "Экспорт в CSV зависает на 10 тысячах строк, начиная с версии 2.3."
 Label: bug
 
 Example 3:
-Ticket: "Please add dark mode to the analyst dashboard."
+Ticket: "Пожалуйста, добавьте темный режим на панель аналитики."
 Label: feature_request
 
 Ticket:

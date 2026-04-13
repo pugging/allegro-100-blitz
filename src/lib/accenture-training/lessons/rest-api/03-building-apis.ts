@@ -4,26 +4,26 @@ export const lesson: Lesson = {
   id: "rest-api-03",
   skillId: "rest-api",
   order: 3,
-  title: "Building APIs with FastAPI & Flask",
+  title: "Создание API с помощью FastAPI и Flask",
   subtitle:
-    "Ship typed, documented JSON APIs in Python: FastAPI for speed and OpenAPI; Flask for minimal stacks—plus curl, HTTPie, and Postman for verification.",
+    "Поставка типизированных и документированных API-интерфейсов JSON на Python: FastAPI для скорости и OpenAPI; Flask для минимального количества стеков, а также Curl, HTTPie и Postman для проверки.",
   estimatedMinutes: 15,
   objectives: [
-    "Bootstrap a FastAPI app with typed path/query/body parameters and response models.",
-    "Contrast Flask’s minimal routing with FastAPI’s automatic validation and docs.",
-    "Test endpoints with curl, HTTPie, and Postman collections.",
-    "Locate and use OpenAPI (Swagger) documentation generated from code.",
+    "Загрузите приложение FastAPI с типизированными параметрами пути/запроса/тела и моделями ответов.",
+    "Сравните минимальную маршрутизацию Flask с автоматической проверкой и документацией FastAPI.",
+    "Тестируйте конечные точки с помощью коллекций Curl, HTTPie и Postman.",
+    "Найдите и используйте документацию OpenAPI (Swagger), созданную на основе кода.",
   ],
   content: [
     {
       type: "text",
       content:
-        "**FastAPI** leverages Python type hints and **Pydantic** models to validate requests and responses, and it emits **OpenAPI** metadata for interactive docs. **Flask** is lightweight and flexible—common in brownfield services—while you add validation manually (e.g., Marshmallow) or keep handlers small. For new GenAI microservices (retrieval, reranking, guardrail filters), FastAPI is a strong default.",
+        "**FastAPI** использует подсказки типов Python и модели **Pydantic** для проверки запросов и ответов, а также генерирует метаданные **OpenAPI** для интерактивных документов. **Flask** — это легкий и гибкий инструмент, который часто встречается в существующих сервисах, при этом вы добавляете проверку вручную (например, Marshmallow) или сохраняете небольшие обработчики. Для новых микросервисов GenAI (извлечение, переранжирование, защитные фильтры) FastAPI является надежным стандартом.",
     },
     {
       type: "heading",
       level: 2,
-      content: "FastAPI setup",
+      content: "Настройка FastAPI",
     },
     {
       type: "code",
@@ -43,7 +43,7 @@ from typing import Optional
 from fastapi import FastAPI, Path, Query, HTTPException, status
 from pydantic import BaseModel, Field
 
-app = FastAPI(title="Accenture GenAI Intern API", version="1.0.0")
+app = FastAPI(title="API-интерфейс Accenture GenAI для стажеров", version="1.0.0")
 
 
 class DocumentCreate(BaseModel):
@@ -78,11 +78,11 @@ def create_document(payload: DocumentCreate) -> DocumentOut:
 
 @app.get("/v1/documents/{doc_id}", response_model=DocumentOut)
 def get_document(
-    doc_id: str = Path(..., description="Document identifier"),
-    include_content: bool = Query(False, description="Not implemented in this demo"),
+    doc_id: str = Path(..., description="Идентификатор документа"),
+    include_content: bool = Query(False, description="Не реализовано в этой демо-версии"),
 ) -> DocumentOut:
     if doc_id not in FAKE_DB:
-        raise HTTPException(status_code=404, detail="Document not found")
+        raise HTTPException(status_code=404, detail="Документ не найден")
     record = FAKE_DB[doc_id]
     if not include_content:
         # Still returns model without content field (response_model strips extras)
@@ -119,7 +119,7 @@ def create_doc():
     body = request.get_json(silent=True) or {}
     title = body.get("title")
     if not title:
-        abort(400, description="title is required")
+        abort(400, description="требуется название")
     doc_id = str(len(STORE) + 1)
     STORE[doc_id] = {"id": doc_id, "title": title, "content": body.get("content", "")}
     return jsonify(STORE[doc_id]), 201
@@ -151,7 +151,7 @@ def get_doc(doc_id: str):
       filename: "cli_tests.sh",
       code: `# curl — available everywhere
 curl -sS -X POST "http://127.0.0.1:8000/v1/documents" \\
-  -H "Content-Type: application/json" \\
+  -H "Тип контента: приложение/json" \\
   -d '{"title":"RAG spec","content":"...","tags":["genai"]}' | jq .
 
 curl -sS "http://127.0.0.1:8000/v1/documents/1"

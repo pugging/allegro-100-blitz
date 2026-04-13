@@ -4,42 +4,42 @@ export const lesson: Lesson = {
   id: "llm-basics-01",
   skillId: "llm-basics",
   order: 1,
-  title: "What Are Large Language Models?",
+  title: "Что такое большие языковые модели?",
   subtitle:
-    "From the AI stack to tokens and sampling — the vocabulary and mechanics you need to discuss LLMs credibly in a GenAI engineering interview.",
+    "От стека искусственного интеллекта до токенов и выборки — словарный запас и механики, необходимые для достоверного обсуждения LLM на инженерном собеседовании GenAI.",
   estimatedMinutes: 18,
   objectives: [
-    "Place LLMs within AI, machine learning, and deep learning and explain what a language model optimizes for.",
-    "Describe pre-training, fine-tuning, and RLHF at a level accurate enough for system-design discussion.",
-    "Compare major model families (GPT, Claude, Llama) and relate parameter count to capacity versus cost.",
-    "Contrast training and inference, and explain tokens, temperature, top-p, and context windows with real deployment implications.",
+    "Поместите LLM в области искусственного интеллекта, машинного обучения и глубокого обучения и объясните, для чего оптимизируется языковая модель.",
+    "Опишите предварительное обучение, тонкую настройку и RLHF на уровне, достаточно точном для обсуждения проектирования системы.",
+    "Сравните основные семейства моделей (GPT, Claude, Llama) и свяжите количество параметров с емкостью и стоимостью.",
+    "Сравните обучение и логические выводы и объясните токены, температуру, top-p и контекстные окна с реальными последствиями развертывания.",
   ],
   content: [
     {
       type: "text",
       content:
-        "A **large language model (LLM)** is a deep neural network trained to predict the next token (or a masked token) over vast text. At inference time it generates text **autoregressively**: each predicted token is fed back as input for the next step. You do not need to derive backpropagation on a whiteboard, but you must speak clearly about **data**, **objectives**, **scale**, and **runtime behavior** — that is what Accenture GenAI engineering screeners expect.",
+        "**Модель большого языка (LLM)** – это глубокая нейронная сеть, обученная прогнозировать следующий токен (или замаскированный токен) по обширному тексту. Во время вывода он генерирует текст **авторегрессионно**: каждый предсказанный токен возвращается в качестве входных данных для следующего шага. Вам не нужно выводить обратное распространение ошибки на доске, но вы должны четко говорить о **данных**, **целях**, **масштабе** и **поведении во время выполнения** — именно этого ожидают инженеры Accenture GenAI.",
     },
     {
       type: "callout",
       variant: "info",
-      title: "How this maps to client work",
+      title: "Как это отражается на работе клиента",
       content:
-        "On engagements you will choose models (API vs open-weight), estimate latency and cost from token usage, and explain trade-offs to architects and risk stakeholders. This lesson gives you the shared language for those conversations.",
+        "При выполнении заданий вы будете выбирать модели (API или открытый вес), оценивать задержку и стоимость использования токенов, а также объяснять компромиссы архитекторам и заинтересованным сторонам, занимающимся рисками. Этот урок дает вам общий язык для этих разговоров.",
     },
     {
       type: "heading",
       level: 2,
-      content: "AI, machine learning, and deep learning",
+      content: "ИИ, машинное обучение и глубокое обучение",
     },
     {
       type: "text",
       content:
-        "**Artificial intelligence** is the broad goal of systems that exhibit useful intelligent behavior. **Machine learning** is a subset where behavior improves from data rather than only hand-written rules. **Deep learning** uses stacked neural layers (often transformers for LLMs) to learn representations; scale and data made modern LLMs possible. LLMs are one application of deep learning focused on **sequences of discrete tokens** (text).",
+        "**Искусственный интеллект** — это общая цель систем, демонстрирующих полезное интеллектуальное поведение. **Машинное обучение** – это разновидность, в которой поведение улучшается на основе данных, а не только написанных вручную правил. **Глубокое обучение** использует составные нейронные слои (часто преобразователи для LLM) для изучения представлений; масштаб и данные сделали возможным современное LLM. LLM — это одно из применений глубокого обучения, ориентированное на **последовательности дискретных токенов** (текст).",
     },
     {
       type: "diagram",
-      alt: "Hierarchy from AI to LLMs",
+      alt: "Иерархия от искусственного интеллекта до LLM",
       content: `flowchart TB
   AI[Artificial Intelligence]
   ML[Machine Learning]
@@ -52,92 +52,92 @@ export const lesson: Lesson = {
     {
       type: "heading",
       level: 2,
-      content: "What is a language model?",
+      content: "Что такое языковая модель?",
     },
     {
       type: "text",
       content:
-        "A **language model** assigns probabilities to token sequences. A causal (autoregressive) model learns P(token_t | token_1, …, token_{t-1}). Training minimizes prediction error over billions of examples so the model internalizes grammar, facts, reasoning patterns, and style from the corpus. **Generation** is repeated sampling from that conditional distribution.",
+        "**Языковая модель** присваивает вероятности последовательностям токенов. Причинная (авторегрессивная) модель изучает P(token_t | token_1,…, token_{t-1}). Обучение сводит к минимуму ошибку прогнозирования на миллиардах примеров, поэтому модель усваивает грамматику, факты, шаблоны рассуждений и стиль из корпуса. **Генерация** — это повторная выборка из этого условного распределения.",
     },
     {
       type: "tip",
       content:
-        "In interviews, say explicitly that an LLM does not \"look up\" answers in a database unless you add retrieval (RAG); it completes likely continuations given the prompt and weights.",
+        "На собеседованиях прямо скажите, что LLM не «ищет» ответы в базе данных, если вы не добавите поиск (RAG); он завершает вероятные продолжения с учетом подсказки и веса.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Training data and the training stack",
+      content: "Данные обучения и стек обучения",
     },
     {
       type: "list",
       ordered: true,
       items: [
-        "**Pre-training**: Next-token prediction on large mixed corpora (web, books, code, etc.). Builds broad linguistic and world knowledge but can include noise and bias from the sources.",
-        "**Supervised fine-tuning (SFT)**: Train on curated prompt–response pairs so the model follows instructions and formats (e.g. chat, JSON).",
-        "**Alignment (e.g. RLHF / preference tuning)**: Human or AI feedback ranks outputs so the model is more helpful, honest, and harmless — reduces toxic or undesired behavior but does not guarantee factual perfection.",
+        "**Предварительное обучение**: прогнозирование следующего токена для больших смешанных корпусов (Интернет, книги, код и т. д.). Формирует обширные лингвистические и мировые знания, но может включать в себя шум и предвзятость источников.",
+        "**Тонкая контролируемая настройка (SFT)**. Тренируйтесь на специально подобранных парах «подсказка-ответ», чтобы модель следовала инструкциям и форматам (например, чат, JSON).",
+        "**Согласование (например, RLHF/настройка предпочтений)**: обратная связь от человека или искусственного интеллекта ранжирует результаты, поэтому модель становится более полезной, честной и безвредной. Это снижает токсичное или нежелательное поведение, но не гарантирует фактического совершенства.",
       ],
     },
     {
       type: "callout",
       variant: "warning",
-      title: "Precision matters",
+      title: "Точность имеет значение",
       content:
-        "RLHF shapes preferences; it does not replace factual grounding. Many \"hallucination\" issues in production are treated with RAG, tool use, or policy layers — covered in a later lesson.",
+        "RLHF формирует предпочтения; оно не заменяет фактическое обоснование. Многие проблемы «галлюцинаций» в производстве решаются с помощью RAG, использования инструментов или уровней политики, которые рассматриваются в следующем уроке.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Model families you should name-check",
+      content: "Примерные семьи, имена которых вам следует проверить",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**GPT** (OpenAI): Decoder-only transformer family; widely used via API. Strong general reasoning and tool integration in recent versions.",
-        "**Claude** (Anthropic): Competitive frontier models with emphasis on long context and safety training; common in enterprise via API.",
-        "**Llama** (Meta, open weights): Popular for on-prem, fine-tuning, and cost control; ecosystem includes many derivatives (e.g. Mistral, community fine-tunes).",
+        "**GPT** (OpenAI): семейство преобразователей только для декодеров; широко используется через API. Сильная общая аргументация и интеграция инструментов в последних версиях.",
+        "**Клод** (Антропный): Конкурентные передовые модели с упором на длительный контекст и обучение технике безопасности; распространено на предприятии через API.",
+        "**Лама** (мета, открытые веса): популярный вариант для локальной настройки, точной настройки и контроля затрат; экосистема включает в себя множество производных (например, Mistral, точная настройка сообщества).",
       ],
     },
     {
       type: "heading",
       level: 3,
-      content: "Parameters and \"size\"",
+      content: "Параметры и «размер»",
     },
     {
       type: "text",
       content:
-        "**Parameters** are learned weights. Larger models (e.g. 7B, 70B, 400B+) tend to store more patterns and reason better but cost more VRAM, latency, and money. In practice you match model size to **latency SLO**, **budget**, and **privacy** (smaller open models on VPC vs public API).",
+        "**Параметры** — это полученные веса. Более крупные модели (например, 7B, 70B, 400B+), как правило, хранят больше шаблонов и лучше рассуждают, но требуют больше видеопамяти, задержек и денег. На практике вы сопоставляете размер модели с **задержкой SLO**, **бюджетом** и **конфиденциальностью** (меньшие открытые модели в VPC по сравнению с общедоступными API).",
     },
     {
       type: "heading",
       level: 2,
-      content: "Training vs inference",
+      content: "Обучение против вывода",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**Training / fine-tuning**: Updates weights; needs GPUs/TPUs, large datasets, and careful MLOps. Done rarely compared to inference for many products.",
-        "**Inference**: Forward passes with frozen weights to serve users. Dominated by memory bandwidth, batching, KV-cache optimization, and autoregressive length (each new token needs a full forward pass through the stack).",
+        "**Обучение/тонкая настройка**: обновляются веса; требуются графические процессоры/TPU, большие наборы данных и осторожные MLOps. Делается редко по сравнению с выводами для многих продуктов.",
+        "**Вывод**. Проходы вперед с замороженными весами для обслуживания пользователей. Доминируют пропускная способность памяти, пакетная обработка, оптимизация KV-кэша и авторегрессионная длина (каждый новый токен требует полного прохождения через стек).",
       ],
     },
     {
       type: "callout",
       variant: "success",
-      title: "Interview sound bite",
+      title: "Звуковое сопровождение интервью",
       content:
-        "\"Training is about changing weights to minimize loss over a dataset; inference reuses those weights to sample outputs. Serving cost scales with tokens processed and generated, not with how big the training job was.\"",
+        "«Обучение заключается в изменении весов, чтобы минимизировать потери в наборе данных; вывод повторно использует эти веса для выборки результатов. Обслуживание шкал затрат с помощью обработанных и сгенерированных токенов, а не с учетом того, насколько велика была работа по обучению».",
     },
     {
       type: "heading",
       level: 2,
-      content: "Tokens and tokenization",
+      content: "Токены и токенизация",
     },
     {
       type: "text",
       content:
-        "Models do not see raw Unicode characters as atomic units; a **tokenizer** maps text to **tokens** (subword pieces). Common schemes: BPE, SentencePiece. Implications: similar English words may split differently; pricing and context limits are in **tokens**, not words; very long numeric IDs or base64 blobs can explode token count and cost.",
+        "Модели не рассматривают необработанные символы Юникода как атомарные единицы; **токенизатор** отображает текст в **токены** (части подслов). Распространенные схемы: BPE, SentencePiece. Выводы: похожие английские слова могут разделяться по-разному; ограничения цен и контекста указаны в **токенах**, а не в словах; очень длинные числовые идентификаторы или большие двоичные объекты в формате Base64 могут привести к резкому увеличению количества и стоимости токенов.",
     },
     {
       type: "code",
@@ -147,33 +147,33 @@ export const lesson: Lesson = {
 import tiktoken
 
 enc = tiktoken.encoding_for_model("gpt-4o")
-text = "Accenture GenAI — estimate interview prep."
+text = "Accenture GenAI — оценка подготовки к собеседованию."
 tokens = enc.encode(text)
 print(len(tokens), tokens[:10])`,
     },
     {
       type: "heading",
       level: 2,
-      content: "Temperature and top-p (nucleus sampling)",
+      content: "Температура и топ-п (отбор проб ядра)",
     },
     {
       type: "text",
       content:
-        "At each step the model outputs a probability distribution over the vocabulary. **Temperature** scales logits before softmax: low T (e.g. 0.2) sharpens the distribution (more deterministic); high T flattens it (more random). **Top-p** keeps the smallest set of tokens whose cumulative probability ≥ p and samples from that set — useful to cap long-tail weird tokens. Production systems often use **low temperature** for structured extraction and **moderate** for creative drafts.",
+        "На каждом этапе модель выводит распределение вероятностей по словарю. **Температура** масштабирует логиты перед softmax: низкое значение T (например, 0,2) увеличивает четкость распределения (более детерминированное); высокое T сглаживает его (более случайно). **Top-p** хранит наименьший набор токенов, чья совокупная вероятность ≥ p, и образцы из этого набора — полезно для ограничения странных токенов с длинным хвостом. В производственных системах часто используется **низкая температура** для структурированной экстракции и **умеренная** для творческих черновиков.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Context window",
+      content: "Контекстное окно",
     },
     {
       type: "text",
       content:
-        "The **context window** is the maximum tokens the model can attend to in one forward pass (prompt + completion). Long windows (128k+ on some models) enable large documents but increase compute and memory. Anything beyond the window is **invisible** unless you summarize, chunk, or retrieve (RAG). Always relate window size to **your** prompt engineering and pipeline design in interviews.",
+        "**Контекстное окно** — это максимальное количество токенов, которые модель может обрабатывать за один проход вперед (подсказка + завершение). Длинные окна (более 128 тыс. на некоторых моделях) позволяют просматривать большие документы, но увеличивают вычислительные ресурсы и память. Все, что находится за пределами окна, **невидимо**, если вы не суммируете, не фрагментируете и не извлекаете (RAG). На собеседованиях всегда соотносите размер окна с **вашим** оперативным проектированием и проектированием трубопровода.",
     },
     {
       type: "diagram",
-      alt: "Context window as sliding memory",
+      alt: "Контекстное окно как скользящая память",
       content: `flowchart LR
   P[Prompt tokens] --> W[Within context window]
   W --> O[Output tokens]
@@ -181,40 +181,40 @@ print(len(tokens), tokens[:10])`,
     },
   ],
   keyTakeaways: [
-    "LLMs are deep learning models trained to predict tokens; generation is autoregressive sampling, not database lookup.",
-    "Pre-training builds broad capability; SFT and alignment shape behavior — neither removes the need for grounding in critical applications.",
-    "Parameters and context window drive quality, cost, and latency; tokenization ties billing and limits to subwords, not words.",
-    "Temperature and top-p control randomness; choose them based on task (structured vs creative) and measure quality empirically.",
+    "LLM — это модели глубокого обучения, обученные прогнозировать токены; Генерация — это авторегрессионная выборка, а не поиск в базе данных.",
+    "Предварительное обучение расширяет возможности; SFT и поведение формы выравнивания — ни то, ни другое не устраняет необходимости заземления в критически важных приложениях.",
+    "Параметры и контекстное окно определяют качество, стоимость и задержку; токенизация связывает выставление счетов и ограничения с подсловами, а не со словами.",
+    "Случайность контроля температуры и верхнего уровня; выбирайте их в зависимости от задачи (структурированные или креативные) и измеряйте качество эмпирически.",
   ],
   interviewTips: [
-    "Start answers with a one-sentence definition (\"autoregressive next-token predictor\") before diving into architecture.",
-    "When asked about \"how ChatGPT was built,\" mention pre-training + instruction tuning + RLHF/preference learning as distinct stages.",
-    "Tie \"why hallucinations happen\" to probabilistic completion — interviewers reward causal explanations over buzzwords.",
-    "If discussing cost, mention input vs output tokens and that generated length linearly increases inference work.",
+    "Прежде чем углубляться в архитектуру, начните ответы с определения, состоящего из одного предложения («авторегрессионный предиктор следующего токена»).",
+    "Когда вас спросят о том, «как был создан ChatGPT», укажите предварительное обучение + настройку инструкций + обучение RLHF/предпочтениям как отдельные этапы.",
+    "Свяжите вопрос «почему случаются галлюцинации» с вероятностным завершением — интервьюеры отдают предпочтение причинно-следственным объяснениям, а не модным словечкам.",
+    "При обсуждении стоимости упомяните входные и выходные токены, и что сгенерированная длина линейно увеличивает работу по выводу.",
   ],
   exercises: [
     {
       type: "multiple-choice",
       id: "llm01-mc-inference",
       question:
-        "A production chatbot serves 1M users per day but the model weights have not been updated for a month. Which statement best describes what happens on each user message?",
+        "Производственный чат-бот обслуживает 1 млн пользователей в день, но веса моделей не обновлялись уже месяц. Какое утверждение лучше всего описывает то, что происходит с каждым сообщением пользователя?",
       options: [
-        "The system performs backpropagation on every message to learn from the user.",
-        "The system runs forward passes (inference) through frozen weights to sample the next tokens.",
-        "The system reloads the entire pre-training corpus into GPU memory for each request.",
-        "The system only updates embeddings, not transformer layers, on each request.",
+        "Система выполняет обратное распространение ошибки для каждого сообщения, чтобы получить информацию от пользователя.",
+        "Система выполняет проходы вперед (вывод) через замороженные веса, чтобы выбрать следующие токены.",
+        "Система перезагружает весь корпус предварительного обучения в память графического процессора для каждого запроса.",
+        "При каждом запросе система обновляет только внедрения, а не слои преобразователей.",
       ],
       correctIndex: 1,
       explanation:
-        "Serving traffic is almost always inference: repeated forward passes with fixed weights. Online learning in production is rare and would be an explicit, separate pipeline — not the default LLM API behavior.",
+        "Обслуживание трафика почти всегда представляет собой логический вывод: повторяющиеся проходы вперед с фиксированными весами. Онлайн-обучение в производстве встречается редко и будет представлять собой явный отдельный конвейер, а не стандартное поведение LLM API.",
       interviewNote:
-        "Contrasting training vs inference is a frequent screen — mention KV cache and autoregressive decoding if you want bonus depth.",
+        "Часто приходится сравнивать обучение и вывод. Если вам нужна дополнительная глубина, упомяните KV-кеш и авторегрессионное декодирование.",
     },
     {
       type: "code-completion",
       id: "llm01-cc-temperature",
       question:
-        "In many Python SDKs, generation kwargs include `temperature`. Fill in the typical numeric value used for **deterministic / near-greedy** decoding in production extractors (choose one common default).",
+        "Во многих SDK Python кварги генерации включают в себя «температуру». Введите типичное числовое значение, используемое для **детерминированного/почти жадного** декодирования в производственных экстракторах (выберите одно общее значение по умолчанию).",
       codeTemplate: `response = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[{"role": "user", "content": prompt}],
@@ -224,54 +224,54 @@ print(len(tokens), tokens[:10])`,
       correctAnswer: "0",
       acceptableAnswers: ["0.0", "0.2"],
       explanation:
-        "temperature=0 (or very low values like 0.2) reduces sampling randomness for structured tasks. Some APIs treat 0 as greedy argmax; always validate behavior in the specific SDK.",
+        "температура=0 (или очень низкие значения, например 0,2) уменьшает случайность выборки для структурированных задач. Некоторые API рассматривают 0 как жадный argmax; всегда проверяйте поведение в конкретном SDK.",
       interviewNote:
-        "Mention that temperature interacts with top_p and that you should evaluate JSON validity rates, not just eyeball text.",
+        "Упомяните, что температура взаимодействует с top_p и что вам следует оценивать степень достоверности JSON, а не только текст на глаз.",
     },
     {
       type: "ordering",
       id: "llm01-ord-lifecycle",
       question:
-        "Order these stages in a typical frontier chat model lifecycle (top = earliest). Use the indices as shown in the shuffled list.",
+        "Упорядочите эти этапы в типичном жизненном цикле модели фронтирного чата (вверху = самый ранний). Используйте индексы, как показано в перетасованном списке.",
       items: [
-        "Alignment / preference tuning (e.g. RLHF-style) on ranked outputs",
-        "Large-scale pre-training with next-token prediction on broad corpora",
-        "Supervised fine-tuning on instruction–response demonstrations",
-        "Deployment: inference-only API with frozen weights",
+        "Согласование/настройка предпочтений (например, в стиле RLHF) по ранжированным результатам",
+        "Масштабное предварительное обучение с прогнозированием следующего токена в широком корпусе",
+        "Контролируемая точная настройка демонстрации инструкций и ответов.",
+        "Развертывание: API только для вывода с замороженными весами.",
       ],
       correctOrder: [1, 2, 0, 3],
       explanation:
-        "Broad order: massive pre-training → instruction SFT → preference alignment → frozen-weight serving. Exact recipes vary by vendor but this narrative is interview-safe.",
+        "Общий порядок: массовая предварительная тренировка → инструкция SFT → выравнивание предпочтений → порция замороженного веса. Точные рецепты варьируются в зависимости от продавца, но этот рассказ безопасен для интервью.",
       interviewNote:
-        "If probed, acknowledge that some pipelines merge or repeat stages (e.g. DPO instead of classic RLHF) — show you know names vary.",
+        "В случае проверки подтвердите, что некоторые конвейеры объединяют или повторяют этапы (например, DPO вместо классического RLHF) — покажите, что вы знаете, что названия различаются.",
     },
     {
       type: "true-false",
       id: "llm01-tf-tokens",
       statement:
-        "For commercial LLM APIs, billing and maximum prompt length are always based on the number of words in English, not tokenizer output.",
+        "Для коммерческих API-интерфейсов LLM выставление счетов и максимальная длина запроса всегда основаны на количестве слов на английском языке, а не на выводе токенизатора.",
       correct: false,
       explanation:
-        "Billing and limits are tokenizer-driven (tokens). Word count is a rough heuristic only; multilingual text, symbols, and code can have very different token-per-character ratios.",
+        "Выставление счетов и лимиты управляются токенизатором (токены). Подсчет слов — это всего лишь грубая эвристика; Многоязычный текст, символы и код могут иметь очень разные соотношения токенов на символ.",
       interviewNote:
-        "Share a concrete anecdote: logging `len(enc.encode(prompt))` before calling APIs saved cost — interviewers like operational awareness.",
+        "Поделитесь конкретным анекдотом: регистрация `len(enc.encode(prompt))` перед вызовом API экономит средства — интервьюеры любят оперативную осведомленность.",
     },
     {
       type: "scenario",
       id: "llm01-sc-window",
       scenario:
-        "A client wants to \"drop their full 500-page policy PDF\" into a single GPT-style prompt because the marketing page says \"long context.\" Latency spikes and answers still omit sections.",
+        "Клиент хочет «поместить свой полный 500-страничный PDF-файл с политикой» в одно приглашение в стиле GPT, потому что на маркетинговой странице указано «длинный контекст». Всплески задержки и ответы по-прежнему пропускают разделы.",
       question:
-        "How do you explain the problem and propose a better approach in 3–4 sentences?",
+        "Как вы объясните проблему и предложите лучший подход в 3–4 предложениях?",
       sampleAnswer:
-        "Even long-context models have finite windows and expensive attention over huge prompts; a 500-page PDF may exceed limits or leave the model unable to reliably attend to all details. Latency grows with prompt tokens, so monolithic prompts hurt UX. Prefer chunking with retrieval (RAG), summarization hierarchies, or a dedicated search index so each call sends only the relevant passages. Measure groundedness with evals rather than assuming the model \"read everything.\"",
+        "Даже модели с длинным контекстом имеют ограниченные окна и требуют большого внимания к огромным подсказкам; PDF-файл на 500 страниц может превысить ограничения или лишить модель возможности точно уделить внимание всем деталям. Задержка увеличивается с появлением токенов подсказок, поэтому монолитные подсказки вредят UX. Отдавайте предпочтение фрагментированию с поиском (RAG), иерархии суммирования или выделенному поисковому индексу, чтобы при каждом вызове отправлялись только релевантные фрагменты. Измеряйте обоснованность с помощью оценок, а не предполагайте, что модель «читает все».",
       keyPoints: [
-        "Finite context window and cost/latency scale with prompt tokens.",
-        "Attention does not equal perfect recall over hundreds of pages.",
-        "RAG / chunking is the standard enterprise pattern for large corpora.",
+        "Конечное контекстное окно и шкала стоимости/задержки с токенами подсказки.",
+        "Внимание не равно идеальному запоминанию сотен страниц.",
+        "RAG/chunking — это стандартная корпоративная модель для крупных корпораций.",
       ],
       interviewNote:
-        "Accenture interviews often test whether you sell RAG responsibly — acknowledge limits, then propose measurable mitigation.",
+        "Собеседования в Accenture часто проверяют, ответственно ли вы продаете RAG: признаете ограничения, а затем предлагаете измеримые меры по их смягчению.",
     },
   ],
 };

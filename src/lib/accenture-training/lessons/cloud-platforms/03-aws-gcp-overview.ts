@@ -4,59 +4,59 @@ export const lesson: Lesson = {
   id: "cloud-platforms-03",
   skillId: "cloud-platforms",
   order: 3,
-  title: "AWS & GCP for AI",
+  title: "AWS и GCP для ИИ",
   subtitle:
-    "High-signal overview of AWS Bedrock, SageMaker, Lambda, S3, GCP Vertex AI, BigQuery, Cloud Functions, cross-cloud equivalence, and how to justify a platform choice in an interview.",
+    "Важный обзор AWS Bedrock, SageMaker, Lambda, S3, GCP Vertex AI, BigQuery, Cloud Functions, межоблачной эквивалентности и тому, как обосновать выбор платформы в интервью.",
   estimatedMinutes: 15,
   objectives: [
-    "Describe AWS Bedrock and how teams access foundation models securely.",
-    "Summarize SageMaker’s role versus serverless inference patterns.",
-    "Explain Vertex AI and BigQuery in analytics-heavy AI workloads.",
-    "Map equivalent services across AWS, Azure, and GCP for compute, storage, functions, and AI gateways.",
-    "Discuss how to choose a cloud for a GenAI project without sounding tribal.",
+    "Описать AWS Bedrock и способы безопасного доступа команд к базовым моделям.",
+    "Кратко опишите роль SageMaker и бессерверные шаблоны вывода.",
+    "Объясните Vertex AI и BigQuery в аналитических рабочих нагрузках ИИ.",
+    "Сопоставьте эквивалентные сервисы в AWS, Azure и GCP для вычислений, хранения, функций и шлюзов искусственного интеллекта.",
+    "Обсудите, как выбрать облако для проекта GenAI, чтобы это не звучало предвзято.",
   ],
   content: [
     {
       type: "text",
       content:
-        "Accenture delivers **multi-cloud** programs, but candidates should still speak fluently about **AWS** and **GCP**—clients standardize on different vendors by history, acquisition, or data science preference. This lesson focuses on **managed AI APIs**, **ML platforms**, **serverless glue**, and **data lakes** that appear in real architectures.",
+        "Accenture предлагает **мультиоблачные** программы, но кандидаты все равно должны свободно говорить о **AWS** и **GCP** — клиенты стандартизируют разных поставщиков по истории, приобретениям или предпочтениям в области анализа данных. В этом уроке основное внимание уделяется **управляемым AI API**, **платформам машинного обучения**, **бессерверному связующему устройству** и **озерам данных**, которые встречаются в реальных архитектурах.",
     },
     {
       type: "heading",
       level: 2,
-      content: "AWS for GenAI",
+      content: "AWS для GenAI",
     },
     {
       type: "heading",
       level: 3,
-      content: "Amazon Bedrock",
+      content: "Амазонка",
     },
     {
       type: "text",
       content:
-        "**Amazon Bedrock** is AWS’s **fully managed service** for invoking **foundation models** from multiple providers through a unified API. Typical use: select a model, configure IAM permissions, call **InvokeModel** or **Converse** from application code, and log outputs to CloudWatch. You still design **prompts, retrieval, and evaluation**—Bedrock is the **gateway**, not the product by itself.",
+        "**Amazon Bedrock** — это **полностью управляемый сервис** AWS для вызова **базовых моделей** из нескольких поставщиков через единый API. Типичное использование: выберите модель, настройте разрешение IAM, вызовите **InvokeModel** или **Converse** из кода приложения и запишите выходные данные в CloudWatch. Вы по-прежнему разрабатываете **подсказки, поиск и наблюдения** — Bedrock — это **врата**, а не продукт сам по себе.",
     },
     {
       type: "heading",
       level: 3,
-      content: "Amazon SageMaker (basics)",
+      content: "Amazon SageMaker (основы)",
     },
     {
       type: "text",
       content:
-        "**SageMaker** covers notebooks, training jobs, **feature store**, model registry, and **endpoints** for online inference. For GenAI, teams use it for **fine-tuning**, batch evaluation, or hosting custom models when Bedrock’s catalog is not enough. Expect interview prompts about **when to train** versus **when to retrieve** or prompt.",
+        "**SageMaker** отвечает за блокноты, научные задания, **функции хранения**, модели реестра и **конечные точки** для онлайн-выводов. Что касается GenAI, необходимо использовать его для **тонкой настройки**, пакетной оценки или размещения панели моделей, когда каталога Bedrock недостаточно. Ожидайте подсказок на собеседованиях о том, **когда тренироваться**, а не **когда из-за болезни** или подсказки.",
     },
     {
       type: "heading",
       level: 3,
-      content: "Lambda, S3, and the glue layer",
+      content: "Лямбда, S3 и клеевой слой",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**AWS Lambda:** Run short HTTP handlers or event-driven workers (S3 upload → Lambda → enqueue embedding job). Pay per invocation; watch cold starts and concurrency limits for LLM fan-out.",
-        "**Amazon S3:** Durable object store for documents, parquet features, and model artifacts. Often the **source of truth** before indexing into OpenSearch or a vector DB.",
+        "**AWS Lambda:** Запускайте короткие обработчики HTTP или управляемые события рабочих процессов (загрузка S3 → Lambda → задание по внедрению по очереди). Оплата за вызов; Соблюдаются холодным запуском и ограничениями параллелизма для разветвления LLM.",
+        "**Amazon S3:** Надежное хранилище объектов для документов, элементов паркета и артефактов моделей. Зачастую это **источник истины** перед индексацией в OpenSearch или векторную БД.",
       ],
     },
     {
@@ -64,7 +64,7 @@ export const lesson: Lesson = {
       language: "bash",
       filename: "aws_cli_bedrock_hint.sh",
       code: `# List foundation models available in Bedrock (IAM permissions required)
-aws bedrock list-foundation-models --region us-east-1 --query "modelSummaries[?contains(modelId, 'anthropic')].modelId" --output table
+aws bedrock list-foundation-models --region us-east-1 --query "modelSummaries[?contains(modelId, 'антропный')].modelId" --output table
 
 # Example: invoke via AWS CLI is possible but apps usually use boto3 SDK
 # Always enforce least-privilege IAM policies on bedrock:InvokeModel`,
@@ -72,7 +72,7 @@ aws bedrock list-foundation-models --region us-east-1 --query "modelSummaries[?c
     {
       type: "heading",
       level: 2,
-      content: "GCP for GenAI",
+      content: "GCP для GenAI",
     },
     {
       type: "heading",
@@ -82,75 +82,75 @@ aws bedrock list-foundation-models --region us-east-1 --query "modelSummaries[?c
     {
       type: "text",
       content:
-        "**Vertex AI** is Google Cloud’s unified ML platform: datasets, training pipelines, **Model Garden** (Google and partner models), and online/batch prediction. For LLMs, teams use **Gemini** APIs through Vertex with enterprise controls (VPC-SC, CMEK) similar in spirit to Azure OpenAI’s enterprise positioning.",
+        "**Vertex AI** — это унифицированная платформа машинного обучения Google Cloud: наборы данных, конвейеры обучения, **Model Garden** (модели Google и партнеров), а также онлайн-/пакетное прогнозирование. Для программ LLM команды используют API **Gemini** через Vertex с корпоративными элементами управления (VPC-SC, CMEK), схожими по духу с корпоративным позиционированием Azure OpenAI.",
     },
     {
       type: "heading",
       level: 3,
-      content: "BigQuery for analytics",
+      content: "BigQuery для аналитики",
     },
     {
       type: "text",
       content:
-        "**BigQuery** is a serverless warehouse for structured analytics at scale. In AI interviews, connect it to **feature engineering**, **batch scoring**, **LLM-generated SQL** guardrails, and **data governance** (row-level security). It complements—not replaces—vector search for unstructured text.",
+        "**BigQuery** — это бессерверное хранилище для структурированной аналитики в любом масштабе. На собеседованиях с искусственным интеллектом свяжите его с **разработкой функций**, **пакетной оценкой**, **защитными мерами SQL, сгенерированными LLM**, и **управлением данными** (безопасность на уровне строк). Он дополняет, а не заменяет векторный поиск неструктурированного текста.",
     },
     {
       type: "heading",
       level: 3,
-      content: "Cloud Functions",
+      content: "Облачные функции",
     },
     {
       type: "text",
       content:
-        "**Google Cloud Functions** (and Cloud Run) host lightweight APIs that call Vertex, enqueue Pub/Sub jobs, or validate requests—analogous to Lambda + API Gateway patterns on AWS.",
+        "**Облачные функции Google** (и Cloud Run) содержат облегченные API, которые вызывают Vertex, ставят в очередь задания Pub/Sub или проверяют запросы — аналогично шаблонам Lambda + API Gateway в AWS.",
     },
     {
       type: "callout",
       variant: "info",
-      title: "Equivalence, not identity",
+      title: "Эквивалентность, а не тождество",
       content:
-        "Cloud services evolve monthly. In interviews, treat equivalence tables as **directional**: they show you understand **categories** (managed LLM gateway, serverless compute, object store) even if feature names differ.",
+        "Облачные сервисы развиваются ежемесячно. На собеседованиях рассматривайте таблицы эквивалентности как **направленные**: они показывают, что вы понимаете **категории** (управляемый шлюз LLM, бессерверные вычисления, хранилище объектов), даже если названия функций различаются.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Service equivalence (AWS ↔ Azure ↔ GCP)",
+      content: "Эквивалентность услуг (AWS ↔ Azure ↔ GCP)",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**Managed LLM / FM access:** Bedrock ↔ Azure OpenAI + Azure AI model catalog ↔ Vertex AI Model Garden / Gemini API.",
-        "**ML platform / notebooks:** SageMaker ↔ Azure Machine Learning ↔ Vertex AI (Workbench, Pipelines).",
-        "**Serverless functions:** Lambda ↔ Azure Functions ↔ Cloud Functions (Cloud Run for containers).",
-        "**Object storage:** S3 ↔ Azure Blob Storage ↔ Cloud Storage.",
-        "**Managed Kubernetes:** EKS ↔ AKS ↔ GKE.",
+        "**Управляемый доступ к LLM/FM:** Bedrock ↔ Каталог моделей Azure OpenAI + Azure AI ↔ Vertex AI Model Garden/Gemini API.",
+        "**Платформа/ноутбуки машинного обучения:** SageMaker ↔ Машинное обучение Azure ↔ Vertex AI (Workbench, Pipelines).",
+        "**Бессерверные функции:** Lambda ↔ Функции Azure ↔ Облачные функции (Cloud Run для контейнеров).",
+        "**Объектное хранилище:** S3 ↔ Azure Blob Storage ↔ Cloud Storage.",
+        "**Управляемый Kubernetes:** EKS ↔ AKS ↔ GKE.",
         "**IAM:** IAM ↔ Entra ID + Azure RBAC ↔ Cloud IAM.",
       ],
     },
     {
       type: "heading",
       level: 2,
-      content: "Choosing the right cloud for your project",
+      content: "Выбор подходящего облака для вашего проекта",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**Existing estate:** SAP on Azure, massive AWS data lake, or BigQuery-centric analytics often dictate the starting point.",
-        "**Talent and support:** Partner incentives, internal guilds, and enterprise agreements reduce friction.",
-        "**Compliance:** Data residency, encryption keys, and network isolation requirements may favor one vendor’s region map or private link story.",
-        "**Feature fit:** Specific models, GPU quotas, or search integrations may tip a spike—validate with a **time-boxed proof**.",
+        "**Существующая база данных:** SAP на Azure, массивное озеро данных AWS или аналитика, ориентированная на BigQuery, часто определяют отправную точку.",
+        "**Талант и поддержка.** Партнерские стимулы, внутренние гильдии и корпоративные соглашения уменьшают трения.",
+        "**Соответствие.** Требования к местоположению данных, ключам шифрования и сетевой изоляции могут отдавать предпочтение карте региона или истории частных ссылок одного поставщика.",
+        "**Подходит по функциям.** Определенные модели, квоты на графические процессоры или интеграция с поиском могут вызвать всплеск — подтвердите это с помощью **доказательства с ограничением по времени**.",
       ],
     },
     {
       type: "tip",
       content:
-        "Accenture-safe answer: \"We align to the client’s **cloud center of excellence** and security baseline, then pick services that meet **latency, cost, and model** requirements—often Azure-first, but we integrate AWS/GCP data sources via event buses and APIs.\"",
+        "Надежный ответ Accenture: «Мы ориентируемся на **облачный центр передового опыта** и базовые показатели безопасности клиента, а затем выбираем сервисы, соответствующие требованиям **задержки, стоимости и модели** — часто сначала Azure, но мы интегрируем источники данных AWS/GCP через шины событий и API».",
     },
     {
       type: "diagram",
-      alt: "Equivalence of managed AI gateway and serverless API across three clouds",
+      alt: "Эквивалентность управляемого шлюза ИИ и бессерверного API в трех облаках",
       content: `flowchart TB
   subgraph aws [AWS]
     B[Bedrock] --> L[Lambda API]
@@ -167,95 +167,95 @@ aws bedrock list-foundation-models --region us-east-1 --query "modelSummaries[?c
     },
   ],
   keyTakeaways: [
-    "Bedrock and Vertex AI are **managed model gateways**; engineering work remains in prompts, retrieval, evaluation, and security.",
-    "SageMaker and Vertex AI cover **ML lifecycle** beyond chat—training, registry, batch, endpoints.",
-    "Lambda / Functions / Cloud Run are typical **edge** layers for auth, orchestration, and throttling.",
-    "S3 / Blob / GCS are standard **document and artifact** stores feeding indexes and pipelines.",
-    "Equivalence thinking helps in multi-cloud interviews; **client context** picks the winner.",
+    "Bedrock и Vertex AI — это **шлюзы управляемой модели**; инженерная работа остается в подсказках, поиске, оценке и безопасности.",
+    "SageMaker и Vertex AI охватывают **жизненный цикл машинного обучения**, выходящий за рамки чата: обучение, реестр, пакетную обработку и конечные точки.",
+    "Lambda/Functions/Cloud Run — это типичные **граничные** уровни для аутентификации, оркестрации и регулирования.",
+    "S3/Blob/GCS — это стандартные хранилища **документов и артефактов**, передающие индексы и конвейеры.",
+    "Мышление эквивалентности помогает при проведении многооблачных собеседований; **контекст клиента** выбирает победителя.",
   ],
   interviewTips: [
-    "When asked \"AWS or GCP?\", respond with **criteria** (data gravity, IAM model, model catalog) not religion.",
-    "Name **one concrete service** per category instead of fifteen buzzwords.",
-    "Mention **IAM least privilege** for any `InvokeModel` or Vertex call—interviewers listen for security instinct.",
-    "If the role is Azure-heavy, acknowledge AWS/GCP **as integration endpoints** (e.g. cross-cloud events, shared data products).",
+    "На вопрос «AWS или GCP?» отвечайте, указав **критерии** (значимость данных, модель IAM, каталог моделей), а не религию.",
+    "Назовите **одну конкретную услугу** в каждой категории вместо пятнадцати модных словечек.",
+    "Упоминайте **минимальные привилегии IAM** для любого вызова InvokeModel или Vertex — интервьюеры прислушиваются к инстинкту безопасности.",
+    "Если роль требует большого количества ресурсов Azure, подтвердите AWS/GCP **как конечные точки интеграции** (например, межоблачные события, продукты с общими данными).",
   ],
   exercises: [
     {
       type: "scenario",
       id: "cp03-sc-multicloud",
       scenario:
-        "A retail client stores product images in **S3**, runs analytics in **BigQuery**, and mandates **Azure AD** for workforce identity. They want a single GenAI assistant for store managers.",
+        "Розничный клиент хранит изображения продуктов в **S3**, выполняет аналитику в **BigQuery** и использует **Azure AD** для идентификации сотрудников. Им нужен один помощник GenAI для менеджеров магазинов.",
       question:
-        "In three sentences, how would you approach cloud placement without forcing one vendor for everything?",
+        "В трех предложениях, как бы вы подошли к размещению в облаке, не заставляя все делать одного поставщика?",
       sampleAnswer:
-        "Keep each datastore where it already meets compliance and skills, expose a **thin API** in the client’s preferred landing zone (often Azure for identity), and use **federated identity** or secure service principals for cross-cloud calls. Prototype the LLM path where enterprise agreements and private networking are strongest—typically **Azure OpenAI** here—while pulling catalog metadata from existing AWS/GCP systems via read-only APIs or replicated summaries. Document **latency, cost, and operational ownership** before hard-coding the topology.",
+        "Храните каждое хранилище данных там, где оно уже соответствует требованиям и навыкам, предоставляйте **тонкий API** в предпочтительной целевой зоне клиента (часто Azure для идентификации) и используйте **федеративное удостоверение** или безопасные принципы обслуживания для межоблачных вызовов. Создайте прототип пути LLM, где корпоративные соглашения и частные сети наиболее эффективны (обычно здесь используется **Azure OpenAI**), одновременно извлекая метаданные каталога из существующих систем AWS/GCP через API, доступные только для чтения, или реплицированные сводки. Задокументируйте **задержку, стоимость и эксплуатационную принадлежность** перед жестким кодированием топологии.",
       keyPoints: [
-        "Respect data gravity and existing investments.",
-        "Put the user-facing API where IAM and contracts align.",
-        "Prove cross-cloud patterns with metrics, not slogans.",
+        "Уважайте значимость данных и существующие инвестиции.",
+        "Поместите API, ориентированный на пользователя, в соответствие с IAM и контрактами.",
+        "Доказывайте закономерности взаимодействия облаков с помощью показателей, а не лозунгов.",
       ],
       interviewNote:
-        "Shows systems thinking—Accenture interviewers value integration maturity.",
+        "Демонстрирует системное мышление. Интервьюеры Accenture ценят зрелость интеграции.",
     },
     {
       type: "code-completion",
       id: "cp03-cc-boto",
       question:
-        "Complete the boto3 **service name** used to call many Amazon Bedrock runtime operations (Python SDK).",
+        "Введите **имя службы** boto3, используемое для вызова многих операций среды выполнения Amazon Bedrock (Python SDK).",
       codeTemplate: `import boto3
 client = boto3.client("________", region_name="us-east-1")
 # client.invoke_model(...)`,
       language: "python",
       correctAnswer: "bedrock-runtime",
       explanation:
-        "The boto3 client for invocations is typically `bedrock-runtime` (hyphen in CLI/SDK service id). A separate `bedrock` client handles control-plane operations like listing models—know both exist.",
+        "Клиентом boto3 для вызовов обычно является «bedrock-runtime» (дефис в идентификаторе службы CLI/SDK). Отдельный «базовый» клиент обрабатывает операции уровня управления, такие как листинг моделей — знайте, что и то, и другое существует.",
       interviewNote:
-        "If unsure, say you would verify in boto3 docs—shows careful engineering habits.",
+        "Если вы не уверены, скажите, что вы бы проверили документацию boto3 — это свидетельствует о тщательном инженерном подходе.",
     },
     {
       type: "multiple-choice",
       id: "cp03-mc-sagemaker",
       question:
-        "A data science team needs **GPU training**, experiment tracking, a **model registry**, and **HTTPS endpoints** for a custom transformer—not just an API to a vendor foundation model. Which AWS offering fits best as the primary platform?",
+        "Группе специалистов по обработке данных необходимо **обучение графическому процессору**, отслеживание экспериментов, **реестр моделей** и **конечные точки HTTPS** для пользовательского преобразователя, а не просто API для базовой модели поставщика. Какое предложение AWS лучше всего подходит в качестве основной платформы?",
       options: [
-        "AWS Lambda only",
+        "Только AWS Lambda",
         "Amazon SageMaker",
-        "Amazon S3 Glacier",
+        "Ледник Амазонки S3",
         "AWS CloudFront",
       ],
       correctIndex: 1,
       explanation:
-        "SageMaker is the managed ML platform for notebooks, training, registration, and deployment. Lambda is for short serverless functions; Glacier is archival storage; CloudFront is CDN—none replace an ML platform for training and serving custom models.",
+        "SageMaker — это управляемая платформа машинного обучения для записных книжек, обучения, регистрации и развертывания. Lambda предназначена для коротких бессерверных функций; Ледник – архивное хранилище; CloudFront — это CDN. Ни одна из них не заменяет платформу машинного обучения для обучения и обслуживания пользовательских моделей.",
       interviewNote:
-        "Clarify you might still **call Bedrock** from the same architecture for some tasks—hybrid is common.",
+        "Уточним, что для некоторых задач вы по-прежнему можете **вызывать Bedrock** из той же архитектуры — гибрид является распространенным явлением.",
     },
     {
       type: "ordering",
       id: "cp03-ord-lifecycle",
       question:
-        "Order these **ML platform** activities in a typical **mature** lifecycle (first → last).",
+        "Упорядочите эти действия **платформы ML** в типичном **зрелом** жизненном цикле (первый → последний).",
       items: [
-        "Register a versioned model artifact after validation metrics pass gates",
-        "Run offline batch scoring or shadow traffic on a candidate model",
-        "Train or fine-tune using a tracked experiment and dataset snapshot",
-        "Deploy the approved model to a production endpoint behind monitoring",
+        "Зарегистрируйте артефакт модели с версией после того, как метрики проверки пройдут шлюзы.",
+        "Запуск автономной пакетной оценки или теневого трафика на модели-кандидате",
+        "Обучайте или выполняйте точную настройку с помощью отслеживаемого эксперимента и снимка набора данных.",
+        "Развертывание утвержденной модели на производственной конечной точке за мониторингом.",
       ],
       correctOrder: [2, 1, 0, 3],
       explanation:
-        "Train with experiment tracking → evaluate offline or shadow → register the promoted artifact → deploy to production with monitoring. Gates and automation vary, but **register before prod deploy** is the usual contract.",
+        "Обучение с отслеживанием экспериментов → оценка в автономном или теневом режиме → регистрация продвигаемого артефакта → развертывание в рабочей среде с мониторингом. Условия и автоматизация различаются, но **регистрация перед развертыванием продукта** — это обычный контракт.",
       interviewNote:
-        "Mention CI/CD triggers and human approval for regulated clients.",
+        "Упомяните триггеры CI/CD и одобрение регулируемых клиентов.",
     },
     {
       type: "true-false",
       id: "cp03-tf-bigquery-rag",
       statement:
-        "BigQuery alone is always the best primary store for semantic search over millions of unstructured PDF pages in a RAG system.",
+        "Сам по себе BigQuery всегда является лучшим основным хранилищем для семантического поиска по миллионам неструктурированных PDF-страниц в системе RAG.",
       correct: false,
       explanation:
-        "BigQuery excels at structured analytics and can host embeddings in some designs, but large-scale **unstructured** RAG usually pairs object storage + specialized **search/vector** layers (Vertex AI Search, open-source vector DBs, etc.). The best design depends on access patterns, latency, and cost—not a single warehouse.",
+        "BigQuery превосходно справляется со структурированной аналитикой и может размещать встраивания в некоторых проектах, но крупномасштабный **неструктурированный** RAG обычно сочетает в себе объектное хранилище + специализированные **поисковые/векторные** слои (Vertex AI Search, векторные базы данных с открытым исходным кодом и т. д.). Лучший дизайн зависит от шаблонов доступа, задержки и стоимости, а не от одного склада.",
       interviewNote:
-        "Show you know **hybrid architectures**: warehouse for metrics, vector index for passages.",
+        "Покажите, что вы знаете **гибридные архитектуры**: хранилище метрик, векторный индекс для проходов.",
     },
   ],
 };

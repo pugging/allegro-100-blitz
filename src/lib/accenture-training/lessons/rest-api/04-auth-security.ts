@@ -4,21 +4,21 @@ export const lesson: Lesson = {
   id: "rest-api-04",
   skillId: "rest-api",
   order: 4,
-  title: "API Authentication & Security",
+  title: "API-аутентификация и безопасность",
   subtitle:
-    "API keys, OAuth 2.0, JWT structure, Bearer tokens, CORS, rate limits, validation, HTTPS, and OWASP-style API risks—what interviewers expect from a junior+/middle engineer on client projects.",
+    "Ключи API, OAuth 2.0, структура JWT, токены Bearer, CORS, ограничения скорости, проверка, HTTPS и риски API в стиле OWASP — то, что интервьюеры ожидают от инженера младшего и среднего уровня в клиентских проектах.",
   estimatedMinutes: 15,
   objectives: [
-    "Compare API keys, OAuth 2.0 authorization flows, and JWT-based Bearer authentication.",
-    "Explain CORS behavior at a high level and why browsers enforce it.",
-    "List core controls: HTTPS, input validation, rate limiting, and least-privilege scopes.",
-    "Recognize BOLA/IDOR and injection risks in API-heavy GenAI systems.",
+    "Сравните ключи API, потоки авторизации OAuth 2.0 и аутентификацию носителя на основе JWT.",
+    "Объясните поведение CORS на высоком уровне и почему браузеры его применяют.",
+    "Перечислите основные элементы управления: HTTPS, проверку ввода, ограничение скорости и области с наименьшими привилегиями.",
+    "Распознавайте риски BOLA/IDOR и внедрения в системах GenAI с большим количеством API.",
   ],
   content: [
     {
       type: "text",
       content:
-        "Securing APIs is non-negotiable when services front **PII**, **model prompts**, or **billing**. Authentication proves **who** is calling; authorization decides **what** they may do. Transport security (TLS), validation, and abuse controls (rate limits) complete the baseline for public and partner integrations—including agents that call tools on a user’s behalf.",
+        "Защита API не подлежит обсуждению, если службы используют **PII**, **подсказки модели** или **выставление счетов**. Аутентификация подтверждает, **кто** звонит; авторизация решает **что** они могут делать. Транспортная безопасность (TLS), проверка и контроль злоупотреблений (ограничения скорости) дополняют базовую основу для общедоступной и партнерской интеграции, включая агентов, вызывающих инструменты от имени пользователя.",
     },
     {
       type: "heading",
@@ -28,7 +28,7 @@ export const lesson: Lesson = {
     {
       type: "text",
       content:
-        "**API keys** identify a project or tenant. Simple to integrate (`X-API-Key` or query param—prefer headers). Weaknesses: long-lived secrets, coarse authorization, easy to leak in client-side code. Use keys for **server-to-server** calls; rotate and scope per environment (dev/stage/prod).",
+        "**Ключи API** идентифицируют проект или арендатора. Простота интеграции (X-API-Key или параметр запроса — предпочитают заголовки). Слабые стороны: долгоживущие секреты, грубая авторизация, легкость утечки в клиентском коде. Используйте ключи для вызовов **сервер-сервер**; вращение и область действия для каждой среды (dev/stage/prod).",
     },
     {
       type: "code",

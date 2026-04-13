@@ -4,38 +4,38 @@ export const lesson: Lesson = {
   id: "python-01",
   skillId: "python",
   order: 1,
-  title: "Python Basics: Syntax & Core Concepts",
+  title: "Основы Python: синтаксис и ключевые понятия",
   subtitle:
-    "Variables, types, control flow, and I/O — the foundation you will use in every GenAI script, notebook, and service.",
+    "Переменные, типы, управление потоком и ввод-вывод — база, которую вы будете использовать в каждом GenAI-скрипте, ноутбуке и сервисе.",
   estimatedMinutes: 20,
   objectives: [
-    "Declare variables and reason about Python’s dynamic typing and object references.",
-    "Use core types (int, float, str, bool), operators, and built-ins confidently.",
-    "Format strings and handle basic console input/output.",
-    "Write branching logic and loops with for, while, and range().",
+    "Объявлять переменные и рассуждать о динамической типизации Python и ссылках на объекты.",
+    "Уверенно использовать основные типы (int, float, str, bool), операторы и встроенные функции.",
+    "Форматировать строки и работать с простым вводом-выводом в консоль.",
+    "Писать ветвления и циклы с for, while и range().",
   ],
   content: [
     {
       type: "text",
       content:
-        "Python is the lingua franca of modern AI engineering: notebooks, SDKs (OpenAI, LangChain), and cloud runtimes all assume you can read and write idiomatic Python. This lesson builds the muscle memory you need before you touch libraries.",
+        "Python — общий язык современной инженерии ИИ: ноутбуки, SDK (OpenAI, LangChain) и облачные среды выполнения предполагают, что вы читаете и пишете идиоматичный Python. Этот урок формирует «мышечную память» до подключения библиотек.",
     },
     {
       type: "callout",
       variant: "info",
-      title: "How this maps to interviews",
+      title: "Как это связано с интервью",
       content:
-        "Screeners often ask you to implement small logic on a whiteboard or live editor: parse input, loop over data, guard edge cases. None of that works without solid basics.",
+        "На скринингах часто просят реализовать небольшую логику на доске или в живом редакторе: разобрать ввод, пройти по данным, обработать краевые случаи. Без прочных основ это не получится.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Variables, assignment, and types",
+      content: "Переменные, присваивание и типы",
     },
     {
       type: "text",
       content:
-        "You do not declare types at assignment time; names are bound to objects. Use meaningful names (snake_case for variables and functions per PEP 8). The built-in type() shows what you are working with at runtime.",
+        "Типы при присваивании не объявляютcя: имена привязываются к объектам. Используйте осмысленные имена (snake_case для переменных и функций по PEP 8). Встроенная type() показывает, с чем вы работаете во время выполнения.",
     },
     {
       type: "code",
@@ -54,21 +54,21 @@ print(type(is_active))     # <class 'bool'>`,
     {
       type: "tip",
       content:
-        "Prefer explicit conversions: int(\"10\"), float(\"3.14\"), str(404) — interviewers notice when you assume implicit coercion that Python does not provide (e.g. \"5\" + 3 is an error).",
+        "Предпочитайте явные преобразования: int(\"10\"), float(\"3.14\"), str(404) — интервьюеры замечают, когда вы предполагаете неявное приведение, которого в Python нет (например, \"5\" + 3 вызовет ошибку).",
     },
     {
       type: "heading",
       level: 2,
-      content: "Operators and useful built-ins",
+      content: "Операторы и полезные встроенные функции",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "Arithmetic: +, -, *, / (true division), // (floor division), % (modulo), ** (power).",
-        "Comparisons: ==, !=, <, <=, >, >= — they return bool.",
-        "Boolean logic: and, or, not (use them for clarity instead of nesting deeply).",
-        "Built-ins you will use constantly: len(), min(), max(), sum(), abs(), round(), sorted().",
+        "Арифметика: +, -, *, / (истинное деление), // (целочисленное деление), % (остаток), ** (степень).",
+        "Сравнения: ==, !=, <, <=, >, >= — они возвращают bool.",
+        "Логика: and, or, not (используйте для ясности вместо глубокой вложенности).",
+        "Встроенные функции, которые постоянно нужны: len(), min(), max(), sum(), abs(), round(), sorted().",
       ],
     },
     {
@@ -79,17 +79,17 @@ print(type(is_active))     # <class 'bool'>`,
 average = sum(scores) / len(scores)
 highest = max(scores)
 rounded_avg = round(average, 1)
-print(f"Average: {rounded_avg}, best: {highest}")`,
+print(f"Среднее: {rounded_avg}, лучший результат: {highest}")`,
     },
     {
       type: "heading",
       level: 2,
-      content: "Strings and formatting",
+      content: "Строки и форматирование",
     },
     {
       type: "text",
       content:
-        "Strings are immutable sequences. Slicing s[start:stop:step] is inclusive of start and exclusive of stop. For production and interview code, f-strings are the default choice for readability.",
+        "Строки — неизменяемые последовательности. Срез s[start:stop:step] включает start и не включает stop. В продакшене и на интервью по умолчанию используйте f-строки ради читаемости.",
     },
     {
       type: "code",
@@ -97,46 +97,46 @@ print(f"Average: {rounded_avg}, best: {highest}")`,
       filename: "strings.py",
       code: `name = "genai"
 version = 3.12
-# f-string (preferred)
-msg = f"Running {name} on Python {version}"
-# str.format for older codebases
-legacy = "Model: {}, temp: {:.2f}".format("gpt", 0.7)
-# multiline
-doc = """Line one
-Line two"""
+# f-строка (предпочтительно)
+msg = f"Запуск {name} на Python {version}"
+# str.format для старых кодовых баз
+legacy = "Модель: {}, температура: {:.2f}".format("gpt", 0.7)
+# многострочная строка
+doc = """Строка один
+Строка два"""
 print(msg)
 print(legacy)`,
     },
     {
       type: "heading",
       level: 2,
-      content: "Input and output",
+      content: "Ввод и вывод",
     },
     {
       type: "code",
       language: "python",
       filename: "io_cli.py",
-      code: `# input() always returns a str — convert if you need numbers
-raw = input("Enter batch size: ").strip()
+      code: `# input() всегда возвращает str — преобразуйте, если нужны числа
+raw = input("Введите размер батча: ").strip()
 batch_size = int(raw)
-print(f"Processing {batch_size} records")`,
+print(f"Обработка {batch_size} записей")`,
     },
     {
       type: "callout",
       variant: "warning",
-      title: "Production vs. interview",
+      title: "Продакшен и интервью",
       content:
-        "In real services you rarely use input(); you read from environment variables, HTTP bodies, or queues. In interviews, input() is common for \"read until EOF\" style problems — always validate and convert types.",
+        "В реальных сервисах input() почти не используют; читают переменные окружения, тела HTTP или очереди. На интервью input() часто встречается в задачах в стиле «читать до EOF» — всегда валидируйте и приводите типы.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Conditionals and loops",
+      content: "Условия и циклы",
     },
     {
       type: "text",
       content:
-        "if / elif / else evaluates conditions top to bottom. for iterates over any iterable (string, list, range, etc.). while repeats until the condition is false — mind infinite loops. range(stop), range(start, stop), and range(start, stop, step) are your main counting tools.",
+        "if / elif / else проверяют условия сверху вниз. for перебирает любой итерируемый объект (строку, список, range и т. д.). while повторяется, пока условие истинно — следите за бесконечными циклами. range(stop), range(start, stop) и range(start, stop, step) — основные инструменты для счётчиков.",
     },
     {
       type: "code",
@@ -144,41 +144,41 @@ print(f"Processing {batch_size} records")`,
       filename: "control_flow.py",
       code: `def classify_temperature(c: float) -> str:
     if c < 0:
-        return "freezing"
+        return "мороз"
     elif c < 15:
-        return "cold"
+        return "холодно"
     elif c < 25:
-        return "mild"
+        return "прохладно"
     else:
-        return "warm"
+        return "тепло"
 
-# Sum first n integers with range (1-based inclusive n)
+# Сумма первых n целых через range (включительно до n)
 n = 10
 total = 0
 for i in range(1, n + 1):
     total += i
 print(total)  # 55
 
-# while with guard
+# while с ограничителем
 remaining = 3
 while remaining > 0:
-    print(f"ticks left: {remaining}")
+    print(f"осталось тиков: {remaining}")
     remaining -= 1`,
     },
     {
       type: "diagram",
-      alt: "Flow from input through validation to loop processing",
+      alt: "Поток: ввод → проверка → цикл обработки",
       content: `flowchart TD
-  A[Read input as str] --> B{Valid number?}
-  B -->|no| C[Prompt or default]
-  B -->|yes| D[Convert to int/float]
-  D --> E[for / while over work]
-  E --> F[Output result]`,
+  A[Читаем ввод как str] --> B{Корректное число?}
+  B -->|нет| C[Запрос повторно или значение по умолчанию]
+  B -->|да| D[Преобразуем в int/float]
+  D --> E[for / while по работе]
+  E --> F[Вывод результата]`,
     },
     {
       type: "heading",
       level: 3,
-      content: "Quick pattern: accumulate in a loop",
+      content: "Быстрый приём: накопление в цикле",
     },
     {
       type: "code",
@@ -196,94 +196,94 @@ print(count_vowels("Accenture"))  # 4`,
     },
   ],
   keyTakeaways: [
-    "Python binds names to objects; use type() and explicit conversions instead of guessing.",
-    "f-strings are the clearest way to build messages; remember strings are immutable.",
-    "range() is half-open on the end — use range(1, n + 1) for 1..n inclusive.",
-    "input() returns str; validate before int()/float() to avoid crashes on bad data.",
+    "В Python имена привязаны к объектам; используйте type() и явные преобразования вместо догадок.",
+    "f-строки — самый ясный способ собрать сообщение; помните, что строки неизменяемы.",
+    "У range() правая граница не включается — для 1..n используйте range(1, n + 1).",
+    "input() возвращает str; валидируйте перед int()/float(), иначе при плохих данных будет ValueError.",
   ],
   interviewTips: [
-    "State assumptions aloud (empty input, negative n, Unicode) — interviewers reward systematic thinking.",
-    "Mention time complexity when you loop: O(n) over n characters or items is expected vocabulary.",
-    "If stuck, start with a working brute-force loop; optimize after it runs.",
-    "Use snake_case and clear names; avoid single-letter variables except in tiny scopes like loop indices.",
+    "Проговаривайте допущения вслух (пустой ввод, отрицательное n, Unicode) — за системность на интервью хвалят.",
+    "Называйте сложность по времени при циклах: O(n) по символам или элементам — ожидаемый словарь.",
+    "Если застряли, начните с работающего перебора «в лоб»; оптимизируйте после того, как код запускается.",
+    "Используйте snake_case и понятные имена; избегайте однобуквенных переменных кроме крошечных областей вроде индексов цикла.",
   ],
   exercises: [
     {
       type: "multiple-choice",
       id: "py01-mc-types",
       question:
-        "What is the type of the expression 10 / 2 in Python 3, and why?",
+        "Каков тип выражения 10 / 2 в Python 3 и почему?",
       options: [
-        "int, because both operands are integers",
-        "float, because / performs true division and always returns float in Python 3",
-        "str, because division coerces to string for display",
-        "bool, because comparison operators return boolean",
+        "int, потому что оба операнда целые",
+        "float, потому что / — истинное деление и в Python 3 всегда возвращает float",
+        "str, потому что деление приводит к строке для вывода",
+        "bool, потому что операторы сравнения возвращают логическое значение",
       ],
       correctIndex: 1,
       explanation:
-        "The / operator is true division in Python 3; it returns a float even when the mathematical result is whole (e.g. 10 / 2 → 5.0). Use // for floor division if you need an int.",
+        "Оператор / в Python 3 — истинное деление; возвращается float даже если математически результат целый (например, 10 / 2 → 5.0). Для целочисленного деления используйте //.",
       interviewNote:
-        "Mention // vs / unprompted — it signals you have debugged numeric bugs in real code.",
+        "Сами упомяните разницу // и / — это показывает, что вы ловили числовые баги в реальном коде.",
     },
     {
       type: "code-completion",
       id: "py01-cc-range",
       question:
-        "The following loop should print squares 1, 4, 9, …, 100 (1² through 10²). Fill in the range so the loop variable i runs from 1 to 10 inclusive.",
+        "Следующий цикл должен печатать квадраты 1, 4, 9, …, 100 (1²…10²). Допишите range так, чтобы переменная цикла i шла от 1 до 10 включительно.",
       codeTemplate: `for i in range(________):
     print(i * i)`,
       language: "python",
       correctAnswer: "1, 11",
       acceptableAnswers: ["1,11"],
       explanation:
-        "range(start, stop) excludes stop, so range(1, 11) yields 1..10. range(11) alone would start at 0.",
+        "У range(start, stop) правая граница не включается, поэтому range(1, 11) даёт 1..10. Один range(11) начнётся с 0.",
       interviewNote:
-        "Off-by-one errors in range() are a classic live-coding trap; narrate \"stop is exclusive\" as you type.",
+        "Ошибки «на единицу» в range() — классическая ловушка живого кодинга; проговаривайте «стоп не включается», пока печатаете.",
     },
     {
       type: "ordering",
       id: "py01-ord-execution",
       question:
-        "Order these steps for safely reading an integer from user input in a CLI script (top = first).",
+        "Упорядочьте шаги безопасного чтения целого из пользовательского ввода в CLI-скрипте (сверху — первый шаг).",
       items: [
-        "Convert using int() after validation",
-        "Print result or continue program logic",
-        "Read a line with input() and strip whitespace",
-        "Check the string is non-empty and represents digits (or handle sign)",
+        "Преобразовать через int() после проверки",
+        "Напечатать результат или продолжить логику программы",
+        "Прочитать строку через input() и убрать пробелы (strip)",
+        "Проверить, что строка не пустая и представляет цифры (или обработать знак)",
       ],
       correctOrder: [2, 3, 0, 1],
       explanation:
-        "Typical flow: read → strip → validate string form → int() → use. Skipping validation before int() raises ValueError on bad input.",
+        "Типичный порядок: чтение → strip → проверка формата строки → int() → использование. Пропуск проверки перед int() даёт ValueError при плохом вводе.",
       interviewNote:
-        "In GenAI tooling you swap input() for JSON or API payloads, but the same idea applies: validate then parse.",
+        "В GenAI-инструментах вместо input() приходят JSON или API, но идея та же: сначала валидация, потом разбор.",
     },
     {
       type: "true-false",
       id: "py01-tf-immutable-str",
       statement:
-        "In Python, if x and y are both strings, the expression x + y mutates the object bound to x in place.",
+        "В Python, если x и y — строки, выражение x + y изменяет объект, привязанный к x, на месте.",
       correct: false,
       explanation:
-        "Strings are immutable. x + y creates a new str object; x is unchanged unless you reassign x = x + y.",
+        "Строки неизменяемы. x + y создаёт новый объект str; x не меняется, пока вы не переприсвоите x = x + y.",
       interviewNote:
-        "Immutability matters for hashing, concurrency, and avoiding accidental shared-state bugs.",
+        "Неизменяемость важна для хеширования, параллелизма и защиты от случайного общего состояния.",
     },
     {
       type: "scenario",
       id: "py01-sc-fizz",
       scenario:
-        "You have 90 seconds in a live interview to print numbers 1 through 30, but replace multiples of 3 with \"Fizz\", multiples of 5 with \"Buzz\", and multiples of both with \"FizzBuzz\".",
+        "У вас 90 секунд на живом интервью: напечатать числа от 1 до 30, но кратные 3 заменить на «Fizz», кратные 5 — на «Buzz», кратные обоим — на «FizzBuzz».",
       question:
-        "Outline the minimal branching structure you would write and which condition you check first.",
+        "Опишите минимальную структуру ветвлений и какое условие проверять первым.",
       sampleAnswer:
-        "Use a loop for i in range(1, 31). Build output: if i % 15 == 0 print FizzBuzz; elif i % 3 == 0 print Fizz; elif i % 5 == 0 print Buzz; else print i. Checking 15 first avoids wrong double matches.",
+        "Цикл for i in range(1, 31). Формируем вывод: если i % 15 == 0 — печатаем FizzBuzz; elif i % 3 == 0 — Fizz; elif i % 5 == 0 — Buzz; иначе — i. Сначала проверяем 15, чтобы не ошибиться с двойным совпадением.",
       keyPoints: [
-        "Use modulo (%) for divisibility.",
-        "Test the combined condition (LCM of 3 and 5) before individual factors.",
-        "Keep the loop bounds inclusive with range(1, 31).",
+        "Использовать % для проверки делимости.",
+        "Проверять объединённое условие (НОК 3 и 5) раньше отдельных множителей.",
+        "Границы цикла включительно: range(1, 31).",
       ],
       interviewNote:
-        "FizzBuzz is still used to filter for basic fluency — deliver it calmly and mention you could extract helpers for readability in production.",
+        "FizzBuzz до сих пор проверяет базовую сноровку — решайте спокойно и скажите, что в продакшене можно вынести в функции ради читаемости.",
     },
   ],
 };

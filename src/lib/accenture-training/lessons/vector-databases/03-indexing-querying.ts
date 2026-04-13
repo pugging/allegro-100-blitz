@@ -4,86 +4,86 @@ export const lesson: Lesson = {
   id: "vector-databases-03",
   skillId: "vector-databases",
   order: 3,
-  title: "Indexing Algorithms & Querying",
+  title: "Алгоритмы индексирования и запросы",
   subtitle:
-    "From exhaustive search to ANN: HNSW, IVF, product quantization, FAISS, and how metadata filters interact with latency and recall.",
+    "От исчерпывающего поиска до ANN: HNSW, IVF, квантование произведения, FAISS и то, как фильтры метаданных взаимодействуют с задержкой и отзывом.",
   estimatedMinutes: 15,
   objectives: [
-    "Explain brute-force k-NN vs. approximate nearest neighbor (ANN) and why ANN dominates at scale.",
-    "Describe HNSW, IVF, and PQ at a conceptual level and their build/query tradeoffs.",
-    "Use FAISS as a reference mental model for composing indexes in research and tooling.",
-    "Reason about metadata filtering, hybrid queries, and scaling sharding/replication.",
+    "Объясните грубую силу k-NN в сравнении с приблизительным ближайшим соседом (ANN) и почему ANN доминирует в масштабе.",
+    "Описать HNSW, IVF и PQ на концептуальном уровне и их компромиссы при сборке/запросе.",
+    "Используйте FAISS в качестве эталонной ментальной модели для составления индексов в исследованиях и инструментах.",
+    "Рассуждения о фильтрации метаданных, гибридных запросах и масштабировании сегментирования/репликации.",
   ],
   content: [
     {
       type: "text",
       content:
-        "Given a query vector **q** and **n** database vectors, **exact** k-nearest neighbors compares **q** to every vector—O(n·d) per query with naive linear algebra. When n reaches millions or billions, full scan is too slow. **Approximate nearest neighbor (ANN)** algorithms return neighbors in sublinear time with high probability, trading a small amount of recall for large latency wins.",
+        "Учитывая вектор запроса **q** и **n** векторы базы данных, **точные** k-ближайшие соседи сравнивают **q** с каждым вектором — O(n·d) на запрос с помощью наивной линейной алгебры. Когда n достигает миллионов или миллиардов, полное сканирование выполняется слишком медленно. **Алгоритмы приблизительного ближайшего соседа (ANN)** возвращают соседей в сублинейном времени с высокой вероятностью, обменивая небольшой объем отзыва на выигрыш с большой задержкой.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Brute force vs. ANN",
+      content: "Грубая сила против ИНС",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**Brute force:** Simple, 100% recall (within floating error), best for tiny corpora or exact audits.",
-        "**ANN:** Graph-based (HNSW), tree/cluster (IVF), hashing (LSH families), or combinations—tuned via parameters and training data.",
+        "**Грубая сила:** Простой, 100 % отзыв (в пределах плавающей ошибки), лучше всего подходит для небольших корпораций или точных проверок.",
+        "**ANN:** На основе графа (HNSW), дерева/кластера (IVF), хеширования (семейства LSH) или комбинаций — настраивается с помощью параметров и данных обучения.",
       ],
     },
     {
       type: "callout",
       variant: "info",
-      title: "What you measure",
+      title: "Что вы измеряете",
       content:
-        "Teams track **recall@k** (did the true top-k appear?), **latency p50/p95**, **QPS**, and **index build time**. A stunning p50 with terrible p95 fails SLA-sensitive apps.",
+        "Команды отслеживают **recall@k** ​​(появился ли настоящий топ-k?), **задержку p50/p95**, **QPS** и **время построения индекса**. Потрясающий p50 с ужасным p95 не справляется с приложениями, чувствительными к SLA.",
     },
     {
       type: "heading",
       level: 2,
-      content: "HNSW (Hierarchical Navigable Small World)",
+      content: "HNSW (Иерархический навигационный малый мир)",
     },
     {
       type: "text",
       content:
-        "HNSW builds a **multi-layer graph**: upper layers are sparse long jumps for coarse navigation; lower layers are dense for fine search. Query starts at an entry point, greedily moves to closer neighbors, then refines—like subway lines plus local streets. **efConstruction** (build) and **efSearch** (query) control accuracy vs. speed.",
+        "HNSW строит **многослойный график**: верхние слои представляют собой редкие длинные прыжки для грубой навигации; нижние слои плотны для точного поиска. Запрос начинается с точки входа, жадно перемещается к более близким соседям, а затем уточняется — например, линии метро и местные улицы. **efConstruction** (сборка) и **efSearch** (запрос) контролируют точность и скорость.",
     },
     {
       type: "tip",
       content:
-        "Many managed databases expose HNSW or variants under the hood. When tuning, increase efSearch until recall@k plateaus—then stop burning latency.",
+        "Многие управляемые базы данных скрыто предоставляют HNSW или его варианты. При настройке увеличивайте efSearch до тех пор, пока Recall@k не выйдет на плато, а затем прекратите сжигать задержку.",
     },
     {
       type: "heading",
       level: 2,
-      content: "IVF (Inverted File Index)",
+      content: "IVF (инвертированный файловый индекс)",
     },
     {
       type: "text",
       content:
-        "IVF **clusters** vectors (e.g., k-means with **nlist** centroids). At query time, you compare **q** to centroids and search only the **nprobe** closest clusters—reducing comparisons dramatically. Higher **nprobe** improves recall but increases work per query.",
+        "Векторы ЭКО **кластеры** (например, k-средние с центроидами **nlist**). Во время запроса вы сравниваете **q** с центроидами и выполняете поиск только в ближайших кластерах **nprobe**, что значительно сокращает количество сравнений. Более высокое значение **nprobe** улучшает отзыв, но увеличивает объем работы на запрос.",
     },
     {
       type: "heading",
       level: 2,
-      content: "PQ (Product Quantization)",
+      content: "PQ (квантование продукта)",
     },
     {
       type: "text",
       content:
-        "PQ splits each d-dimensional vector into subvectors, each quantized to a small codebook. Stored vectors become compact **codes**; distances are **asymmetric** (ADC): quantize the query less aggressively and approximate DB distances via lookup tables. PQ slashes memory footprint and speeds distance estimates at the cost of accuracy.",
+        "PQ разбивает каждый d-мерный вектор на подвекторы, каждый из которых квантуется в небольшую кодовую книгу. Сохраненные векторы становятся компактными **кодами**; расстояния **асимметричны** (ADC): менее агрессивно квантовайте запрос и приближайте расстояния БД с помощью справочных таблиц. PQ сокращает объем памяти и ускоряет оценку расстояния за счет точности.",
     },
     {
       type: "heading",
       level: 2,
-      content: "FAISS (Facebook AI Similarity Search)",
+      content: "FAISS (поиск сходства с помощью искусственного интеллекта в Facebook)",
     },
     {
       type: "text",
       content:
-        "FAISS is a library, not a database—it composes **Index** objects (Flat, IVF, HNSW) with optional PQ or scalar quantizers. Researchers and engineers use it for benchmarks, on-prem GPU search, and understanding how parameters interact.",
+        "FAISS — это библиотека, а не база данных. Она состоит из объектов **Index** (Flat, IVF, HNSW) с дополнительными PQ или скалярными квантователями. Исследователи и инженеры используют его для тестов, поиска на локальном графическом процессоре и понимания взаимодействия параметров.",
     },
     {
       type: "code",

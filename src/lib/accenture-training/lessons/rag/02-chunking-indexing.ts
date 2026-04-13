@@ -4,82 +4,82 @@ export const lesson: Lesson = {
   id: "rag-02",
   skillId: "rag",
   order: 2,
-  title: "Document Chunking & Indexing",
+  title: "Разделение документов на части и индексирование",
   subtitle:
-    "From messy files to searchable vectors: loaders, chunking strategies, metadata, embeddings, and vector-store indexing with LangChain-style Python.",
+    "От беспорядочных файлов до векторов с возможностью поиска: загрузчики, стратегии фрагментирования, метаданные, встраивания и индексирование векторного хранилища с помощью Python в стиле LangChain.",
   estimatedMinutes: 16,
   objectives: [
-    "Choose document loaders for PDF, HTML, and Markdown sources.",
-    "Compare fixed-size, recursive, and semantic chunking and their tradeoffs.",
-    "Tune chunk size and overlap for recall vs precision and token budgets.",
-    "Explain metadata extraction and how it powers filtering and citations.",
-    "Outline embedding generation and indexing into a vector store.",
+    "Выбирайте загрузчики документов для источников PDF, HTML и Markdown.",
+    "Сравните фрагментирование фиксированного размера, рекурсивное и семантическое фрагментирование и их компромиссы.",
+    "Настройте размер фрагмента и перекрытие для соответствия отзыву, точности и бюджетам токенов.",
+    "Объясните извлечение метаданных и как оно обеспечивает фильтрацию и цитирование.",
+    "Описать генерацию и индексацию встраивания в векторное хранилище.",
   ],
   content: [
     {
       type: "text",
       content:
-        "Retrieval quality is often capped by how you **cut** documents. Chunks that are too large dilute embeddings with unrelated ideas; chunks too small lose cross-sentence context. Loaders get text out of files; chunkers shape what the embedder actually sees.",
+        "Качество поиска часто ограничивается тем, как вы **обрезаете** документы. Слишком большие фрагменты разбавляют вложения несвязанными идеями; слишком маленькие фрагменты теряют контекст перекрестного предложения. Загрузчики извлекают текст из файлов; Чанкеры формируют то, что на самом деле видит специалист по внедрению.",
     },
     {
       type: "callout",
       variant: "info",
-      title: "Why interviewers care",
+      title: "Почему интервьюеров это волнует",
       content:
-        "Junior/Mid candidates should move past \"we use 512 tokens\" to reasoning: overlap reduces boundary cuts, headings/metadata improve filters, and the embedding model’s max sequence length constrains effective chunk size.",
+        "Кандидатам младшего/среднего уровня следует отказаться от фразы «мы используем 512 токенов» и рассуждать: перекрытие уменьшает границы границ, заголовки/метаданные улучшают фильтры, а максимальная длина последовательности модели внедрения ограничивает эффективный размер фрагмента.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Document loaders",
+      content: "Загрузчики документов",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "PDF: layout noise (headers, footers, columns)—often needs cleanup or OCR for scans.",
-        "HTML: strip scripts/styles; preserve headings and links as metadata when useful.",
-        "Markdown: structure is explicit (# headers, lists)—great for hierarchical chunking.",
+        "PDF: шум макета (верхние, нижние колонтитулы, столбцы) — при сканировании часто требуется очистка или распознавание текста.",
+        "HTML: удалить сценарии/стили; сохраняйте заголовки и ссылки как метаданные, когда они полезны.",
+        "Markdown: структура явная (# заголовков, списков) — отлично подходит для иерархического разбиения на фрагменты.",
       ],
     },
     {
       type: "heading",
       level: 2,
-      content: "Chunking strategies",
+      content: "Стратегии дробления",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "Fixed-size: split every N characters or tokens—simple, fast, can break mid-sentence or mid-table.",
-        "Recursive: split on a hierarchy of separators (\\n\\n, \\n, space) to keep paragraphs and lines intact longer.",
-        "Semantic: embed sentences/paragraphs and merge or split where embedding distance jumps—adapts to content but costs more compute.",
+        "Фиксированный размер: разделяйте каждые N символов или токенов — просто, быстро, можно разбить в середине предложения или в середине таблицы.",
+        "Рекурсивный: разделение по иерархии разделителей (\\\n\\\n, \\\n, пробел), чтобы дольше сохранять абзацы и строки неповрежденными.",
+        "Семантика: встраивайте предложения/абзацы и объединяйте или разделяйте их при резком скачке расстояния встраивания — адаптируется к содержимому, но требует больше вычислений.",
       ],
     },
     {
       type: "heading",
       level: 3,
-      content: "Chunk size vs overlap",
+      content: "Размер фрагмента и перекрытие",
     },
     {
       type: "text",
       content:
-        "Larger chunks improve **context completeness** but hurt embedding specificity and inflate prompt cost. **Overlap** (e.g. 10–20% of chunk length) reduces the chance that a critical sentence sits on a cut boundary. Tune with retrieval evals, not guesses alone.",
+        "Большие фрагменты улучшают **полноту контекста**, но ухудшают специфичность встраивания и увеличивают стоимость быстрого реагирования. **Перекрытие** (например, 10–20 % длины фрагмента) снижает вероятность того, что критическое предложение окажется на границе обрезки. Настраивайтесь с помощью поисковых оценок, а не только догадок.",
     },
     {
       type: "tip",
       content:
-        "If tables or code appear often, consider chunking rules per doc type (Markdown code fences, HTML <pre>, PDF table heuristics) instead of one global splitter.",
+        "Если таблицы или код появляются часто, рассмотрите возможность разделения правил по типам документов (ограждения кода Markdown, HTML <pre>, эвристика таблиц PDF) вместо одного глобального разделителя.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Metadata extraction",
+      content: "Извлечение метаданных",
     },
     {
       type: "text",
       content:
-        "Attach structured fields to each chunk: `source`, `page`, `section`, `author`, `updated_at`, ACL tags for multi-tenant filters. Metadata enables **pre-filtering** before vector search (e.g. only \"2024\" policies) and richer citations in the UI.",
+        "Прикрепите структурированные поля к каждому чанку: `source`, `page`, `section`, `author`, `updated_at`, теги ACL для многопользовательских фильтров. Метаданные обеспечивают **предварительную фильтрацию** перед векторным поиском (например, только политики «2024») и более подробное цитирование в пользовательском интерфейсе.",
     },
     {
       type: "heading",

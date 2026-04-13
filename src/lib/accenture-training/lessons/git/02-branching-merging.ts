@@ -4,37 +4,37 @@ export const lesson: Lesson = {
   id: "git-02",
   skillId: "git",
   order: 2,
-  title: "Branching, Merging & Rebasing",
+  title: "Ветвление, слияние и rebase",
   subtitle:
-    "Isolate work on branches, integrate changes with merge or rebase, resolve conflicts, and use stash and cherry-pick safely.",
+    "Изолируйте работу в ветках, интегрируйте изменения через merge или rebase, разрешайте конфликты, безопасно используйте stash и cherry-pick.",
   estimatedMinutes: 15,
   objectives: [
-    "Create and switch branches for parallel feature and experiment work.",
-    "Compare merge and rebase and know when each is appropriate on shared branches.",
-    "Resolve merge conflicts using status, diff, and markers in files.",
-    "Explain fast-forward vs three-way merge outcomes.",
-    "Use git stash and cherry-pick for focused, reversible workflows.",
+    "Создавать и переключать ветки для параллельной разработки фич и экспериментов.",
+    "Сравнивать merge и rebase и знать, когда что уместно на общих ветках.",
+    "Разрешать конфликты слияния через status, diff и маркеры в файлах.",
+    "Объяснять результат fast-forward и three-way merge.",
+    "Использовать git stash и cherry-pick для сфокусированных обратимых сценариев.",
   ],
   content: [
     {
       type: "heading",
       level: 2,
-      content: "Why branches exist",
+      content: "Зачем нужны ветки",
     },
     {
       type: "text",
       content:
-        "A **branch** is a movable pointer to a commit. Branches let you work on a new RAG retriever, a prompt tweak, or a bugfix **without destabilizing** `main`. When the work is reviewed and tested, you integrate it back. On client projects, branches map to tickets, PRs, or release trains.",
+        "**Ветка** — подвижный указатель на коммит. Ветки позволяют работать над новым ретривером RAG, правкой промпта или исправлением бага **без destabilизации** `main`. После ревью и тестов изменения вливают обратно. На клиентских проектах ветки привязаны к тикетам, PR или релизным поездам.",
     },
     {
       type: "heading",
       level: 3,
-      content: "Creating and switching branches",
+      content: "Создание и переключение веток",
     },
     {
       type: "text",
       content:
-        "`git branch` lists branches; `git branch feature/foo` creates a branch pointing at the current commit. `git switch feature/foo` (or older `git checkout feature/foo`) moves HEAD to that branch. `git switch -c feature/foo` creates and switches in one step.",
+        "`git branch` перечисляет ветки; `git branch feature/foo` создаёт ветку на текущем коммите. `git switch feature/foo` (или старый `git checkout feature/foo`) переносит HEAD на эту ветку. `git switch -c feature/foo` создаёт и переключает за один шаг.",
     },
     {
       type: "code",
@@ -44,32 +44,32 @@ export const lesson: Lesson = {
 git pull origin main
 git switch -c feature/rag-hybrid-search
 
-# ... commit work ...
+# ... коммиты ...
 
 git switch main`,
     },
     {
       type: "callout",
       variant: "info",
-      title: "Naming conventions",
+      title: "Соглашения об именах",
       content:
-        "Common patterns: `feature/`, `fix/`, `chore/`, `docs/` prefixes; include ticket IDs when the org uses Jira/Azure Boards (`feature/ABC-123-hybrid-search`). Consistency beats clever names.",
+        "Частые шаблоны: префиксы `feature/`, `fix/`, `chore/`, `docs/`; при Jira/Azure Boards — ID тикета (`feature/ABC-123-hybrid-search`). Последовательность важнее «умных» имён.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Merging: fast-forward vs three-way",
+      content: "Слияние: fast-forward и three-way",
     },
     {
       type: "text",
       content:
-        "**Merge** combines histories. **Fast-forward**: if `main` has no new commits since your branch split off, Git can move `main` forward to your tip—linear history, no merge commit. **Three-way merge**: if both branches moved, Git finds a common ancestor and builds a merge commit with two parents. That preserves the true parallel history.",
+        "**Merge** объединяет истории. **Fast-forward**: если с момента ответвления `main` не двигался, Git может просто продвинуть `main` до конца вашей ветки — линейная история, без merge-коммита. **Three-way merge**: если обе ветки двигались, Git находит общего предка и создаёт merge-коммит с двумя родителями. Так сохраняется параллельная история.",
     },
     {
       type: "diagram",
-      alt: "Fast-forward vs merge commit",
+      alt: "Fast-forward и merge-коммит",
       content:
-        "Fast-forward:\\n  main: A---B\\n  feature:     C\\n  After merge: A---B---C (main moved to C)\\n\\nThree-way:\\n  main:    A---B---M (merge commit)\\n  feature: A---X---Y---/\\n  Common ancestor: A or B as appropriate",
+        "Fast-forward:\\n  main: A---B\\n  feature:     C\\n  После merge: A---B---C (main на C)\\n\\nThree-way:\\n  main:    A---B---M (merge-коммит)\\n  feature: A---X---Y---/\\n  Общий предок: A или B по ситуации",
     },
     {
       type: "code",
@@ -78,21 +78,21 @@ git switch main`,
       code: `git switch main
 git merge feature/rag-hybrid-search
 
-# If you prefer always creating a merge commit (no FF):
+# Всегда создать merge-коммит (без FF):
 # git merge --no-ff feature/rag-hybrid-search`,
     },
     {
       type: "heading",
       level: 2,
-      content: "Rebase vs merge",
+      content: "Rebase и merge",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**Merge** keeps a branched history; safe default for shared branches and for beginners.",
-        "**Rebase** replays your commits on top of another branch, producing a **linear** sequence. It **rewrites** commit SHAs for the rebased commits.",
-        "Rule of thumb: **do not rebase commits already pushed** that others might have based work on. Rebase local commits before opening a PR if your team prefers linear history.",
+        "**Merge** сохраняет разветвлённую историю; безопасный вариант по умолчанию для общих веток и для начинающих.",
+        "**Rebase** переносит ваши коммиты поверх другой ветки, получая **линейную** последовательность. Он **переписывает** SHA у переносимых коммитов.",
+        "Правило: **не делайте rebase уже запушенных коммитов**, от которых могли ответвиться другие. Локально можно rebase перед открытием PR, если команда любит линейную историю.",
       ],
     },
     {
@@ -103,27 +103,27 @@ git merge feature/rag-hybrid-search
 git fetch origin
 git rebase origin/main
 
-# If conflicts: fix files, then
-# git add <file>
+# При конфликтах: правите файлы, затем
+# git add <файл>
 # git rebase --continue
-# To abort: git rebase --abort`,
+# Отмена: git rebase --abort`,
     },
     {
       type: "callout",
       variant: "warning",
-      title: "Shared branch discipline",
+      title: "Дисциплина на общих ветках",
       content:
-        "Rebasing `main` or a branch your teammates use, after they pulled your old SHAs, causes duplicate commits and painful recovery. When unsure, merge.",
+        "Rebase `main` или ветки, которой пользуются коллеги после того, как они подтянули старые SHA, даёт дубликаты коммитов и больное восстановление. Если сомневаетесь — merge.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Merge conflicts",
+      content: "Конфликты слияния",
     },
     {
       type: "text",
       content:
-        "Conflicts happen when Git cannot auto-combine edits. You will see `<<<<<<<`, `=======`, `>>>>>>>` markers in files (or conflict markers in JSON/YAML—be careful). Process: `git status` lists **unmerged** paths; open each file, decide the correct combined content, remove markers, `git add` the file, then `git merge --continue` or `git commit` (merge) / `git rebase --continue` (rebase).",
+        "Конфликт — когда Git не может автоматически совместить правки. В файлах появятся маркеры `<<<<<<<`, `=======`, `>>>>>>>` (в JSON/YAML — осторожно). Порядок: `git status` показывает **unmerged** пути; открыть файл, собрать итоговое содержимое, убрать маркеры, `git add`, затем `git merge --continue` или `git commit` (merge) / `git rebase --continue` (rebase).",
     },
     {
       type: "code",
@@ -133,14 +133,14 @@ git rebase origin/main
 # CONFLICT (content): Merge conflict in src/config.yaml
 
 git status
-# fix file, then:
+# исправить файл, затем:
 git add src/config.yaml
 git merge --continue`,
     },
     {
       type: "tip",
       content:
-        "For GenAI repos, conflicts often hit `pyproject.toml`, lockfiles, or shared `prompts/*.md`. Resolve with the team’s source of truth—sometimes product owns prompts, platform owns dependencies.",
+        "В GenAI-репозиториях конфликты часто в `pyproject.toml`, lock-файлах или общих `prompts/*.md`. Сверяйтесь с тем, кто «источник правды» — иногда промпты ведёт продукт, зависимости — платформа.",
     },
     {
       type: "heading",
@@ -150,7 +150,7 @@ git merge --continue`,
     {
       type: "text",
       content:
-        "**Stash** saves a snapshot of dirty working directory (and optionally staged) state so you can switch branches clean. Use when you must jump to a hotfix but are mid-edit. `git stash push -m \"wip: tokenizer\"` saves; `git stash list` shows stack; `git stash pop` applies and removes the latest.",
+        "**Stash** сохраняет снимок «грязного» рабочего дерева (и опционально индекса), чтобы переключить ветку с чистым состоянием. Когда нужен хотфикс посреди правок. `git stash push -m \"wip: tokenizer\"` сохраняет; `git stash list` — стек; `git stash pop` применяет и убирает последний.",
     },
     {
       type: "code",
@@ -158,16 +158,16 @@ git merge --continue`,
       filename: "terminal",
       code: `git stash push -m "WIP: evaluation notebook"
 git switch hotfix/token-limit
-# ... work, commit ...
+# ... работа, коммит ...
 git switch -
 git stash pop`,
     },
     {
       type: "callout",
       variant: "info",
-      title: "Stash is local",
+      title: "Stash только локально",
       content:
-        "`git stash` does not push to the remote. It is not a substitute for commits when you need backup or sharing.",
+        "`git stash` не пушится на remote. Это не замена коммитам, если нужен бэкап или обмен с командой.",
     },
     {
       type: "heading",
@@ -177,7 +177,7 @@ git stash pop`,
     {
       type: "text",
       content:
-        "**Cherry-pick** applies the patch from an existing commit onto your current branch, creating a **new** commit with a new SHA. Useful to pull one bugfix from another branch without merging everything. Risk: you duplicate the same logical change in two branches if you later merge—communicate with the team.",
+        "**Cherry-pick** накладывает патч существующего коммита на текущую ветку, создавая **новый** коммит с новым SHA. Удобно перенести один фикс с другой ветки без полного merge. Риск: при последующем merge можно продублировать ту же логику — договаривайтесь с командой.",
     },
     {
       type: "code",
@@ -188,52 +188,52 @@ git cherry-pick abc1234`,
     },
   ],
   keyTakeaways: [
-    "Branches isolate work; merge or rebase integrates it—rebase rewrites history.",
-    "Fast-forward merges are linear; three-way merges record parallel development.",
-    "Resolve conflicts by editing files, removing markers, staging, and continuing the operation.",
-    "Stash is for short, local context switches—not for long-term backup.",
-    "Cherry-pick ports specific commits; coordinate to avoid duplicate fixes.",
+    "Ветки изолируют работу; merge или rebase вливают её — rebase переписывает историю.",
+    "Fast-forward даёт линейность; three-way merge фиксирует параллельную разработку.",
+    "Конфликты: правка файлов, снятие маркеров, индексация, продолжение операции.",
+    "Stash — для короткого локального переключения контекста, не для долгого бэкапа.",
+    "Cherry-pick переносит отдельные коммиты; согласуйте, чтобы не дублировать фиксы.",
   ],
   interviewTips: [
-    "State clearly: “I avoid rebasing shared public history.” That single sentence scores well.",
-    "Walk through conflict resolution: status → edit → add → continue.",
-    "Relate branches to PRs: one ticket, one branch, small diffs when possible.",
-    "If asked about Git Flow vs trunk-based, preview lesson 3—but know merge is universal.",
+    "Чётко скажите: «избегаю rebase уже опубликованной общей истории» — это хорошо заходит.",
+    "Проговорите разрешение конфликта: status → правка → add → continue.",
+    "Свяжите ветки с PR: один тикет — одна ветка, по возможности маленький diff.",
+    "Про Git Flow vs trunk-based — см. урок 3; merge универсален везде.",
   ],
   exercises: [
     {
       type: "scenario",
       id: "git-02-ex-01",
       scenario:
-        "`main` advanced while you worked on `feature/embeddings`. Your tech lead asks for a linear history on the PR. You have not pushed `feature/embeddings` yet, or only you use it.",
+        "`main` ушёл вперёд, пока вы работали в `feature/embeddings`. Тимлид просит линейную историю в PR. Вы ещё не пушили `feature/embeddings` или ею пользуетесь только вы.",
       question:
-        "Which integration approach do you prefer and what commands outline the happy path?",
+        "Какой подход к интеграции предпочтёте и какие команды описывают успешный путь?",
       sampleAnswer:
-        "Fetch latest `main`, then `git switch feature/embeddings` and `git rebase origin/main` (or merge `main` into the feature if the team forbids rebase). Resolve conflicts per file, `git add`, `git rebase --continue`. Force-push the feature branch only if already pushed (`git push --force-with-lease`) after confirming no one else branched from it.",
+        "Подтянуть актуальный `main`, затем `git switch feature/embeddings` и `git rebase origin/main` (или merge `main` в фичу, если rebase запрещён). Разрешить конфликты по файлам, `git add`, `git rebase --continue`. Force-push ветки фичи только если она уже была запушена — `git push --force-with-lease`, предварительно убедившись, что никто не ответвился от старых SHA.",
       keyPoints: [
-        "Rebase before push yields linear commits; merge preserves merge commits.",
-        "`--force-with-lease` is safer than `--force` when updating remote branches.",
-        "Team policy beats personal preference.",
+        "Rebase до push даёт линейные коммиты; merge сохраняет merge-коммиты.",
+        "`--force-with-lease` безопаснее `--force` при обновлении remote-ветки.",
+        "Политика команды важнее личных предпочтений.",
       ],
       interviewNote:
-        "Demonstrates you know rewrite implications and the safer force-push flag.",
+        "Показывает понимание последствий переписывания истории и более безопасного force-push.",
     },
     {
       type: "true-false",
       id: "git-02-ex-02",
       statement:
-        "A fast-forward merge can occur when the target branch has new commits after your feature branch was created.",
+        "Fast-forward merge возможен, когда в целевой ветке появились новые коммиты после создания вашей feature-ветки.",
       correct: false,
       explanation:
-        "Fast-forward happens when the target branch (e.g. `main`) **has not** moved forward from the merge-base to the tip of the branch being merged—Git can simply advance the pointer. If `main` has new commits, you typically need a merge commit or rebase first.",
+        "Fast-forward бывает, когда целевая ветка (например `main`) **не** двигалась относительно базы слияния до конца вливаемой ветки — Git просто двигает указатель. Если в `main` уже есть новые коммиты, обычно нужен merge-коммит или сначала rebase.",
       interviewNote:
-        "Tests the merge graph, not just command names.",
+        "Проверяют граф слияний, а не только названия команд.",
     },
     {
       type: "multiple-choice",
       id: "git-02-ex-03",
       question:
-        "During `git rebase`, you fix a conflict in `README.md`, run `git add README.md`. What is the correct next step?",
+        "Во время `git rebase` вы исправили конфликт в `README.md`, выполнили `git add README.md`. Что дальше?",
       options: [
         "`git commit -m \"fix conflict\"`",
         "`git rebase --continue`",
@@ -242,40 +242,40 @@ git cherry-pick abc1234`,
       ],
       correctIndex: 1,
       explanation:
-        "In a rebase, after staging resolved files, `git rebase --continue` resumes replaying commits. `git merge --abort` applies to merge, not rebase (use `git rebase --abort` to cancel).",
+        "При rebase после индексации исправленных файлов `git rebase --continue` продолжает перенос коммитов. `git merge --abort` относится к merge, не к rebase (для отмены rebase — `git rebase --abort`).",
       interviewNote:
-        "Mixing merge and rebase vocabulary is a red flag—precision matters.",
+        "Путаница терминов merge и rebase — красный флаг; важна точность.",
     },
     {
       type: "ordering",
       id: "git-02-ex-04",
       question:
-        "Order these steps to resolve a **merge** conflict and complete the merge (standard workflow).",
+        "Упорядочьте шаги разрешения **merge**-конфликта и завершения merge (стандартный поток).",
       items: [
-        "`git commit` (completes merge if all conflicts resolved)",
-        "Edit conflicted files to final content; remove conflict markers",
-        "`git status` to see unmerged paths",
-        "`git add` on each resolved file",
+        "`git commit` (завершает merge, если все конфликты сняты)",
+        "Отредактировать конфликтующие файлы до финального вида; убрать маркеры",
+        "`git status` — посмотреть unmerged пути",
+        "`git add` для каждого разрешённого файла",
       ],
       correctOrder: [2, 1, 3, 0],
       explanation:
-        "Inspect status, fix files, stage resolutions, then commit to finalize the merge (or `merge --continue` in merge flows that use it).",
+        "Сначала status, затем правки, индексация, затем commit для финализации merge (или `merge --continue` в соответствующих сценариях).",
       interviewNote:
-        "Shows procedural fluency under stress—similar to live pairing interviews.",
+        "Показывает уверенность в процедуре под давлением — как на парном интервью.",
     },
     {
       type: "code-completion",
       id: "git-02-ex-05",
       question:
-        "Complete the command to **abort** an in-progress rebase and return to the pre-rebase state.",
+        "Допишите команду, чтобы **прервать** текущий rebase и вернуться к состоянию до него.",
       codeTemplate: "git rebase ___",
       language: "bash",
       correctAnswer: "--abort",
       acceptableAnswers: ["--abort"],
       explanation:
-        "`git rebase --abort` stops the rebase and restores HEAD to the state before `git rebase` started.",
+        "`git rebase --abort` останавливает rebase и восстанавливает HEAD как до `git rebase`.",
       interviewNote:
-        "Knowing escape hatches signals you have debugged real rebases, not only read docs.",
+        "Знание «аварийных выходов» показывает, что вы отлаживали rebase вживую, а не только читали документацию.",
     },
   ],
 };

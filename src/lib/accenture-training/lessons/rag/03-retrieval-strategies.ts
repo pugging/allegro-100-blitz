@@ -4,69 +4,69 @@ export const lesson: Lesson = {
   id: "rag-03",
   skillId: "rag",
   order: 3,
-  title: "Retrieval Strategies",
+  title: "Стратегии поиска",
   subtitle:
-    "From naive top-k similarity to hybrid search, re-ranking, query transforms, and LangChain patterns like contextual compression and parent-document retrieval.",
+    "От наивного сходства top-k до гибридного поиска, повторного ранжирования, преобразования запросов и шаблонов LangChain, таких как контекстное сжатие и извлечение родительских документов.",
   estimatedMinutes: 16,
   objectives: [
-    "Explain similarity metrics (cosine, dot product) and when normalization matters.",
-    "Apply top-k retrieval and MMR to balance relevance vs diversity.",
-    "Describe hybrid keyword + semantic search and re-ranking.",
-    "Outline query transformation techniques (HyDE, multi-query) and contextual compression.",
-    "Contrast child-chunk retrieval with parent-document expansion for context.",
+    "Объясните метрики сходства (косинус, скалярное произведение) и когда нормализация имеет значение.",
+    "Примените поиск top-k и MMR, чтобы сбалансировать релевантность и разнообразие.",
+    "Опишите гибридное ключевое слово + семантический поиск и повторное ранжирование.",
+    "Опишите методы преобразования запросов (HyDE, многозапрос) и контекстное сжатие.",
+    "Сравните поиск дочерних фрагментов с раскрытием родительского документа для контекста.",
   ],
   content: [
     {
       type: "text",
       content:
-        "Retrieval is where many RAG systems win or lose. A strong embedding model with naive top-k can still return redundant passages or miss exact keywords (SKUs, legal cites). This lesson covers the toolbox you should be able to discuss in a technical interview.",
+        "Многие системы RAG выигрывают или проигрывают при извлечении данных. Сильная модель внедрения с наивным top-k все равно может возвращать избыточные отрывки или пропускать точные ключевые слова (SKU, юридические ссылки). В этом уроке рассматривается набор инструментов, который вы сможете обсудить на техническом собеседовании.",
     },
     {
       type: "callout",
       variant: "info",
-      title: "Mental model",
+      title: "Ментальная модель",
       content:
-        "Think in two phases: **recall** (get anything relevant into a candidate set) and **precision** (surface the best ordering for the LLM). Hybrid search improves recall; re-ranking improves precision.",
+        "Думайте в два этапа: **припоминание** (внесите все необходимое в набор кандидатов) и **точность** (выявление наилучшего порядка для LLM). Гибридный поиск улучшает запоминаемость; повторное ранжирование повышает точность.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Similarity search: cosine vs dot product",
+      content: "Поиск по сходству: косинус против скалярного произведения",
     },
     {
       type: "text",
       content:
-        "Embeddings are often **L2-normalized**, making **cosine similarity** equivalent to dot product up to scale. Dot product on unnormalized vectors favors longer texts. In interviews, say you check whether your provider normalizes outputs and whether inner-product indexes (e.g. some ANN configs) assume unit vectors.",
+        "Вложения часто **L2-нормализованы**, что делает **косинусное сходство** эквивалентным скалярному произведению в соответствующем масштабе. Скалярное произведение ненормализованных векторов предпочитает более длинные тексты. Предположим, на собеседованиях вы проверяете, нормализует ли ваш провайдер выходные данные и принимают ли индексы внутреннего продукта (например, некоторые конфигурации ИНС) единичные векторы.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Top-k retrieval",
+      content: "Поиск Top-k",
     },
     {
       type: "text",
       content:
-        "Given a query vector, retrieve the k nearest neighbors in embedding space. Small k saves tokens but risks missing evidence; large k adds noise and cost. Dynamic k (stop when similarity drops below a threshold) is a common refinement.",
+        "Учитывая вектор запроса, извлеките k ближайших соседей в пространстве внедрения. Маленький k сохраняет токены, но рискует пропустить доказательства; большое k увеличивает шум и стоимость. Динамический k (остановка, когда сходство падает ниже порогового значения) является распространенным уточнением.",
     },
     {
       type: "heading",
       level: 2,
-      content: "MMR (Maximal Marginal Relevance)",
+      content: "MMR (Максимальная предельная релевантность)",
     },
     {
       type: "text",
       content:
-        "MMR trades off **relevance to the query** against **diversity among selected docs**. It reduces five nearly identical chunks crowding the context window—useful when the corpus has heavy duplication (templated KB articles).",
+        "MMR сочетает **релевантность запросу** с **разнообразием выбранных документов**. Это уменьшает количество почти одинаковых фрагментов, переполняющих контекстное окно, что полезно, когда в корпусе имеется большое количество дубликатов (шаблоновые статьи базы знаний).",
     },
     {
       type: "heading",
       level: 2,
-      content: "Hybrid search",
+      content: "Гибридный поиск",
     },
     {
       type: "text",
       content:
-        "Combine **dense vectors** (semantic) with **sparse signals** (BM25, keyword). Dense search finds paraphrases; sparse finds exact tokens (error codes, SKUs). Fusion strategies include weighted score sum, reciprocal rank fusion (RRF), or letting a re-ranker consume both lists.",
+        "Объедините **плотные векторы** (семантические) с **разреженными сигналами** (BM25, ключевое слово). Плотный поиск находит перефразы; разреженный находит точные токены (коды ошибок, SKU). Стратегии объединения включают взвешенную сумму баллов, взаимное объединение рангов (RRF) или предоставление возможности повторному ранжированию использовать оба списка.",
     },
     {
       type: "heading",
@@ -76,41 +76,41 @@ export const lesson: Lesson = {
     {
       type: "text",
       content:
-        "First stage ANN retrieval is fast but approximate; a **cross-encoder** or dedicated re-ranker scores (query, passage) pairs more accurately on a short list (e.g. 50 → 8). Latency increases, so use two-stage patterns in production.",
+        "Поиск ИНС на первом этапе происходит быстро, но приблизительно; **кросс-кодер** или специальный инструмент для повторного ранжирования более точно оценивает пары (запрос, отрывок) в коротком списке (например, 50 → 8). Задержка увеличивается, поэтому используйте в производстве двухэтапные шаблоны.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Query transformation",
+      content: "Преобразование запроса",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "HyDE: generate a hypothetical document answering the query, embed that text, retrieve with it—helps short or abstract queries.",
-        "Multi-query: LLM rewrites the user question into several variants; retrieve for each and merge/dedupe—improves recall on ambiguous phrasing.",
-        "Step-back / decomposition: break complex questions into sub-queries for iterative retrieval (ties into agentic patterns).",
+        "HyDE: сгенерируйте гипотетический документ, отвечающий на запрос, вставьте этот текст, извлеките его с его помощью — помогает выполнять короткие или абстрактные запросы.",
+        "Мультизапрос: LLM переписывает вопрос пользователя на несколько вариантов; извлечение для каждого и объединение/дедупликация — улучшает запоминание неоднозначных фраз.",
+        "Шаг назад/декомпозиция: разбейте сложные вопросы на подзапросы для итеративного поиска (связывает их с агентными шаблонами).",
       ],
     },
     {
       type: "heading",
       level: 2,
-      content: "Contextual compression",
+      content: "Контекстное сжатие",
     },
     {
       type: "text",
       content:
-        "After retrieval, run a smaller model or heuristic to **compress** each passage to only sentences relevant to the query before stuffing the prompt. Cuts noise and tokens; adds latency and another failure surface—evaluate carefully.",
+        "После извлечения запустите меньшую модель или эвристику, чтобы **сжать** каждый отрывок так, чтобы остались только предложения, соответствующие запросу, прежде чем заполнять подсказку. Убирает шум и токены; добавляет задержку и еще одну поверхность отказа — оценивайте внимательно.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Parent document retriever",
+      content: "Средство извлечения родительских документов",
     },
     {
       type: "text",
       content:
-        "Embed **small child chunks** for precise retrieval, then replace or expand with the **parent** section/full document for generation. You get tight embeddings plus broader context for the LLM—classic fix for boundary effects without giant embeddings.",
+        "Встраивайте **небольшие дочерние фрагменты** для точного поиска, а затем заменяйте или расширяйте **родительский** раздел/полный документ для создания. Вы получаете плотные встраивания плюс более широкий контекст для LLM — классическое исправление граничных эффектов без гигантских вложений.",
     },
     {
       type: "code",

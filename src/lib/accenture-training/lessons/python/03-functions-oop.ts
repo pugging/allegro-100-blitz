@@ -4,26 +4,26 @@ export const lesson: Lesson = {
   id: "python-03",
   skillId: "python",
   order: 3,
-  title: "Functions, Classes & OOP",
+  title: "Функции, классы и ООП",
   subtitle:
-    "Composable functions and clear object models — how SDKs, agents, and services are structured in Python.",
+    "Композиция функций и понятные объектные модели — как в Python устроены SDK, агенты и сервисы.",
   estimatedMinutes: 20,
   objectives: [
-    "Define flexible functions with *args, **kwargs, and lambdas.",
-    "Explain decorators and common built-in decorators at a high level.",
-    "Model state with classes, inheritance, and special methods.",
-    "Use dataclasses and type hints to document intent for humans and tools.",
+    "Определять гибкие функции с *args, **kwargs и лямбдами.",
+    "Объяснять декораторы и распространённые встроенные декораторы на высоком уровне.",
+    "Моделировать состояние классами, наследованием и специальными методами.",
+    "Использовать датаклассы и аннотации типов, чтобы фиксировать намерение для людей и инструментов.",
   ],
   content: [
     {
       type: "text",
       content:
-        "GenAI codebases wrap HTTP clients, tool registries, and memory stores in classes. Functions glue pure transformations. Interviews often ask you to sketch a small class API (e.g. a RateLimiter or ToolRunner) — this lesson gives you the vocabulary.",
+        "В кодовых базах GenAI HTTP-клиенты, реестры инструментов и хранилища памяти оборачивают в классы. Функции склеивают чистые преобразования. На интервью часто просят набросать небольшой API класса (например, RateLimiter или ToolRunner) — этот урок даёт нужный словарь.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Function definitions and flexibility",
+      content: "Определение функций и гибкость",
     },
     {
       type: "code",
@@ -32,12 +32,12 @@ export const lesson: Lesson = {
       code: `from typing import Any
 
 def greet(name: str, *, polite: bool = True) -> str:
-    """Keyword-only polite flag after * prevents accidental position mix-ups."""
-    prefix = "Hello" if polite else "Yo"
+    """Флаг вежливости только по ключу после * снижает риск перепутать позиционные аргументы."""
+    prefix = "Здравствуйте" if polite else "Привет"
     return f"{prefix}, {name}!"
 
 def call_tool(tool_name: str, *args: Any, **kwargs: Any) -> dict[str, Any]:
-    """*args = positional extras, **kwargs = named extras (like many SDK calls)."""
+    """*args — лишние позиционные, **kwargs — именованные (как во многих вызовах SDK)."""
     return {"tool": tool_name, "args": args, "kwargs": kwargs}
 
 print(call_tool("search", "python", limit=10))`,
@@ -45,17 +45,17 @@ print(call_tool("search", "python", limit=10))`,
     {
       type: "tip",
       content:
-        "Unpacking at call sites: func(*list_args, **dict_kwargs) forwards parameters — common when wrapping libraries or building decorators.",
+        "Распаковка при вызове: func(*list_args, **dict_kwargs) пробрасывает параметры — типично при обёртке библиотек или написании декораторов.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Lambda and higher-order functions",
+      content: "Лямбды и функции высшего порядка",
     },
     {
       type: "text",
       content:
-        "Lambdas are single-expression anonymous functions. Use them for short callbacks (sorted(key=lambda x: x[1])). For anything longer, use def for readability and stack traces.",
+        "Лямбды — анонимные функции из одного выражения. Используйте для коротких колбэков (sorted(key=lambda x: x[1])). Если логика длиннее — пишите def ради читаемости и трассировок стека.",
     },
     {
       type: "code",
@@ -71,12 +71,12 @@ print(squared)`,
     {
       type: "heading",
       level: 2,
-      content: "Decorators",
+      content: "Декораторы",
     },
     {
       type: "text",
       content:
-        "A decorator is a callable that takes a function (or class) and returns a replacement — commonly used for logging, timing, access control, or registering handlers. @syntax applies the decorator at definition time.",
+        "Декоратор — вызываемый объект, который принимает функцию (или класс) и возвращает замену — часто для логирования, замера времени, контроля доступа или регистрации обработчиков. Синтаксис @ применяет декоратор в момент определения.",
     },
     {
       type: "code",
@@ -98,7 +98,7 @@ def timed(func: Callable[P, R]) -> Callable[P, R]:
             return func(*args, **kwargs)
         finally:
             elapsed = time.perf_counter() - start
-            print(f"{func.__name__} took {elapsed:.4f}s")
+            print(f"{func.__name__} заняла {elapsed:.4f} с")
 
     return wrapper
 
@@ -114,12 +114,12 @@ print(heavy(100_000))`,
       variant: "info",
       title: "functools.wraps",
       content:
-        "Always use @functools.wraps on wrapper functions so metadata (__name__, docstring) stays correct — debuggers and type checkers behave better.",
+        "Всегда используйте @functools.wraps на обёртках, чтобы метаданные (__name__, docstring) сохранялись — отладчики и проверка типов ведут себя предсказуемее.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Classes, inheritance, and common decorators",
+      content: "Классы, наследование и распространённые декораторы методов",
     },
     {
       type: "code",
@@ -128,14 +128,14 @@ print(heavy(100_000))`,
       code: `from __future__ import annotations
 
 class ModelClient:
-    """Minimal sketch of an LLM client boundary."""
+    """Минимальный эскиз границы клиента LLM."""
 
     def __init__(self, model_name: str, api_key: str) -> None:
         self.model_name = model_name
-        self._api_key = api_key  # convention: "internal"
+        self._api_key = api_key  # соглашение: «внутреннее»
 
     def complete(self, prompt: str, *, temperature: float = 0.2) -> str:
-        # Stub — real code would call an API (%-format avoids TS template brace clashes)
+        # Заглушка — в реальности вызов API (%-формат избегает конфликта с шаблонами TS)
         return "[%s @ T=%s] %s..." % (self.model_name, temperature, prompt[:40])
 
     @property
@@ -160,23 +160,23 @@ class RateLimitedClient(ModelClient):
         self.max_per_minute = max_per_minute
 
     def complete(self, prompt: str, *, temperature: float = 0.2) -> str:
-        # Would enforce rate here
+        # Здесь бы проверяли лимит
         return super().complete(prompt, temperature=temperature)`,
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "__init__ constructs instance state; self is the instance.",
-        "@property exposes getters without breaking attribute syntax.",
-        "@staticmethod — no self/cls; logical grouping on the class.",
-        "@classmethod — first arg cls; common for alternative constructors.",
+        "__init__ создаёт состояние экземпляра; self — сам экземпляр.",
+        "@property даёт геттеры без ломания синтаксиса атрибутов.",
+        "@staticmethod — без self/cls; логическая группировка на классе.",
+        "@classmethod — первый аргумент cls; часто для альтернативных конструкторов.",
       ],
     },
     {
       type: "heading",
       level: 2,
-      content: "Dataclasses and type hints",
+      content: "Датаклассы и аннотации типов",
     },
     {
       type: "code",
@@ -202,63 +202,63 @@ print(format_batch([tc]))`,
     },
     {
       type: "diagram",
-      alt: "Relationship between function decorators and class method decorators",
+      alt: "Связь декораторов функций и декораторов методов класса",
       content: `flowchart TB
-  subgraph func[Functions]
-    F1[def business_logic] --> F2[@decorator applies wrapper]
+  subgraph func[Функции]
+    F1[def business_logic] --> F2[@decorator оборачивает]
   end
-  subgraph cls[Classes]
-    C1[instance methods use self]
-    C2[classmethod uses cls]
-    C3[staticmethod no binding]
+  subgraph cls[Классы]
+    C1[методы экземпляра с self]
+    C2[classmethod с cls]
+    C3[staticmethod без привязки]
   end`,
     },
   ],
   keyTakeaways: [
-    "*args and **kwargs mirror how real SDKs accept extensible parameters.",
-    "Decorators add cross-cutting behavior without duplicating boilerplate.",
-    "Inheritance + super() composes behavior; prefer small, focused bases.",
-    "Dataclasses reduce boilerplate for data carriers; frozen=True gives hashability when fields allow.",
+    "*args и **kwargs отражают то, как реальные SDK принимают расширяемые параметры.",
+    "Декораторы добавляют сквозную логику без дублирования шаблонного кода.",
+    "Наследование и super() собирают поведение; предпочитайте небольшие узкие базы.",
+    "Датаклассы уменьшают шаблон для носителей данных; frozen=True даёт хешируемость, когда поля позволяют.",
   ],
   interviewTips: [
-    "When designing a class, start with the public method names callers need, then fill state.",
-    "Mention immutability (frozen dataclass) when discussing thread safety or dict keys.",
-    "If asked about MRO, say Python uses C3 linearization for multiple inheritance — keep hierarchies shallow in design answers.",
+    "Проектируя класс, начните с имён публичных методов, которые нужны вызывающему коду, затем добавьте состояние.",
+    "Упоминайте неизменяемость (frozen dataclass) при обсуждении потокобезопасности или ключей словаря.",
+    "Если спросят про MRO, скажите, что Python использует линейризацию C3 при множественном наследовании — в ответах про дизайн держите иерархии плоскими.",
   ],
   exercises: [
     {
       type: "true-false",
       id: "py03-tf-static",
       statement:
-        "In Python, a @staticmethod can access cls or the instance self without them being listed in the parameter list.",
+        "В Python @staticmethod может обращаться к cls или к экземпляру self без перечисления их в списке параметров.",
       correct: false,
       explanation:
-        "Static methods do not receive self or cls automatically. They behave like plain functions namespaced on the class.",
+        "У статических методов нет автоматической передачи self или cls. Они ведут себя как обычные функции, размещённые в пространстве имён класса.",
       interviewNote:
-        "Contrast with @classmethod (gets cls) and ordinary methods (get self).",
+        "Сопоставьте с @classmethod (получает cls) и обычными методами (получают self).",
     },
     {
       type: "scenario",
       id: "py03-sc-client",
       scenario:
-        "You are designing a Python class that wraps an HTTP LLM API. Callers should pass model_id and api_key once, then call .complete(prompt, temperature=...) many times. Internal key must not be printed by repr().",
+        "Вы проектируете класс-обёртку над HTTP API LLM. Вызывающий код один раз передаёт model_id и api_key, затем много раз вызывает .complete(prompt, temperature=...). Внутренний ключ не должен попадать в repr().",
       question:
-        "Which pieces belong in __init__, what visibility convention do you use for the key, and which decorator might expose model_id read-only?",
+        "Что кладёте в __init__, какое соглашение о видимости для ключа и какой декоратор может отдать model_id только для чтения?",
       sampleAnswer:
-        "Store model_id and api_key in __init__. Use self._api_key for a private-by-convention attribute. Expose model_id via @property if you want read-only access without a setter. Implement complete() to call requests or httpx with the stored key.",
+        "В __init__ сохраняем model_id и api_key. Для ключа — self._api_key (по соглашению «внутреннее»). model_id можно отдать через @property без сеттера. В complete() вызываете requests/httpx с сохранённым ключом.",
       keyPoints: [
-        "__init__ for one-time configuration.",
-        "Leading underscore for internal attributes.",
-        "@property for controlled read access.",
+        "__init__ для одноразовой конфигурации.",
+        "Ведущее подчёркивание для внутренних атрибутов.",
+        "@property для контролируемого чтения.",
       ],
       interviewNote:
-        "Tie to security: never log api_key; mention env vars for real deployments.",
+        "Свяжите с безопасностью: не логировать api_key; в продакшене — переменные окружения.",
     },
     {
       type: "code-completion",
       id: "py03-cc-super",
       question:
-        "Child class __init__ must initialize parent attributes. Fill in the blank to call the parent constructor.",
+        "В дочернем __init__ нужно инициализировать поля родителя. Заполните пропуск для вызова конструктора родителя.",
       codeTemplate: `class B(A):
     def __init__(self, x: int, y: int) -> None:
         ________(x)
@@ -266,42 +266,42 @@ print(format_batch([tc]))`,
       language: "python",
       correctAnswer: "super().__init__",
       explanation:
-        "super().__init__(...) forwards to the next class in the MRO chain — here, A.__init__.",
+        "super().__init__(...) передаёт управление следующему классу в цепочке MRO — здесь A.__init__.",
       interviewNote:
-        "In cooperative multiple inheritance, always use super() consistently in every __init__.",
+        "При кооперативном множественном наследовании везде последовательно используйте super() в каждом __init__.",
     },
     {
       type: "multiple-choice",
       id: "py03-mc-lambda",
       question:
-        "Which statement about Python lambdas is most accurate?",
+        "Какое утверждение о лямбдах в Python наиболее точно?",
       options: [
-        "Lambdas may contain multiple statements separated by semicolons",
-        "Lambdas are limited to a single expression and implicitly return its value",
-        "Lambdas automatically capture variables by copy at definition time",
-        "Lambdas cannot be passed as arguments to sorted()",
+        "Лямбды могут содержать несколько операторов, разделённых точкой с запятой",
+        "Лямбды ограничены одним выражением и неявно возвращают его значение",
+        "Лямбды всегда захватывают переменные по копии в момент определения",
+        "Лямбды нельзя передавать как аргументы в sorted()",
       ],
       correctIndex: 1,
       explanation:
-        "lambda args: expr defines an anonymous function returning expr. Statements like assignments are not allowed; use def for multi-step logic.",
+        "lambda args: expr задаёт анонимную функцию, возвращающую expr. Операторы вроде присваивания недопустимы; для многошаговой логики используйте def.",
       interviewNote:
-        "Beware late binding in loops with lambdas — a classic pitfall in interviews.",
+        "Остерегайтесь позднего связывания в циклах с лямбдами — классическая ловушка на интервью.",
     },
     {
       type: "ordering",
       id: "py03-ord-mro",
       question:
-        "Order these steps when Python resolves an attribute lookup on an instance (typical single inheritance), from first tried to last among these options.",
+        "Упорядочьте шаги разрешения обращения к атрибуту экземпляра (типичное одиночное наследование) — от того, что пробуют первым, к последнему из перечисленных.",
       items: [
-        "The instance __dict__",
-        "The class __dict__ and its MRO parents",
-        "__getattr__ on the class if defined and normal lookup failed",
+        "Словарь экземпляра __dict__",
+        "Словарь класса и родители по MRO",
+        "__getattr__ у класса, если определён и обычный поиск не сработал",
       ],
       correctOrder: [0, 1, 2],
       explanation:
-        "Normal lookup checks the instance namespace, then walks the class MRO. __getattr__ is only invoked if normal attribute resolution fails.",
+        "Обычный поиск сначала смотрит пространство имён экземпляра, затем обходит MRO класса. __getattr__ вызывается только если обычное разрешение не нашло атрибут.",
       interviewNote:
-        "Mention __getattribute__ only if asked — it runs before instance dict and is easy to misuse.",
+        "Про __getattribute__ говорите только если спросят — он выполняется до словаря экземпляра и легко даёт ошибки.",
     },
   ],
 };

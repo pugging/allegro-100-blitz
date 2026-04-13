@@ -4,39 +4,39 @@ export const lesson: Lesson = {
   id: "cloud-platforms-04",
   skillId: "cloud-platforms",
   order: 4,
-  title: "Deployment & MLOps Basics",
+  title: "Основы развертывания и MLOps",
   subtitle:
-    "From Docker images to production GenAI: registries, CI/CD, model APIs, secrets, observability, experimentation, IaC, cost discipline, and free-tier practice strategies.",
+    "От образов Docker до промышленного GenAI: реестры, CI/CD, API моделей, секреты, наблюдаемость, экспериментирование, IaC, ценовая дисциплина и практические стратегии бесплатного уровня.",
   estimatedMinutes: 15,
   objectives: [
-    "Explain container basics and why teams package ML and LLM apps as images.",
-    "Describe container registries and how CI/CD promotes immutable artifacts.",
-    "Outline model serving patterns (REST endpoints, scaling, versioning).",
-    "Manage secrets and environment configuration safely across environments.",
-    "Name monitoring, logging, A/B testing, Terraform-level IaC, and cost controls relevant to Accenture delivery.",
+    "Объясните основы контейнеров и почему команды упаковывают приложения ML и LLM в виде изображений.",
+    "Описать реестры контейнеров и то, как CI/CD продвигает неизменяемые артефакты.",
+    "Опишите шаблоны обслуживания моделей (конечные точки REST, масштабирование, управление версиями).",
+    "Безопасно управляйте секретами и конфигурацией среды в разных средах.",
+    "Мониторинг имен, ведение журналов, A/B-тестирование, IaC на уровне Terraform и контроль затрат, связанных с доставкой Accenture.",
   ],
   content: [
     {
       type: "text",
       content:
-        "Shipping GenAI features is **software engineering** with extra risks: nondeterminism, data leakage, and fast-moving dependencies. Interviewers want to hear that you think about **containers**, **pipelines**, **secrets**, **observability**, and **cost**—not only notebook experiments.",
+        "Поставка функций GenAI — это **программная инженерия** с дополнительными рисками: недетерминированность, утечка данных и быстро меняющиеся зависимости. Интервьюеры хотят услышать, что вы думаете о **контейнерах**, **конвейерах**, **секретах**, **наблюдаемости** и **стоимости**, а не только об экспериментах в блокноте.",
     },
     {
       type: "callout",
       variant: "info",
-      title: "Accenture delivery lens",
+      title: "Линза доставки Accenture",
       content:
-        "Large programs use **shared platforms**: enterprise container registries, approved base images, centralized logging, and FinOps reviews. Junior candidates stand out by referencing **those guardrails** rather than only local Docker Desktop flows.",
+        "Крупные программы используют **общие платформы**: реестры постоянных контейнеров, утвержденные базовые образы, централизованное ведение журналов и проверки FinOps. Кандидаты самого низкого уровня достигают тем, что ссылаются на **эти ограждения**, а не только на локальные потоки Docker Desktop.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Containerization (Docker basics)",
+      content: "Контейнеризация (основы Docker)",
     },
     {
       type: "text",
       content:
-        "A **container image** bundles your app, dependencies, and a minimal runtime filesystem. **Docker** (or buildpacks) produces images that run the same on a laptop, in CI, and on **Kubernetes** or **managed container services** (Azure Container Apps, ECS, Cloud Run). For Python LLM services, you pin **requirements.txt** or **Poetry** locks and avoid baking API keys into layers.",
+        "**Образ контейнера** займет ваше приложение, в зависимости от минимальной и минимальной продолжительности выполнения системы. **Docker** (или пакеты сборки) создают образы, которые затем используются на ноутбуках, в CI, а также в **Kubernetes** или **управляемых контейнерных службах** (Azure Container Apps, ECS, Cloud Run). Для сервисов Python LLM вы устанавливаете блокировку **requirements.txt** или **Poetry** и используете API ключей объединения в шаге.",
     },
     {
       type: "code",
@@ -58,116 +58,116 @@ docker push myregistry.azurecr.io/genai-api:1.0.0`,
     {
       type: "heading",
       level: 2,
-      content: "Container registries",
+      content: "Реестры контейнеров",
     },
     {
       type: "text",
       content:
-        "**Registries** (ACR, ECR, Artifact Registry) store immutable image tags. Pipelines build once, scan for vulnerabilities, sign images (where required), and promote **the same digest** from dev → test → prod. This reduces \"works on my machine\" drift and supports rollback by redeploying a known tag.",
+        "**Реестры** (ACR, ECR, реестр артефактов) хранят неизменяемые теги изображений. Конвейеры создаются один раз, сканируются на наличие уязвимостей, подписывают образы (где это необходимо) и продвигают **один и тот же дайджест** от разработки → тестирования → разработки. Это уменьшает дрейф «работ на моей машине» и поддерживает откат путем повторного развертывания известного тега.",
     },
     {
       type: "heading",
       level: 2,
-      content: "CI/CD for ML and LLM apps",
+      content: "CI/CD для приложений ML и LLM",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**Continuous integration:** Lint, unit tests, contract tests for APIs, and **container build** on every merge.",
-        "**Continuous delivery:** Deploy to staging with **synthetic prompts** or golden-set regression tests before production approval.",
-        "**Model artifacts:** Version prompts, retrieval indexes, and model weights/config separately; store metadata (hash, dataset snapshot) alongside the deployment ticket.",
+        "**Непрерывная интеграция**: Lint, модульные тесты, контрактные тесты для API и **сборка контейнеров** при каждом слиянии.",
+        "**Непрерывная доставка**. Перед утверждением в производство выполняйте промежуточное развертывание с помощью **синтетических подсказок** или стандартных регрессионных тестов.",
+        "**Артефакты модели:** подсказки о версии, индексы поиска и веса/конфигурация модели отдельно; хранить метаданные (хэш, снимок набора данных) вместе с билетом развертывания.",
       ],
     },
     {
       type: "heading",
       level: 2,
-      content: "Model serving (API endpoints)",
+      content: "Обслуживание модели (конечные точки API)",
     },
     {
       type: "text",
       content:
-        "Expose models behind **REST or gRPC** APIs with **timeouts**, **rate limits**, and **structured error** responses. Scale horizontally for stateless inference; use **queues** for long jobs. For LLMs, add **streaming** where UX needs it and cap **max tokens** to control cost.",
+        "Предоставляйте модели, лежащие в основе API **REST или gRPC**, с помощью ответов **таймаутов**, **ограничений скорости** и **структурированных ошибок**. Масштабируйте по горизонтали для вывода без сохранения состояния; используйте **очереди** для длительных заданий. Для LLM добавьте **потоковую передачу** там, где это необходимо для UX, и ограничьте **максимальное количество токенов**, чтобы контролировать затраты.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Environment variables and secrets",
+      content: "Переменные среды и секреты",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**Environment variables** configure non-secret toggles (region, feature flags, log level).",
-        "**Secrets** belong in **Azure Key Vault**, **AWS Secrets Manager**, or **GCP Secret Manager**, injected at runtime via platform integration—not in Git or Dockerfiles.",
-        "**Rotation:** Plan API key rotation and **zero-downtime** reload strategies with your platform team.",
+        "**Переменные среды** настраивают несекретные переключатели (регион, флаги функций, уровень журнала).",
+        "**Секреты** принадлежат **Azure Key Vault**, **AWS Secrets Manager** или **GCP Secret Manager** и внедряются во время выполнения посредством интеграции платформы, а не в Git или Dockerfiles.",
+        "**Ротация.** Планируйте ротацию ключей API и стратегии **нулевого простоя** перезагрузки вместе с командой вашей платформы.",
       ],
     },
     {
       type: "callout",
       variant: "danger",
-      title: "Never in the repo",
+      title: "Никогда в репо",
       content:
-        "Hard-coded API keys are a **screening failure** in many Accenture-style interviews. Always say **Key Vault + managed identity** or the cloud-native equivalent.",
+        "Жестко запрограммированные ключи API являются **провалом проверки** во многих собеседованиях в стиле Accenture. Всегда произносите **Key Vault + управляемое удостоверение** или его облачный эквивалент.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Monitoring and logging",
+      content: "Мониторинг и протоколирование",
     },
     {
       type: "text",
       content:
-        "Instrument **latency**, **error rate**, **token usage**, and **cache hit rate** for retrieval. Log **request IDs** and **deployment versions**, not end-user PII. Dashboards in **Azure Monitor**, **CloudWatch**, or **Cloud Operations** support incident response and FinOps conversations.",
+        "Инструмент **задержки**, **коэффициента ошибок**, **использования токена** и **коэффициента попадания в кэш** при извлечении. Регистрируйте **идентификаторы запросов** и **версии развертывания**, а не личные данные конечного пользователя. Панели мониторинга в **Azure Monitor**, **CloudWatch** или **Cloud Operations** поддерживают реагирование на инциденты и обсуждение FinOps.",
     },
     {
       type: "heading",
       level: 2,
-      content: "A/B testing for models",
+      content: "A/B-тестирование моделей",
     },
     {
       type: "text",
       content:
-        "Route a **percentage of traffic** to a challenger prompt, model version, or retrieval configuration. Compare **task success**, **human ratings**, or **downstream KPIs** (deflection, conversion). Feature flags or service mesh traffic splits implement this without duplicating entire stacks.",
+        "Направьте **процент трафика** на приглашение претендента, версию модели или конфигурацию получения. Сравните **успешность выполнения задачи**, **человеческие оценки** или **последующие ключевые показатели эффективности** (отклонение, конверсия). Флаги функций или разделение трафика сетки служб реализуют это без дублирования целых стеков.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Infrastructure as code (Terraform mention)",
+      content: "Инфраструктура как код (упоминание Terraform)",
     },
     {
       type: "text",
       content:
-        "**Terraform**, **Bicep**, or **CloudFormation** describe infrastructure declaratively so environments are reproducible and reviewed in PRs. You do not need to be a Terraform expert—interviewers want awareness that **prod changes** go through versioned modules and policy checks, not manual clicks alone.",
+        "**Terraform**, **Bicep** или **CloudFormation** описывают инфраструктуру декларативно, поэтому среды воспроизводимы и проверяются в PR. Вам не обязательно быть экспертом по Terraform: интервьюеры хотят знать, что **изменения в продукте** проходят через версии модулей и проверки политик, а не только вручную.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Cost management",
+      content: "Управление затратами",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**Tagging** resources by cost center and environment.",
-        "**Budgets and alerts** when token or GPU spend spikes.",
-        "**Right-sizing** instances and using **autoscaling** min/max thoughtfully.",
-        "**Caching** embeddings and repeated queries to cut duplicate model calls.",
+        "**Разметка** ресурсов по центрам затрат и средам.",
+        "**Бюджеты и оповещения** при резких скачках расходов на токены или графические процессоры.",
+        "**Правильный выбор** экземпляров и продуманное использование **автомасштабирования** мин/макс.",
+        "**Кэширование** внедрений и повторяющихся запросов для исключения повторяющихся вызовов моделей.",
       ],
     },
     {
       type: "heading",
       level: 2,
-      content: "Getting started with free tiers",
+      content: "Начало работы с бесплатными уровнями",
     },
     {
       type: "tip",
       content:
-        "Use **personal sandbox subscriptions** with spending caps, **destroy resources** after labs, and favor **serverless SKUs** for demos. Document what you built in a **README** with architecture sketch—portfolio beats passive video courses in interviews.",
+        "Используйте **подписки на персональную тестовую среду** с ограничением расходов, **уничтожайте ресурсы** после лабораторных исследований и отдавайте предпочтение **бессерверным SKU** для демонстрационных версий. Документируйте то, что вы создали, в **README** с эскизом архитектуры — портфолио превосходит пассивные видеокурсы на собеседованиях.",
     },
     {
       type: "diagram",
-      alt: "CI builds container, pushes to registry, deploys to environment with secrets from vault",
+      alt: "CI создает контейнер, отправляет его в реестр, развертывает в среде с секретами из хранилища.",
       content: `flowchart LR
   DEV[Dev merge] --> CI[CI pipeline]
   CI --> IMG[Container image]
@@ -178,52 +178,52 @@ docker push myregistry.azurecr.io/genai-api:1.0.0`,
     },
   ],
   keyTakeaways: [
-    "Containers standardize dependencies; registries store immutable artifacts promoted through environments.",
-    "CI/CD for AI adds **eval harnesses** and artifact metadata, not only unit tests.",
-    "Serving layers need timeouts, limits, auth, and scaling policies suited to LLM latency profiles.",
-    "Secrets stay in vaults with rotation; env vars hold non-sensitive configuration.",
-    "Observability, A/B tests, IaC, and FinOps are expected in enterprise delivery conversations.",
+    "Контейнеры стандартизируют зависимости; реестры хранят неизменяемые артефакты, распространяемые через среды.",
+    "CI/CD для ИИ добавляет **средства оценки** и метаданные артефактов, а не только модульные тесты.",
+    "Уровням обслуживания необходимы политики тайм-аутов, ограничений, аутентификации и масштабирования, подходящие для профилей задержки LLM.",
+    "Секреты остаются в хранилищах с ротацией; Переменные env содержат неконфиденциальную конфигурацию.",
+    "В ходе корпоративных переговоров о доставке ожидаются наблюдаемость, A/B-тесты, IaC и FinOps.",
   ],
   interviewTips: [
-    "When asked \"how would you deploy?\", answer **image → registry → orchestrator → traffic split** in one breath.",
-    "Mention **Azure Container Apps / AKS** if the role is Microsoft-heavy; still acknowledge Kubernetes-agnostic ideas.",
-    "Prepare one story: a bug you caught via **logs/metrics** or a rollback you performed.",
-    "Ask clarifying questions about **RTO/RPO**, **PII**, and **approved tools**—consulting interviews reward structured thinking.",
+    "На вопрос «как бы вы развернули?» ответьте **образ → реестр → оркестратор → разделение трафика** на одном дыхании.",
+    "Упомяните **Приложения-контейнеры Azure/AKS**, если роль требует большого внимания Microsoft; по-прежнему признают идеи, независимые от Kubernetes.",
+    "Подготовьте одну историю: ошибку, которую вы обнаружили с помощью **логов/метрик** или выполненный вами откат.",
+    "Задавайте уточняющие вопросы о **RTO/RPO**, **PII** и **утвержденных инструментах** — консультационные собеседования вознаграждают за структурированное мышление.",
   ],
   exercises: [
     {
       type: "true-false",
       id: "cp04-tf-dockerfile-secrets",
       statement:
-        "Best practice is to pass production API keys as `ARG` values in a Dockerfile so the image is self-contained.",
+        "Лучше всего передавать рабочие ключи API как значения ARG в Dockerfile, чтобы образ был автономным.",
       correct: false,
       explanation:
-        "`ARG` values can leak in image history and build caches. Production secrets should be injected at **runtime** from a vault or platform secret store via environment variables or mounted secrets—not baked into the image build.",
+        "Значения `ARG` могут просачиваться в историю изображений и создавать кеши. Производственные секреты следует вводить во время **исполняния** из хранилища или секретного хранилища платформы через переменные среды или смонтированные секреты, а не внедрять в сборку образа.",
       interviewNote:
-        "Offer the alternative: multi-stage builds for slim images + runtime secret injection.",
+        "Предложите альтернативу: многоэтапные сборки для тонких образов + внедрение секретов во время выполнения.",
     },
     {
       type: "scenario",
       id: "cp04-sc-rollback",
       scenario:
-        "After a Friday deploy, error rates on your **LLM summarization API** double. Metrics show higher latency but infrastructure CPU is healthy.",
+        "После развертывания в пятницу количество ошибок в вашем **API суммирования LLM** удваивается. Метрики показывают более высокую задержку, но ЦП инфраструктуры исправен.",
       question:
-        "What three actions would you take in the first 30 minutes, in order?",
+        "Какие три действия вы бы предприняли в первые 30 минут по порядку?",
       sampleAnswer:
-        "First, **rollback or traffic-shift** to the previous known-good deployment or feature flag state to protect users. Second, pull **structured logs** for the new version—compare token counts, upstream dependency errors, and retrieval timeouts versus the prior release. Third, reproduce with a **golden set** of prompts in staging to see if the model, prompt template, or retrieval index changed, then open a blameless incident note with hypotheses.",
+        "Во-первых, **откатите или переключите трафик** на предыдущее заведомо хорошее развертывание или состояние флага функции, чтобы защитить пользователей. Во-вторых, извлеките **структурированные журналы** для новой версии — сравните количество токенов, ошибки восходящих зависимостей и время ожидания получения по сравнению с предыдущим выпуском. В-третьих, воспроизведите **золотой набор** подсказок на этапе подготовки, чтобы увидеть, изменилась ли модель, шаблон подсказки или индекс поиска, а затем откройте безупречную заметку об инциденте с гипотезами.",
       keyPoints: [
-        "Mitigate user impact before deep debugging.",
-        "Use versioned releases and flags for fast reversal.",
-        "Separate infra vs model vs data pipeline causes.",
+        "Уменьшите влияние на пользователя перед глубокой отладкой.",
+        "Используйте версии и флаги с поддержкой версий для быстрого отмены.",
+        "Отдельные причины инфраструктуры, модели и конвейера данных.",
       ],
       interviewNote:
-        "Accenture values calm **incident command** style answers.",
+        "Accenture ценит спокойные ответы в стиле **команды при инцидентах**.",
     },
     {
       type: "code-completion",
       id: "cp04-cc-dockerfile",
       question:
-        "Complete the Dockerfile instruction that sets the **working directory** inside the container (common before COPY/CMD).",
+        "Выполните инструкцию Dockerfile, которая устанавливает **рабочий каталог** внутри контейнера (обычно до COPY/CMD).",
       codeTemplate: `FROM python:3.12-slim
 ________ /app
 COPY requirements.txt .
@@ -234,43 +234,43 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]`,
       correctAnswer: "WORKDIR",
       acceptableAnswers: ["workdir"],
       explanation:
-        "`WORKDIR /app` creates/changes to `/app` so subsequent `COPY` and commands run in a predictable path. Similar to `cd` during build and runtime defaults.",
+        "`WORKDIR /app` создаёт/заменяет `/app`, поэтому последующие `COPY` и команды выполняются по предсказуемому пути. Аналогично `cd` во время сборки и значений по умолчанию во время выполнения.",
       interviewNote:
-        "Mention `USER` non-root for extra security points if relevant.",
+        "Упомяните «USER» без полномочий root для дополнительных точек безопасности, если это необходимо.",
     },
     {
       type: "multiple-choice",
       id: "cp04-mc-ab",
       question:
-        "You want to compare two **prompt templates** on live traffic with minimal code duplication. What is the most fitting pattern?",
+        "Вы хотите сравнить два **шаблона запроса** на реальном трафике с минимальным дублированием кода. Какой узор наиболее подходит?",
       options: [
-        "Fork the entire repository for each prompt variant",
-        "Use feature flags or weighted routing to split traffic between templates",
-        "SSH into production servers and edit files manually",
-        "Disable monitoring so differences are not visible",
+        "Форкните весь репозиторий для каждого варианта приглашения.",
+        "Используйте флаги функций или взвешенную маршрутизацию для разделения трафика между шаблонами.",
+        "Подключайтесь по SSH к производственным серверам и редактируйте файлы вручную.",
+        "Отключите мониторинг, чтобы различия не были видны",
       ],
       correctIndex: 1,
       explanation:
-        "Feature flags or controlled traffic splits enable A/B or canary tests with shared infrastructure. Repo forks and manual SSH edits do not scale and lack governance; hiding monitoring is unsafe and unprofessional.",
+        "Флаги функций или контролируемое разделение трафика позволяют проводить A/B или канареечные тесты с общей инфраструктурой. Форки репо и ручное редактирование SSH не масштабируются и не имеют управления; скрывать мониторинг небезопасно и непрофессионально.",
       interviewNote:
-        "Name a tool class (LaunchDarkly, Azure App Configuration, custom gateway) if asked for examples.",
+        "Назовите класс инструмента (LaunchDarkly, Конфигурация приложений Azure, пользовательский шлюз), если вас попросят привести примеры.",
     },
     {
       type: "ordering",
       id: "cp04-ord-iac",
       question:
-        "Order these practices from **strongest governance** (first) to **weakest** (last) for production infrastructure changes.",
+        "Упорядочите эти практики от **самого сильного управления** (первого) до **самого слабого** (последнего) для изменений производственной инфраструктуры.",
       items: [
-        "Clicking resources into existence in the console without documentation",
-        "Terraform modules reviewed in PR with policy checks, then applied by automation",
-        "Ad-hoc CLI scripts run from a single engineer's laptop without peer review",
-        "Infrastructure defined in version control but applied manually from engineers' machines",
+        "Создание ресурсов в консоли без документации",
+        "Модули Terraform проверяются в PR с проверкой политик, а затем применяются автоматически.",
+        "Специальные сценарии CLI запускаются с одного ноутбука инженера без экспертной оценки.",
+        "Инфраструктура определяется системой контроля версий, но применяется вручную с машин инженеров.",
       ],
       correctOrder: [1, 3, 2, 0],
       explanation:
-        "Best: reviewed IaC + automated apply with guardrails. Next: code in Git but manual apply (better than nothing). Worse: unreviewed scripts. Weakest: undocumented console-only changes that cannot be reproduced.",
+        "Лучшее: рассмотрен IaC + автоматическое применение с ограждениями. Дальше: код в Git, но применить вручную (лучше, чем ничего). Хуже того: непроверенные сценарии. Самое слабое: недокументированные изменения только для консоли, которые невозможно воспроизвести.",
       interviewNote:
-        "Relate to **policy-as-code** (OPA, Azure Policy) if the conversation goes deep.",
+        "Если разговор зайдет глубже, обратитесь к **политике как код** (OPA, Политика Azure).",
     },
   ],
 };

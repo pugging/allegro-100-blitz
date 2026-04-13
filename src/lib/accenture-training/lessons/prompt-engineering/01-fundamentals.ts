@@ -4,35 +4,35 @@ export const lesson: Lesson = {
   id: "prompt-engineering-01",
   skillId: "prompt-engineering",
   order: 1,
-  title: "Prompt Engineering Fundamentals",
+  title: "Основы быстрого проектирования",
   subtitle:
-    "Structure prompts like mini product specs: clear instructions, grounded context, explicit output formats, and controlled randomness.",
+    "Структурные подсказки напоминают мини-спецификации продукта: четкие инструкции, обоснованный контекст, четкие форматы вывода и контролируемая случайность.",
   estimatedMinutes: 14,
   objectives: [
-    "Decompose a prompt into instruction, context, input, and output format—and know why each matters.",
-    "Apply zero-shot and role prompting appropriately without over-constraining the model.",
-    "Choose temperature and related sampling settings for creative vs. deterministic tasks.",
-    "Iterate prompts using small test sets instead of one-off vibes.",
+    "Разложите подсказку на формат инструкции, контекста, ввода и вывода — и поймите, почему каждый из них важен.",
+    "Применяйте нулевую выборку и ролевые подсказки соответствующим образом, не накладывая чрезмерных ограничений на модель.",
+    "Выбирайте температуру и соответствующие настройки отбора проб для творческих или детерминированных задач.",
+    "Повторяйте подсказки, используя небольшие наборы тестов вместо одноразовых вибраций.",
   ],
   content: [
     {
       type: "text",
       content:
-        "**Prompt engineering** is the disciplined practice of shaping inputs so a language model produces reliable, safe, and parseable outputs. For interns shipping assistants at enterprise clients, prompts are part of the interface contract—just like API schemas.",
+        "**Быстрое проектирование** — это дисциплинированная практика формирования входных данных, позволяющая языковой модели создавать надежные, безопасные и поддающиеся анализу выходные данные. Для стажеров-помощников по доставке в корпоративных клиентах подсказки являются частью контракта интерфейса, как и схемы API.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Anatomy of a strong prompt",
+      content: "Анатомия сильной подсказки",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**Instruction:** What you want done (verb-first, unambiguous).",
-        "**Context:** Grounding facts, retrieved documents, user profile—only what is needed.",
-        "**Input:** The variable part (user question, ticket text, JSON payload).",
-        "**Output format:** JSON schema, bullet list, table, or strict template for downstream parsers.",
+        "**Инструкция:** Что вы хотите сделать (сначала глагол, однозначно).",
+        "**Контекст:** Обоснованные факты, найденные документы, профиль пользователя — только то, что необходимо.",
+        "**Ввод:** переменная часть (вопрос пользователя, текст заявки, полезные данные JSON).",
+        "**Формат вывода:** схема JSON, маркированный список, таблица или строгий шаблон для последующих анализаторов.",
       ],
     },
     {
@@ -61,44 +61,44 @@ Return JSON with keys: severity, summary, next_actions (array of strings).`,
     {
       type: "tip",
       content:
-        "Put **constraints** (length limits, banned topics, citation rules) adjacent to the instruction—not buried after a wall of context—so the model attends to them.",
+        "Поместите **ограничения** (ограничения по длине, запрещенные темы, правила цитирования) рядом с инструкцией, а не за стеной контекста, чтобы модель учитывала их.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Zero-shot prompting",
+      content: "Подсказка с нулевым выстрелом",
     },
     {
       type: "text",
       content:
-        "**Zero-shot** means you give no worked examples—only instructions. It works best when the task is familiar to the model (summarize, translate, classify with clear labels). For niche formats or enterprise jargon, zero-shot often needs tighter schemas or few-shot demonstrations.",
+        "**Нулевой подход** означает, что вы не приводите отработанных примеров — только инструкции. Лучше всего работает, когда задача знакома модели (обобщить, перевести, классифицировать с помощью четких обозначений). Для нишевых форматов или корпоративного жаргона «нулевой выстрел» часто требует более точных схем или демонстраций с небольшим количеством шагов.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Role prompting",
+      content: "Ролевые подсказки",
     },
     {
       type: "text",
       content:
-        "Assigning a **role** (“You are a senior SRE…”) steers tone and depth. It is not magic: vague roles add little; specific roles plus evaluation criteria help. Combine role with **rubrics** (“Prefer actionable steps over theory”) for client-facing assistants.",
+        "Назначение **роли** («Вы старший SRE…») регулирует тон и глубину. Это не волшебство: расплывчатые роли мало что добавляют; помогают конкретные роли и критерии оценки. Объедините роль с **рубриками** («Предпочитайте практические шаги теории») для помощников, работающих с клиентами.",
     },
     {
       type: "callout",
       variant: "info",
-      title: "System vs. user message",
+      title: "Системное и пользовательское сообщение",
       content:
-        "In chat APIs, persistent policies (safety, style, tool rules) usually live in the **system** message; ephemeral task inputs live in **user** messages. Exact behavior depends on the provider—always read their guidance.",
+        "В API чата постоянные политики (безопасность, стиль, правила инструментов) обычно находятся в сообщении **system**; входные данные эфемерной задачи находятся в сообщениях **пользователя**. Точное поведение зависит от поставщика — всегда читайте его рекомендации.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Output formatting: JSON and Markdown",
+      content: "Форматирование вывода: JSON и Markdown.",
     },
     {
       type: "text",
       content:
-        "Downstream code expects machine-readable outputs. **JSON mode** (when supported) reduces syntax errors; still validate with a schema library. Markdown is human-friendly but brittle to parse—if you need headings, agree on a strict subset (e.g., `##` sections only).",
+        "Последующий код ожидает машиночитаемые выходные данные. **Режим JSON** (если он поддерживается) уменьшает количество синтаксических ошибок; все еще проверяйте с помощью библиотеки схем. Markdown удобен для человека, но его сложно анализировать — если вам нужны заголовки, договоритесь о строгом подмножестве (например, только разделы `##`).",
     },
     {
       type: "code",
@@ -110,7 +110,7 @@ from typing import Any, Dict
 FENCE = chr(96) * 3  # markdown code fence (avoid raw backticks in embedding strings)
 
 def parse_model_json(text: str) -> Dict[str, Any]:
-    """Parse first JSON object in model output; validate in production with pydantic."""
+    """Разобрать первый объект JSON в выходных данных модели; проверить в производстве с помощью pydantic."""
     text = text.strip()
     if text.startswith(FENCE):
         text = text.removeprefix(FENCE + "json").removeprefix(FENCE).strip()
@@ -122,37 +122,37 @@ def parse_model_json(text: str) -> Dict[str, Any]:
     {
       type: "heading",
       level: 2,
-      content: "Temperature and sampling parameters",
+      content: "Параметры температуры и отбора проб",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**Low temperature (≈0–0.3):** More deterministic—classification, extraction, codegen with tests.",
-        "**Higher temperature (≈0.7–1.0):** More diverse—brainstorming, marketing copy, role-play training data.",
-        "**top_p / top_k:** Nucleus or top-k sampling truncates the tail of the distribution—pairs with temperature for fine control.",
+        "**Низкая температура (≈0–0,3):** Более детерминированный — классификация, извлечение, кодирование с тестами.",
+        "**Более высокая температура (≈0,7–1,0):** Более разнообразная информация — данные мозгового штурма, маркетинговые материалы, ролевые игры.",
+        "**top_p / top_k:** Выборка ядра или top-k отсекает хвост распределения — в сочетании с температурой для точного контроля.",
       ],
     },
     {
       type: "callout",
       variant: "warning",
-      title: "Determinism caveat",
+      title: "Предостережение о детерминизме",
       content:
-        "Even at temperature 0, some platforms are not bitwise deterministic across retries. For audits, log prompts, model version, and seeds if exposed.",
+        "Даже при температуре 0 некоторые платформы не являются поразрядно детерминированными при повторных попытках. Для аудита: подсказки журнала, версия модели и исходные данные, если они доступны.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Iterative refinement",
+      content: "Итеративное уточнение",
     },
     {
       type: "text",
       content:
-        "Treat prompts like code: version them, run a **small golden set** of inputs, and compare outputs with automated checks (JSON schema, regex, embedding similarity to references). Change one variable at a time—instruction vs. context ordering vs. temperature.",
+        "Относитесь к подсказкам как к коду: создайте их версии, запустите **небольшой золотой набор** входных данных и сравните выходные данные с помощью автоматических проверок (схема JSON, регулярное выражение, встраивание сходства со ссылками). Изменяйте одну переменную за раз — инструкцию, порядок контекста или температуру.",
     },
     {
       type: "diagram",
-      alt: "Iterate prompt with test cases and metrics",
+      alt: "Подсказка итерации с тестовыми примерами и метриками",
       content: `flowchart LR
   P[Prompt vN] --> T[Test cases]
   T --> M{Metrics OK?}
@@ -162,40 +162,40 @@ def parse_model_json(text: str) -> Dict[str, Any]:
     },
   ],
   keyTakeaways: [
-    "Strong prompts separate instruction, context, input, and output format deliberately.",
-    "Zero-shot is a baseline; add examples or schemas when reliability drops.",
-    "Temperature and sampling tune creativity vs. determinism—match them to task risk.",
-    "Iterate with versioned prompts and automated checks, not ad-hoc chat trials only.",
+    "Сильные подсказки намеренно разделяют инструкции, контекст, формат ввода и вывода.",
+    "Нулевой выстрел — это базовый уровень; добавляйте примеры или схемы, когда надежность падает.",
+    "Температура и отбор проб настраивают креативность на детерминизм — сопоставьте их с риском задачи.",
+    "Выполняйте итерации с помощью версионных подсказок и автоматических проверок, а не только с помощью специальных пробных чатов.",
   ],
   interviewTips: [
-    "Mention JSON schema validation and handling markdown fences from models.",
-    "Explain when you’d raise temperature vs. when you’d keep it near zero.",
-    "Reference system vs. user messages for policy vs. task separation.",
-    "Describe a minimal evaluation set—interviewers want process, not buzzwords.",
+    "Упомяните проверку схемы JSON и обработку ограничений уценки из моделей.",
+    "Объясните, когда вы повышаете температуру, а когда держите ее около нуля.",
+    "Справочная система и сообщения пользователя для разделения политик и задач.",
+    "Опишите минимальный набор оценок: интервьюерам нужен процесс, а не модные словечки.",
   ],
   exercises: [
     {
       type: "multiple-choice",
       id: "pe01-mc-temp",
       question:
-        "Which task pair best matches **low temperature** vs. **higher temperature**?",
+        "Какая пара задач лучше всего соответствует **низкой температуре** и **высокой температуре**?",
       options: [
-        "Low: creative slogan brainstorm — High: VAT extraction from invoices",
-        "Low: JSON field extraction — High: diverse user-story ideation",
-        "Low: poetry generation — High: SQL query from strict schema",
-        "Low and high should always be identical for fairness",
+        "Низкий: творческий мозговой штурм слогана. — Высокий: извлечение НДС из счетов-фактур.",
+        "Низкий: извлечение полей JSON. Высокий: разнообразные идеи пользовательских историй.",
+        "Низкий: генерация поэзии. Высокий: SQL-запрос из строгой схемы.",
+        "Для справедливости низкий и высокий уровень всегда должны быть одинаковыми.",
       ],
       correctIndex: 1,
       explanation:
-        "Structured extraction and compliance-sensitive tasks favor low temperature; open-ended ideation often benefits from higher temperature and sampling diversity.",
+        "Структурированная экстракция и задачи, требующие соблюдения требований, благоприятствуют низкой температуре; Открытое мышление часто выигрывает от более высокой температуры и разнообразия выборки.",
       interviewNote:
-        "Add that you still validate outputs regardless of temperature—models err at T=0.",
+        "Добавьте, что вы по-прежнему проверяете выходные данные независимо от температуры — модели ошибаются при T=0.",
     },
     {
       type: "code-completion",
       id: "pe01-cc-json-keys",
       question:
-        "Fill in the missing key name so the prompt asks for a JSON array of strings named consistently with common style guides.",
+        "Введите недостающее имя ключа, чтобы в подсказке был запрошен массив строк JSON, названный в соответствии с общими руководствами по стилю.",
       codeTemplate: `Return a JSON object with keys:
 - "severity" (string, one of "low"|"med"|"high")
 - "________" (array of strings, max 3 items)`,
@@ -203,54 +203,54 @@ def parse_model_json(text: str) -> Dict[str, Any]:
       correctAnswer: "next_steps",
       acceptableAnswers: ["next_steps", "nextSteps", "actions", "recommended_actions"],
       explanation:
-        "`next_steps` is illustrative; in interviews, stress consistency with your parser and snake_case vs. camelCase conventions per API.",
+        "`next_steps` носит иллюстративный характер; на собеседованиях подчеркивайте согласованность с вашим парсером и соглашениями Snake_case и CamelCase для каждого API.",
       interviewNote:
-        "Enterprise APIs often use camelCase JSON—align prompt keys with consumer code.",
+        "Корпоративные API часто используют CamelCase JSON — согласовывают ключи подсказки с пользовательским кодом.",
     },
     {
       type: "ordering",
       id: "pe01-ord-prompt-parts",
       question:
-        "Order these blocks as they typically appear in a **clear** enterprise support prompt (top to bottom).",
+        "Упорядочите эти блоки так, как они обычно отображаются в **понятном** запросе поддержки предприятия (сверху вниз).",
       items: [
-        "Variable user ticket / customer input",
-        "Explicit output format (JSON keys and enums)",
-        "Role and safety/compliance instructions",
-        "Retrieved knowledge base excerpt (trimmed)",
+        "Переменный билет пользователя/ввод клиента",
+        "Явный формат вывода (ключи и перечисления JSON)",
+        "Роль и инструкции по безопасности/соответствию",
+        "Получен отрывок из базы знаний (обрезанный)",
       ],
       correctOrder: [2, 3, 0, 1],
       explanation:
-        "Common pattern: establish role/policy → ground with retrieved context → present the live user input → end with strict output instructions (recency bias helps the model follow format).",
+        "Общий шаблон: установить роль/политику → заземлить полученным контекстом → представить живые данные пользователя → завершить строгими инструкциями по выводу (смещение новизны помогает модели следовать формату).",
       interviewNote:
-        "Acknowledge provider-specific best practices—order isn’t universal but reasoning is.",
+        "Признавайте лучшие практики конкретных поставщиков — порядок не универсален, но аргументация универсальна.",
     },
     {
       type: "true-false",
       id: "pe01-tf-vague-role",
       statement:
-        "Assigning a vague role like ‘You are a helpful assistant’ alone is usually sufficient to guarantee enterprise-grade compliance with a detailed JSON schema.",
+        "Назначения расплывчатой ​​роли, например «Вы полезный помощник», обычно достаточно, чтобы гарантировать соответствие детальной схемы JSON корпоративного уровня.",
       correct: false,
       explanation:
-        "Vague roles add little guarantee; explicit instructions, examples, validation, and guardrails (later lesson) carry the reliability burden.",
+        "Расплывчатые роли не дают никаких гарантий; Явные инструкции, примеры, проверка и ограничения (позже урок) несут бремя надежности.",
       interviewNote:
-        "Mention schema validation + retries—shows production thinking.",
+        "Упоминание проверки схемы + повторные попытки — демонстрирует производственное мышление.",
     },
     {
       type: "scenario",
       id: "pe01-sc-noisy-tickets",
       scenario:
-        "A classification prompt works on 20 clean examples but fails on messy tickets with PII and typos. Stakeholders refuse few-shot examples for privacy reasons.",
+        "Подсказка по классификации работает на 20 чистых примерах, но не работает на грязных заявках с личными данными и опечатками. Заинтересованные стороны отказываются от нескольких примеров по соображениям конфиденциальности.",
       question:
-        "How do you refine the approach without leaking customer data in the prompt?",
+        "Как усовершенствовать подход, не допуская утечки данных о клиентах в командной строке?",
       sampleAnswer:
-        "Stay zero-shot but strengthen structure: separate PII handling rule (redact before model or use allow-listed fields), add explicit label definitions with decision boundaries, require JSON with confidence and rationale fields for debugging, and lower temperature. Build an internal synthetic dataset (paraphrased, anonymized) for offline eval. Consider structured preprocessing (spell-normalization, language detection) before the LLM.",
+        "Оставайтесь нулевыми, но укрепляйте структуру: отдельное правило обработки личных данных (редактируйте перед моделью или используйте поля из разрешенного списка), добавляйте явные определения меток с границами решений, требуйте JSON с полями достоверности и обоснования для отладки и снижайте температуру. Создайте внутренний синтетический набор данных (перефразированный, анонимный) для автономной оценки. Рассмотрите возможность структурированной предварительной обработки (нормализация орфографии, определение языка) перед LLM.",
       keyPoints: [
-        "Synthetic or anonymized internal eval when real few-shot is blocked.",
-        "Stronger definitions beat a fluffy role line.",
-        "Preprocess and validate; don’t rely on the model to ‘just know’.",
+        "Синтетическая или анонимная внутренняя оценка, когда блокируется реальный вариант с несколькими выстрелами.",
+        "Более строгие определения лучше, чем пушистая ролевая линия.",
+        "Предварительная обработка и проверка; не полагайтесь на модель, чтобы «просто знать».",
       ],
       interviewNote:
-        "PII + prompt engineering intersects with security—name redaction pipelines.",
+        "Быстрое проектирование PII + пересекается с безопасностью — конвейерами редактирования имен.",
     },
   ],
 };

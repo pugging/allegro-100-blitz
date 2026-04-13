@@ -4,62 +4,62 @@ export const lesson: Lesson = {
   id: "langchain-langgraph-03",
   skillId: "langchain-langgraph",
   order: 3,
-  title: "LangGraph: Stateful Workflows",
+  title: "LangGraph: рабочие процессы с отслеживанием состояния",
   subtitle:
-    "Why graphs beat one-shot chains for control flow, typed state, nodes and edges, conditional routing, memory, human-in-the-loop, and checkpointing.",
+    "Почему графы превосходят одноразовые цепочки по потоку управления, типизированному состоянию, узлам и ребрам, условной маршрутизации, памяти, участию человека в цикле и контрольным точкам.",
   estimatedMinutes: 17,
   objectives: [
-    "Contrast linear LCEL chains with explicit state machines in LangGraph.",
-    "Define graph state, nodes, edges, and conditional edges for branching logic.",
-    "Sketch human-in-the-loop and checkpointing for durable, reviewable runs.",
-    "Outline a multi-step agent as a graph with clear termination conditions.",
+    "Сравните линейные цепочки LCEL с явными конечными автоматами в LangGraph.",
+    "Определите состояние графа, узлы, ребра и условные ребра для логики ветвления.",
+    "Нарисуйте эскизы, в которых участвует человек, и контрольные точки для надежного и удобного для проверки выполнения.",
+    "Опишите многошаговый агент в виде графа с четкими условиями завершения.",
   ],
   content: [
     {
       type: "text",
       content:
-        "**LangGraph** (built on LangChain Runnable concepts) models workflows as graphs with **shared state** and **nodes** that read/update that state. When \"just chain prompts\" hides branching, retries, approvals, or long-running memory, graphs make the control flow explicit—easier to test, debug, and explain to stakeholders.",
+        "**LangGraph** (построенный на основе концепций LangChain Runnable) моделирует рабочие процессы в виде графиков с **общим состоянием** и **узлами**, которые считывают/обновляют это состояние. Когда «просто цепочка подсказок» скрывает ветвление, повторные попытки, условия или долговременную память, графики делают поток управления явным — его тест облегчает, отлаживает и объясняет заинтересованным сторонам.",
     },
     {
       type: "callout",
       variant: "info",
-      title: "When interviewers push back",
+      title: "Когда интервьюеры сопротивляются",
       content:
-        "Say: \"Chains are great for ETL-style LLM pipelines; graphs shine when business rules need branches, human gates, or persistence across sessions.\" That shows you match the tool to the problem.",
+        "Скажите: «Цепочки отлично подходят для конвейеров LLM в стиле ETL; графики превосходны, когда бизнес-правилам нужны ветки, человеческие шлюзы или постоянство между сеансами». Это показывает, что вы подбираете инструмент для решения проблемы.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Limitations of simple chains",
+      content: "Ограничения простых цепей",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "Implicit loops in agents can be opaque—hard to enforce \"always validate before send.\"",
-        "Conditional behavior stuffed into prompts is brittle compared to code-level routing.",
-        "Long-running workflows need checkpoints and resume—not just a single `invoke`.",
+        "Неявные циклы в агентах могут быть непрозрачными — их трудно обеспечить соблюдением принципа «всегда проверять перед отправкой».",
+        "Условное поведение, встроенное в подсказки, является хрупким по сравнению с маршрутизацией на уровне кода.",
+        "Длительным рабочим процессам нужны контрольные точки и возобновление, а не просто один «вызов».",
       ],
     },
     {
       type: "heading",
       level: 2,
-      content: "State management",
+      content: "Государственное управление",
     },
     {
       type: "text",
       content:
-        "LangGraph typically uses a **TypedDict** or Pydantic model for **state**: e.g. `messages`, `plan`, `retrieved_docs`, `human_approved`. Reducers (like message append) define how concurrent updates merge. Clear state is the contract between nodes.",
+        "LangGraph обычно использует модель **TypedDict** или Pydantic для **состояния**: например. `сообщения`, `план`, `полученные_документы`, `human_approved`. Редукторы (например, добавление сообщений) определяют способ объединения одновременных обновлений. Ясное состояние — это контракт между узлами.",
     },
     {
       type: "heading",
       level: 2,
-      content: "StateGraph: nodes and edges",
+      content: "StateGraph: узлы и ребра",
     },
     {
       type: "text",
       content:
-        "A **StateGraph** registers **nodes** (Python callables that receive state and return partial state updates) and **edges** between them. **Conditional edges** read state and choose the next node—e.g. \"if tool_calls then tools node else end.\"",
+        "**StateGraph** регистрирует **узлы** (вызываемые объекты Python, которые получают состояние и возвращают частичные обновления состояния) и **границы** между ними. **Условные ребра** считывают состояние и выбирают следующий узел, например «еслиtool_calls, то узел инструментов еще заканчивается».",
     },
     {
       type: "code",
@@ -96,45 +96,45 @@ builder.set_entry_point("agent")
     {
       type: "heading",
       level: 2,
-      content: "Simple chatbot with memory",
+      content: "Простой чат-бот с памятью",
     },
     {
       type: "text",
       content:
-        "Thread **checkpointers** (in-memory, SQLite, Postgres) store state per `thread_id`. That gives you **conversation memory** across invocations without manually passing lists—critical for customer support and copilots.",
+        "**Контрольные точки** потока (в памяти, SQLite, Postgres) сохраняют состояние для каждого `thread_id`. Это дает вам **память разговоров** при вызовах без ручной передачи списков, что критически важно для службы поддержки клиентов и вторых пилотов.",
     },
     {
       type: "tip",
       content:
-        "Treat `thread_id` like a session key: stable for a user chat, unique per ticket, never trust client-supplied IDs without auth.",
+        "Относитесь к `thread_id` как к сеансовому ключу: стабильный для пользовательского чата, уникальный для каждого билета, никогда не доверяйте идентификаторам, предоставленным клиентом, без аутентификации.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Human-in-the-loop patterns",
+      content: "Шаблоны «человек в цикле»",
     },
     {
       type: "list",
       ordered: true,
       items: [
-        "Pause graph before irreversible actions (send email, file ticket, payment).",
-        "Surface proposed tool args to a reviewer UI; resume with `Command` or graph API when approved.",
-        "Log who approved and when for compliance.",
+        "Приостанавливайте график перед необратимыми действиями (отправка электронной почты, оформление заявки, оплата).",
+        "Предложенный инструмент Surface передает аргументы пользовательскому интерфейсу рецензента; возобновите работу с помощью `Command` или Graph API после одобрения.",
+        "Запишите, кто утвердил и когда соблюдение требований.",
       ],
     },
     {
       type: "heading",
       level: 2,
-      content: "Checkpointing and durability",
+      content: "Контрольные точки и долговечность",
     },
     {
       type: "text",
       content:
-        "**Checkpointers** persist snapshots after each super-step so you can **resume** after crashes or await human input. In Accenture-style delivery, pair checkpoints with idempotent tools so retries do not double-charge clients.",
+        "**Контрольные указатели** сохраняют снимки после каждого супершага, поэтому вы можете **возобновить** работу после сбоев или дождаться вмешательства человека. При доставке в стиле Accenture сочетайте контрольные точки с идемпотентными инструментами, чтобы при повторных попытках с клиентов не взималась двойная плата.",
     },
     {
       type: "diagram",
-      alt: "StateGraph with agent node, conditional edge to tools or end, and checkpoint persistence",
+      alt: "StateGraph с узлом агента, условным переходом к инструментам или концу и сохранением контрольных точек.",
       content: `flowchart LR
   START([start]) --> A[agent node]
   A --> C{tool_calls?}
@@ -146,57 +146,57 @@ builder.set_entry_point("agent")
     {
       type: "callout",
       variant: "success",
-      title: "Practical multi-step agent",
+      title: "Практичный многоэтапный агент",
       content:
-        "Pattern: retrieve → grade relevance → if low, rewrite query and retrieve again → generate answer → optional critique node. Each box is a node; conditional edges encode thresholds instead of burying logic in one mega-prompt.",
+        "Шаблон: получение → оценка релевантности → если низкая, переписать запрос и получить снова → сгенерировать ответ → необязательный узел критики. Каждый ящик представляет собой узел; условные ребра кодируют пороги вместо того, чтобы скрывать логику в одной мега-подсказке.",
     },
   ],
   keyTakeaways: [
-    "LangGraph makes control flow and state explicit—better for approvals, branching, and retries than a single linear chain.",
-    "State is typed; reducers define how updates merge (e.g. message lists).",
-    "Conditional edges implement routers, tool loops, and termination.",
-    "Checkpointers enable memory, human-in-the-loop, and durable execution.",
+    "LangGraph делает поток управления и состояние явным — лучше для утверждений, ветвления и повторных попыток, чем одна линейная цепочка.",
+    "Состояние типизировано; редукторы определяют, как объединяются обновления (например, списки сообщений).",
+    "Условные ребра реализуют маршрутизаторы, циклы инструментов и завершение.",
+    "Контрольные точки обеспечивают память, участие человека в цикле и надежное выполнение.",
   ],
   interviewTips: [
-    "Draw a three-node graph on the whiteboard: plan → act → verify.",
-    "Mention idempotency keys for tool side effects when discussing checkpoints.",
-    "Compare cost: more nodes can mean more LLM calls—justify each node.",
-    "Reference LangSmith traces to show how you debug graph transitions.",
+    "Нарисуйте на доске трехузловой график: план → действие → проверка.",
+    "При обсуждении контрольных точек упоминайте ключи идемпотентности для побочных эффектов инструмента.",
+    "Сравните стоимость: больше узлов может означать больше вызовов LLM — обоснуйте каждый узел.",
+    "Ссылайтесь на трассировки LangSmith, чтобы показать, как вы отлаживаете переходы графа.",
   ],
   exercises: [
     {
       type: "true-false",
       id: "lc03-tf-prompts",
       statement:
-        "LangGraph eliminates the need for any prompt engineering because routing is entirely in Python.",
+        "LangGraph устраняет необходимость быстрого проектирования, поскольку маршрутизация полностью выполняется на Python.",
       correct: false,
       explanation:
-        "Graphs structure control flow; prompts still steer node behavior, tool use, and output quality. The win is combining explicit code gates with good prompts.",
+        "Поток управления структурой графов; подсказки по-прежнему определяют поведение узла, использование инструментов и качество вывода. Победа заключается в сочетании явных логических элементов кода с хорошими подсказками.",
       interviewNote:
-        "Emphasize hybrid: code for policy, prompts for language and nuance.",
+        "Подчеркните гибридность: код для политики, подсказки к формулировкам и нюансам.",
     },
     {
       type: "multiple-choice",
       id: "lc03-mc-checkpoint",
       question:
-        "You must allow a manager to approve an outbound email drafted by the model before it sends. Which LangGraph capability is most central?",
+        "Вы должны разрешить менеджеру утвердить исходящее электронное письмо, составленное моделью, перед его отправкой. Какая возможность LangGraph является наиболее важной?",
       options: [
-        "Discarding all message history between turns",
+        "Удаление всей истории сообщений между ходами",
         "Checkpointing with interrupt/resume and human review",
-        "Using only `StrOutputParser`",
-        "Setting temperature to 2.0",
+        "Использование только StrOutputParser",
+        "Установка температуры на 2,0",
       ],
       correctIndex: 1,
       explanation:
-        "Human-in-the-loop flows rely on pausing execution, persisting state, and resuming after approval. Temperature and parsers do not solve gating; wiping history harms context.",
+        "Потоки, выполняемые человеком в цикле, основаны на приостановке выполнения, сохранении состояния и возобновлении после утверждения. Температура и парсеры не решают проблему стробирования; стирание истории вредит контексту.",
       interviewNote:
-        "Mention audit logs and immutable approval records for regulated clients.",
+        "Упомяните журналы аудита и неизменяемые записи одобрений для регулируемых клиентов.",
     },
     {
       type: "code-completion",
       id: "lc03-cc-state",
       question:
-        "Complete the TypedDict key that commonly holds the conversation transcript in LangGraph examples using `add_messages`.",
+        "Заполните ключ TypedDict, который обычно содержит стенограмму разговора в примерах LangGraph, используя add_messages.",
       codeTemplate: `from typing import Annotated, TypedDict
 from langgraph.graph.message import add_messages
 from langchain_core.messages import BaseMessage
@@ -208,43 +208,43 @@ class State(TypedDict):
       correctAnswer: "messages",
       acceptableAnswers: ["messages"],
       explanation:
-        "`messages` with `add_messages` is the standard reducer pattern so new turns append rather than replace the list.",
+        "`messages` с `add_messages` — это стандартный шаблон редуктора, поэтому новые повороты добавляют, а не заменяют список.",
       interviewNote:
-        "If asked about other keys, mention custom fields like `retries` or `user_id`.",
+        "Если вас спросят о других ключах, укажите настраиваемые поля, такие как «повторные попытки» или «user_id».",
     },
     {
       type: "ordering",
       id: "lc03-ord-compile",
       question:
-        "Order these steps when building a minimal LangGraph `StateGraph` (earliest first).",
+        "Упорядочите эти шаги при построении минимального LangGraph `StateGraph` (сначала самый ранний).",
       items: [
-        "`compile()` to produce a runnable graph (optionally with checkpointer)",
-        "Define the state schema (e.g. TypedDict)",
-        "Add nodes and edges (including entry and conditional edges)",
-        "Instantiate `StateGraph(State)`",
+        "`compile()` для создания работоспособного графа (необязательно с контрольным указателем)",
+        "Определите схему состояния (например, TypedDict)",
+        "Добавляйте узлы и ребра (включая входные и условные ребра)",
+        "Создать экземпляр `StateGraph(State)`",
       ],
       correctOrder: [1, 3, 2, 0],
       explanation:
-        "Define state → create graph object → register nodes/edges → compile into an executable app.",
+        "Определить состояние → создать объект графа → зарегистрировать узлы/ребра → скомпилировать в исполняемое приложение.",
       interviewNote:
-        "Note that `compile` is where checkpointer and debug hooks attach.",
+        "Обратите внимание, что компиляция — это место, где прикрепляются контрольные указатели и отладочные хуки.",
     },
     {
       type: "scenario",
       id: "lc03-sc-compliance",
       scenario:
-        "A compliance workflow must: (1) extract clauses from a contract PDF, (2) compare against a policy KB, (3) if confidence < 0.8, route to a human reviewer, (4) otherwise auto-summarize risks.",
+        "Рабочий процесс обеспечения соответствия должен: (1) извлекать положения из PDF-файла контракта, (2) сравнивать их с базой знаний политики, (3) если достоверность < 0,8, направлять к проверяющему-человеку, (4) в противном случае автоматически суммировать риски.",
       question:
-        "How would LangGraph structure this differently from one long chain.invoke?",
+        "Как LangGraph структурирует это иначе, чем один длинный Chain.invoke?",
       sampleAnswer:
-        "Model each stage as a node with explicit state fields for extractions, scores, and reviewer notes. Use conditional edges on the confidence score to branch to a human node that interrupts, stores approval in state, then continues. Checkpoint after each major step so retries do not re-run expensive PDF parsing.",
+        "Смоделируйте каждый этап как узел с явными полями состояния для извлечений, оценок и примечаний рецензента. Используйте условные ребра на показателе достоверности, чтобы перейти к человеческому узлу, который прерывает, сохраняет одобрение в состоянии, а затем продолжает работу. Контрольная точка после каждого основного шага, чтобы повторные попытки не приводили к повторному запуску дорогостоящего анализа PDF.",
       keyPoints: [
-        "Branching on numeric confidence in code, not only prose prompts.",
-        "Human node + interrupt for low-confidence paths.",
-        "Checkpointing expensive upstream steps.",
+        "Ветвление на числовой уверенности в коде, а не только в прозаических подсказках.",
+        "Человеческий узел + прерывание для путей с низкой надежностью.",
+        "Контрольные точки дорогостоящих шагов вверх по течению.",
       ],
       interviewNote:
-        "Mention measuring confidence with a separate evaluator model or rules-based checks.",
+        "Упомяните об измерении уверенности с помощью отдельной модели оценщика или проверок на основе правил.",
     },
   ],
 };

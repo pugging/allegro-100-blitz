@@ -4,74 +4,74 @@ export const lesson: Lesson = {
   id: "git-01",
   skillId: "git",
   order: 1,
-  title: "Git Fundamentals",
+  title: "Основы Git",
   subtitle:
-    "Version control concepts, the three trees, commits, history, and safe defaults for GenAI engineering work.",
+    "Контроль версий, три дерева, коммиты, история и безопасные практики для инженерии GenAI.",
   estimatedMinutes: 15,
   objectives: [
-    "Explain why teams use version control and how Git snapshots history.",
-    "Differentiate the working directory, staging area, and local repository.",
-    "Create commits with clear messages and inspect history with log and diff.",
-    "Configure .gitignore to keep secrets and generated artifacts out of Git.",
-    "Describe HEAD and how it relates to the latest commit on a branch.",
+    "Объяснить, зачем командам нужен контроль версий и как Git фиксирует историю снимками.",
+    "Различать рабочую директорию, индекс (staging) и локальный репозиторий.",
+    "Делать коммиты с понятными сообщениями и смотреть историю через log и diff.",
+    "Настроить .gitignore, чтобы секреты и артефакты сборки не попадали в Git.",
+    "Описать HEAD и связь с последним коммитом на ветке.",
   ],
   content: [
     {
       type: "heading",
       level: 2,
-      content: "Why version control matters",
+      content: "Зачем нужен контроль версий",
     },
     {
       type: "text",
       content:
-        "Version control records **who changed what, when, and why** across files. For GenAI projects you will juggle application code, prompts, evaluation notebooks, and configuration. Without Git, you lose reproducibility: you cannot reliably return to the model version, prompt text, or API settings that produced a specific result. Git is the industry default for collaborating with engineers, reviewers, and CI/CD pipelines.",
+        "Контроль версий фиксирует **кто, что, когда и зачем** менял в файлах. В проектах GenAI вы ведёте код приложения, промпты, ноутбуки оценки и конфигурацию. Без Git теряется воспроизводимость: нельзя надёжно вернуться к версии модели, тексту промпта или настройкам API, давшим конкретный результат. Git — отраслевой стандарт для совместной работы с инженерами, ревьюерами и CI/CD.",
     },
     {
       type: "callout",
       variant: "info",
-      title: "Real-world context",
+      title: "Практический контекст",
       content:
-        "A consulting team ships a RAG pipeline: ingestion scripts, chunking logic, and a FastAPI service. A teammate changes chunk size and breaks retrieval. With Git, you diff the commit, revert or fix forward, and link the change to a ticket. Without Git, you are comparing folders by hand.",
+        "Консалтинговая команда везёт RAG-пайплайн: скрипты загрузки, логика чанкинга и сервис FastAPI. Коллега меняет размер чанка и ломает ретрив. С Git вы смотрите diff коммита, откатываетесь или чините вперёд и связываете изменение с тикетом. Без Git — сравнивать папки вручную.",
     },
     {
       type: "heading",
       level: 2,
-      content: "What Git is (and is not)",
+      content: "Что такое Git (и чем не является)",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "Git is a **distributed** version control system: every clone has a full copy of history (not just the latest files).",
-        "Git stores **snapshots** (commits), not per-file deltas only—each commit points to a tree of files at that moment.",
-        "Git is **not** GitHub: Git is the tool; GitHub/GitLab/Azure DevOps are hosts for remotes, PRs, and automation.",
+        "Git — **распределённая** система контроля версий: каждый клон содержит полную историю (не только последние файлы).",
+        "Git хранит **снимки** (коммиты), а не только дельты по файлам — каждый коммит указывает на дерево файлов в тот момент.",
+        "Git — **не** GitHub: Git — инструмент; GitHub/GitLab/Azure DevOps — хостинг для remotes, PR и автоматизации.",
       ],
     },
     {
       type: "heading",
       level: 2,
-      content: "The three areas: working directory, staging, repository",
+      content: "Три области: рабочая директория, индекс, репозиторий",
     },
     {
       type: "text",
       content:
-        "Think in **three trees**: (1) your **working directory**—files as they exist on disk right now; (2) the **staging area** (index)—what you propose for the next commit; (3) the **repository**—committed snapshots stored under `.git/`. You edit in the working tree, **stage** what belongs in the next snapshot, then **commit** to record that snapshot with a message.",
+        "Думайте о **трёх деревьях**: (1) **рабочая директория** — файлы на диске сейчас; (2) **индекс (staging)** — что вы предлагаете включить в следующий коммит; (3) **репозиторий** — зафиксированные снимки в `.git/`. Вы правите в рабочем дереве, **индексируете** то, что войдёт в снимок, затем **коммитите**, записывая снимок с сообщением.",
     },
     {
       type: "diagram",
-      alt: "Flow from working directory to staging to commit",
+      alt: "Поток: рабочая директория → индекс → коммит",
       content:
-        "Working directory  --git add-->  Staging (index)  --git commit-->  Repository (.git)\n   ^                                                              |\n   |--------------------------- checkout / reset ----------------|",
+        "Рабочая директория  --git add-->  Индекс (staging)  --git commit-->  Репозиторий (.git)\n   ^                                                              |\n   |--------------------------- checkout / reset ----------------|",
     },
     {
       type: "heading",
       level: 3,
-      content: "Creating a repository: git init",
+      content: "Создание репозитория: git init",
     },
     {
       type: "text",
       content:
-        "Run `git init` in an empty or existing project folder to create a `.git` directory. That turns the folder into a Git repository. You typically init once per project root, not inside every subfolder.",
+        "Выполните `git init` в пустой или существующей папке проекта — появится каталог `.git`. Папка становится репозиторием Git. Обычно init делают один раз на корень проекта, не в каждой подпапке.",
     },
     {
       type: "code",
@@ -84,21 +84,21 @@ git init
     {
       type: "heading",
       level: 3,
-      content: "Staging and committing",
+      content: "Индексация и коммит",
     },
     {
       type: "text",
       content:
-        "`git add` copies changes from the working directory into the staging area. `git commit` freezes the staged state into a new commit object with an author, timestamp, parent commit, and message. Unstaged changes remain in the working directory and are **not** part of that commit.",
+        "`git add` переносит изменения из рабочей директории в индекс. `git commit` фиксирует состояние индекса в новом объекте коммита с автором, временем, родителем и сообщением. Неиндексированные изменения остаются в рабочей директории и **не** входят в этот коммит.",
     },
     {
       type: "code",
       language: "bash",
       filename: "terminal",
-      code: `# Stage one file
+      code: `# Индексировать один файл
 git add src/main.py
 
-# Stage everything in the repo (use carefully)
+# Индексировать всё (осторожно)
 git add .
 
 git commit -m "feat: add health check endpoint for API"`
@@ -106,9 +106,9 @@ git commit -m "feat: add health check endpoint for API"`
     {
       type: "callout",
       variant: "warning",
-      title: "Avoid blind git add .",
+      title: "Не делайте слепой git add .",
       content:
-        "Before `git add .`, skim `git status`. GenAI repos often grow `.env`, `venv/`, `node_modules/`, or large `*.bin` model files. Those should be ignored, not committed.",
+        "Перед `git add .` просмотрите `git status`. В GenAI-репозиториях часто появляются `.env`, `venv/`, `node_modules/` или большие `*.bin` моделей. Их нужно игнорировать, а не коммитить.",
     },
     {
       type: "heading",
@@ -118,17 +118,17 @@ git commit -m "feat: add health check endpoint for API"`
     {
       type: "text",
       content:
-        "**HEAD** is a pointer to the current commit (usually the tip of your current branch). When you make a new commit, HEAD moves forward to that commit. Commands like `git show HEAD` or `git diff HEAD` use HEAD as the reference point for “where you are now.”",
+        "**HEAD** — указатель на текущий коммит (обычно конец текущей ветки). При новом коммите HEAD сдвигается вперёд. Команды вроде `git show HEAD` или `git diff HEAD` используют HEAD как опору для «где мы сейчас».",
     },
     {
       type: "heading",
       level: 2,
-      content: "Inspecting history: git log and git diff",
+      content: "Просмотр истории: git log и git diff",
     },
     {
       type: "text",
       content:
-        "`git log` lists commits (newest first by default). Useful flags: `--oneline` for compact output, `-n 5` for the last five commits, `--graph` with branches (more relevant after you learn branching). `git diff` without arguments shows **unstaged** changes; `git diff --staged` shows what is staged for the next commit.",
+        "`git log` выводит коммиты (по умолчанию новые сверху). Полезные флаги: `--oneline` — компактно, `-n 5` — последние пять, `--graph` — с ветками (важнее после изучения ветвления). `git diff` без аргументов показывает **неиндексированные** изменения; `git diff --staged` — что в индексе для следующего коммита.",
     },
     {
       type: "code",
@@ -142,7 +142,7 @@ git log --oneline -10`,
     {
       type: "tip",
       content:
-        "In interviews, mention that you use small, focused commits with messages that explain **why**, not only **what**—reviewers and future you will read the log under time pressure.",
+        "На интервью скажите, что делаете небольшие сфокусированные коммиты с сообщениями, объясняющими **зачем**, а не только **что** — ревьюеры и вы сами читают лог под давлением времени.",
     },
     {
       type: "heading",
@@ -152,7 +152,7 @@ git log --oneline -10`,
     {
       type: "text",
       content:
-        "A `.gitignore` file lists patterns for paths Git should **not** track. Typical entries: virtual environments, dependency folders, build outputs, OS junk, and **secrets** (`.env`, service account JSON). For Python ML work you often ignore `__pycache__/`, `.venv/`, `*.pyc`, and artifact directories.",
+        "Файл `.gitignore` задаёт шаблоны путей, которые Git **не** отслеживает. Типично: виртуальные окружения, каталоги зависимостей, артефакты сборки, мусор ОС и **секреты** (`.env`, JSON сервисного аккаунта). В Python/ML часто игнорируют `__pycache__/`, `.venv/`, `*.pyc` и каталоги с артефактами.",
     },
     {
       type: "code",
@@ -170,114 +170,114 @@ dist/
     {
       type: "callout",
       variant: "danger",
-      title: "Secrets in Git are permanent in practice",
+      title: "Секреты в Git на практике остаются навсегда",
       content:
-        "If you commit an API key, assume it is compromised: rotate the key and use secret scanning. Prevention beats cleanup—keep `.env` ignored and use templates like `.env.example` with dummy values.",
+        "Если закоммитили API-ключ, считайте его скомпрометированным: ротируйте ключ и включайте сканирование секретов. Проще предотвратить — держите `.env` в игноре и используйте шаблон `.env.example` с фиктивными значениями.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Mental model checklist",
+      content: "Контрольный список ментальной модели",
     },
     {
       type: "list",
       ordered: true,
       items: [
-        "Edit files → working directory changes.",
-        "`git add` → stage a subset you are ready to snapshot.",
-        "`git commit` → record staged state; working directory may still have other edits.",
-        "`git log` / `git diff` → understand history and uncommitted work.",
+        "Правите файлы → изменения в рабочей директории.",
+        "`git add` → индексируете подмножество для снимка.",
+        "`git commit` → фиксируете индекс; в рабочей директории могут остаться другие правки.",
+        "`git log` / `git diff` → понимаете историю и незакоммиченную работу.",
       ],
     },
   ],
   keyTakeaways: [
-    "Git tracks snapshots (commits) of your project, not just “latest files.”",
-    "Separate working directory, staging, and repository—stage intentionally before committing.",
-    "HEAD points to your current commit; diff and show use it as a reference.",
-    ".gitignore keeps noise and secrets out of history; treat leaked keys as incidents.",
-    "Small commits with clear messages make code review and debugging easier.",
+    "Git хранит снимки (коммиты) проекта, а не только «последние файлы».",
+    "Разделяйте рабочую директорию, индекс и репозиторий — индексируйте осознанно перед коммитом.",
+    "HEAD указывает на текущий коммит; diff и show используют его как опору.",
+    ".gitignore отсекает шум и секреты из истории; просочившийся ключ — инцидент.",
+    "Маленькие коммиты с ясными сообщениями упрощают ревью и отладку.",
   ],
   interviewTips: [
-    "Be ready to draw or narrate the three-tree model; interviewers use it to test fundamentals.",
-    "Tie Git to team outcomes: reproducibility, review, rollbacks, and CI—not “we use Git because everyone does.”",
-    "Mention you never commit `.env` or model weights when discussing responsible GenAI delivery.",
-    "If asked about mistakes, describe recovering with `git status`, `git diff`, and careful staging—shows operational maturity.",
+    "Будьте готовы нарисовать или проговорить модель трёх деревьев — так проверяют базу.",
+    "Связывайте Git с результатом для команды: воспроизводимость, ревью, откаты и CI — не «все используют Git».",
+    "Упомяните, что не коммитите `.env` и веса моделей, когда речь об ответственной поставке GenAI.",
+    "Если спросят про ошибки, опишите восстановление через `git status`, `git diff` и аккуратную индексацию — это зрелая операционная культура.",
   ],
   exercises: [
     {
       type: "multiple-choice",
       id: "git-01-ex-01",
       question:
-        "You changed `prompts/system.txt` and `src/app.py`. You want only `src/app.py` in the next commit. Which sequence is correct?",
+        "Вы изменили `prompts/system.txt` и `src/app.py`. В следующий коммит нужен только `src/app.py`. Какая последовательность верна?",
       options: [
-        "`git add .` then `git commit`",
-        "`git add src/app.py` then `git commit`",
-        "`git commit src/app.py` without `git add` (always works)",
-        "`git stash` then `git commit`",
+        "`git add .`, затем `git commit`",
+        "`git add src/app.py`, затем `git commit`",
+        "`git commit src/app.py` без `git add` (всегда работает)",
+        "`git stash`, затем `git commit`",
       ],
       correctIndex: 1,
       explanation:
-        "`git add` stages specific paths. `git add .` would stage everything including `prompts/system.txt`. `git commit` records what is staged; path-only `git commit` without staging can work only in certain flows with flags, but the standard safe path is add then commit.",
+        "`git add` индексирует конкретные пути. `git add .` заиндексирует всё, включая `prompts/system.txt`. `git commit` записывает индекс; коммит с путём без предварительного add работает только в особых режимах, стандартный безопасный путь — add, затем commit.",
       interviewNote:
-        "Shows you understand selective staging—critical when prompt and code changes belong in different commits or PRs.",
+        "Показывает понимание выборочной индексации — важно, когда промпт и код идут разными коммитами или PR.",
     },
     {
       type: "code-completion",
       id: "git-01-ex-02",
       question:
-        "Fill in the command to show changes that are **staged** for the next commit.",
+        "Допишите команду, чтобы показать изменения, **уже в индексе** для следующего коммита.",
       codeTemplate: "git diff ___",
       language: "bash",
       correctAnswer: "--staged",
       acceptableAnswers: ["--cached", "--staged"],
       explanation:
-        "`git diff --staged` (synonym `--cached`) compares the staging area to the last commit. Plain `git diff` shows unstaged working tree changes.",
+        "`git diff --staged` (синоним `--cached`) сравнивает индекс с последним коммитом. Простой `git diff` показывает неиндексированные изменения в рабочем дереве.",
       interviewNote:
-        "Interviewers may ask how you verify a commit before you run `git commit`; naming `--staged` signals precision.",
+        "Могут спросить, как проверить коммит перед `git commit`; знание `--staged` показывает точность.",
     },
     {
       type: "ordering",
       id: "git-01-ex-03",
       question:
-        "Order these steps for the **first time** you put a new local project under Git and create an initial commit.",
+        "Упорядочьте шаги для **первого** раза, когда вы подключаете новый локальный проект к Git и делаете начальный коммит.",
       items: [
         "`git commit -m \"Initial commit\"`",
         "`git init`",
-        "`git add` (stage files you want tracked)",
+        "`git add` (индексация файлов для отслеживания)",
       ],
       correctOrder: [1, 2, 0],
       explanation:
-        "Initialize the repo (`git init`), stage files (`git add`), then commit. Committing before `add` usually creates an empty commit or nothing to commit.",
+        "Сначала инициализация (`git init`), затем индексация (`git add`), затем коммит. Коммит до `add` обычно даёт пустой коммит или «нечего коммитить».",
       interviewNote:
-        "Basic sequencing questions filter for hands-on use versus memorizing definitions only.",
+        "Вопросы на порядок отсекают тех, кто только заучил определения без практики.",
     },
     {
       type: "true-false",
       id: "git-01-ex-04",
       statement:
-        "After `git commit`, the working directory is always identical to the last commit—no uncommitted changes can remain.",
+        "После `git commit` рабочая директория всегда совпадает с последним коммитом — незакоммиченных изменений быть не может.",
       correct: false,
       explanation:
-        "`git commit` only snapshots **staged** changes. You can still have unstaged or untracked files in the working directory after a commit.",
+        "`git commit` снимает только **проиндексированные** изменения. После коммита в рабочей директории могут остаться неиндексированные или неотслеживаемые файлы.",
       interviewNote:
-        "A common trap question; answering false with staging vs working tree shows depth.",
+        "Частая ловушка; ответ «ложь» с объяснением индекса vs рабочее дерево показывает глубину.",
     },
     {
       type: "scenario",
       id: "git-01-ex-05",
       scenario:
-        "You are on a GenAI sprint. You accidentally created a `.env` with an OpenAI API key and ran `git add .` in the project root. You have **not** committed yet.",
+        "Вы на спринте GenAI, случайно создали `.env` с ключом OpenAI и выполнили `git add .` в корне. Коммит ещё **не** сделали.",
       question:
-        "What do you do next to keep the key out of Git, and what would you do if you had already committed?",
+        "Что делать дальше, чтобы ключ не попал в Git, и что если бы вы уже закоммитили?",
       sampleAnswer:
-        "Immediately run `git reset HEAD .env` or `git restore --staged .env` to unstage the file. Confirm with `git status`. Add `.env` to `.gitignore` if missing. If the key was committed, rotate the key with the provider, remove it from history (e.g., `git filter-repo` or BFG) if policy requires, and force-push only with team agreement—treat the old key as leaked.",
+        "Сразу `git reset HEAD .env` или `git restore --staged .env`, чтобы убрать из индекса. Проверить `git status`. Добавить `.env` в `.gitignore`, если его там нет. Если ключ уже в коммите — ротировать ключ у провайдера, при необходимости убрать из истории (`git filter-repo` или BFG) и force-push только по согласованию с командой — старый ключ считать скомпрометированным.",
       keyPoints: [
-        "Unstage before commit is cheap; fixing published history is expensive.",
-        ".gitignore prevents recurrence; it does not remove already tracked files.",
-        "Secret rotation is mandatory once a key touched a shared remote.",
+        "Снять с индекса до коммита дёшево; править опубликованную историю дорого.",
+        ".gitignore предотвращает повторение; уже отслеживаемые файлы сам не убирает.",
+        "Ротация секрета обязательна, если ключ касался общего remote.",
       ],
       interviewNote:
-        "Accenture-style delivery stresses governance; mentioning rotation and policy aligns with client expectations.",
+        "В стиле Accenture важна управляемость; ротация и политика совпадают с ожиданиями клиента.",
     },
   ],
 };

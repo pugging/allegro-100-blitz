@@ -57,7 +57,7 @@ export function CodeBlock({ language, code, filename, className }: CodeBlockProp
           onClick={handleCopy}
           className="rounded-md px-2 py-1 text-xs text-gray-400 transition-colors hover:bg-white/10 hover:text-gray-200"
         >
-          {copied ? "Copied!" : "Copy"}
+          {copied ? "Скопировано!" : "Копировать"}
         </button>
       </div>
       <pre className="overflow-x-auto p-4 font-mono text-[13px] leading-relaxed text-gray-200">

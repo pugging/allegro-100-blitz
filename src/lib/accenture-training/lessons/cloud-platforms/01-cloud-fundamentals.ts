@@ -4,126 +4,126 @@ export const lesson: Lesson = {
   id: "cloud-platforms-01",
   skillId: "cloud-platforms",
   order: 1,
-  title: "Cloud Computing Fundamentals",
+  title: "Основы облачных вычислений",
   subtitle:
-    "Core concepts for interviews: service models, deployment models, regions, the major building blocks, pricing, and how to navigate AWS, Azure, and GCP at a junior level.",
+    "Основные понятия для собеседований: модели обслуживания, модели развертывания, регионы, основные строительные блоки, цены и способы навигации по AWS, Azure и GCP на младшем уровне.",
   estimatedMinutes: 15,
   objectives: [
-    "Define cloud computing and contrast IaaS, PaaS, and SaaS with examples.",
-    "Explain public, private, and hybrid cloud and when enterprises choose each.",
-    "Describe regions, availability zones, and why they matter for resilience and latency.",
-    "Name essential service families (compute, storage, networking, databases) and common pricing models.",
-    "Navigate consoles and CLIs at a high level and compare the Big Three providers.",
+    "Дайте определение облачным вычислениям и сравните IaaS, PaaS и SaaS с примерами.",
+    "Объясните публичное, частное и гибридное облако и когда предприятия выбирают каждое из них.",
+    "Опишите регионы, зоны доступности и почему они важны для устойчивости и задержки.",
+    "Назовите семейства основных услуг (вычисления, хранение, сети, базы данных) и общие модели ценообразования.",
+    "Навигация по консолям и интерфейсам командной строки на высоком уровне и сравнение поставщиков «большой тройки».",
   ],
   content: [
     {
       type: "text",
       content:
-        "**Cloud computing** is on-demand delivery of IT resources over a network, usually with pay-as-you-go pricing and self-service provisioning. Instead of owning data centers, you rent capacity from a **cloud provider** that operates global infrastructure, APIs, and managed services.",
+        "**Облачные вычисления** — это доставка ИТ-ресурсов по требованию по сети, обычно с оплатой по факту использования и самообслуживанием. Вместо того чтобы владеть центрами обработки данных, вы арендуете мощности у **облачного провайдера**, который управляет глобальной инфраструктурой, API и управляемыми услугами.",
     },
     {
       type: "callout",
       variant: "info",
-      title: "Accenture context",
+      title: "Контекст Accenture",
       content:
-        "Accenture delivers large-scale transformation programs on cloud—often **Microsoft Azure** in enterprise and public-sector deals. Showing you understand Azure *and* can speak neutrally about AWS and GCP signals breadth without ignoring the partner ecosystem.",
+        "Accenture реализует крупномасштабные программы трансформации в сфере — часто **Microsoft Azure** в государственных и государственных сделках. Укажите, что вы понимаете, что Azure *и* может нейтрально говорить о широте сигналов AWS и GCP, не игнорируя партнерскую экосистему.",
     },
     {
       type: "heading",
       level: 2,
-      content: "IaaS, PaaS, and SaaS",
+      content: "IaaS, PaaS и SaaS",
     },
     {
       type: "text",
       content:
-        "These models describe **how much the provider manages** versus what your team still operates. Interviewers often ask you to classify a product or to pick a model for a scenario.",
+        "Эти модели описывают **насколько управляет поставщик** по сравнению с тем, чем по-прежнему управляет ваша команда. Интервьюеры часто просят вас классифицировать продукт или выбрать модель для конкретного сценария.",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**IaaS (Infrastructure as a Service):** Virtual machines, networks, block storage—you manage OS, runtime, and app. Examples: AWS EC2, Azure Virtual Machines, GCP Compute Engine.",
-        "**PaaS (Platform as a Service):** Managed runtime and scaling; you focus on code and data. Examples: Azure App Service, AWS Elastic Beanstalk, Google App Engine.",
-        "**SaaS (Software as a Service):** End-user applications in the browser. Examples: Microsoft 365, Salesforce, Slack.",
+        "**IaaS (инфраструктура как услуга):** виртуальные машины, сети, блочное хранилище — вы управляете ОС, обеспечиваете выполнение и приложениям. Примеры: AWS EC2, виртуальные машины Azure, GCP Compute Engine.",
+        "**PaaS (платформа как услуга):** управляемая среда выполнения и масштабирование; Вы сосредотачиваетесь по коду и данным. Примеры: Службы приложений Azure, AWS Elastic Beanstalk, Google App Engine.",
+        "**SaaS (Программное обеспечение как услуга):** Приложения для конечных пользователей в браузере. Примеры: Microsoft 365, Salesforce, Slack.",
       ],
     },
     {
       type: "heading",
       level: 2,
-      content: "Public, private, and hybrid cloud",
+      content: "Публичное, частное и гибридное облако",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**Public cloud:** Shared provider infrastructure (multi-tenant), fastest to provision, global scale.",
-        "**Private cloud:** Dedicated environment (on-prem or hosted) for stricter control or compliance.",
-        "**Hybrid cloud:** Workloads span public cloud and private/on-prem, often with consistent identity and networking (e.g. Azure Arc, AWS Outposts patterns).",
+        "**Публичное облако:** Общая инфраструктура поставщиков (мультиарендная), самая быстрая в предоставлении, глобальный масштаб.",
+        "**Частное облако:** Выделенная среда (локальная или размещенная) для более строгого контроля и соблюдения требований.",
+        "**Гибридное облако.** Рабочие нагрузки охватывают как публичное облако, так и частное/локальное хранилище, часто с единообразной идентификацией и сетевым взаимодействием (например, Azure Arc, шаблоны AWS Outposts).",
       ],
     },
     {
       type: "tip",
       content:
-        "If asked \"why hybrid?\", mention data residency, legacy systems, phased migration, or burst capacity to public cloud while keeping sensitive data on-prem.",
+        "Если вас спросят: «Почему гибрид?», укажите местонахождение данных, устаревшие системы, поэтапную миграцию или увеличение емкости в общедоступное облако, сохраняя при этом конфиденциальные данные локально.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Regions and availability zones",
+      content: "Регионы и зоны доступности",
     },
     {
       type: "text",
       content:
-        "A **region** is a geographic area (e.g. `westeurope`, `us-east-1`). Within a region, **availability zones (AZs)** are isolated data-center locations with separate power and networking. Deploying across AZs improves **fault tolerance**; choosing a region close to users reduces **latency** and can affect **data residency**.",
+        "**Регион** – это географическая область (например, \"западная Европа\", \"нас-восток-1\"). В пределах региона **зоны доступности (AZ)** — это изолированные места центров обработки данных с отдельным питанием и сетями. Развертывание в нескольких зонах доступности повышает **отказоустойчивость**; выбор региона, близкого к пользователям, снижает **задержку** и может повлиять на **резидентность данных**.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Key service families",
+      content: "Ключевые семьи обслуживания",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**Compute:** VMs, containers (Kubernetes), serverless functions.",
-        "**Storage:** Object storage (files/blobs), block disks, archival tiers.",
-        "**Networking:** VPCs/VNets, load balancers, DNS, CDNs, private connectivity.",
-        "**Databases:** Relational (managed SQL), NoSQL, caches, warehouses, and vector-capable search.",
+        "**Вычисления**: виртуальные машины, контейнеры (Kubernetes), бессерверные функции.",
+        "**Хранилище:** Объектное хранилище (файлы/блобы), блочные диски, уровни архивирования.",
+        "**Сеть:** VPC/виртуальные сети, балансировщики нагрузки, DNS, CDN, частное подключение.",
+        "**Базы данных:** Реляционные (управляемый SQL), NoSQL, кэши, хранилища и векторный поиск.",
       ],
     },
     {
       type: "heading",
       level: 2,
-      content: "Pricing models (conceptual)",
+      content: "Модели ценообразования (концептуальные)",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**On-demand:** Pay for what you use by the hour/second—flexible, no commitment.",
-        "**Reserved / savings plans:** Commit for 1–3 years for lower rates—good for steady workloads.",
-        "**Spot / preemptible:** Deep discounts for interruptible capacity—great for batch jobs, risky for latency-sensitive APIs.",
+        "**По требованию**. Платите за то, что используете, почасово/секундно — гибко, без каких-либо обязательств.",
+        "**Зарезервированные/сберегательные планы.** Договоритесь на 1–3 года по более низким ставкам — хорошо для стабильной рабочей нагрузки.",
+        "**Спотовое/вытесняемое**: большие скидки на прерываемую емкость — отлично подходит для пакетных заданий и рискованно для чувствительных к задержке API.",
       ],
     },
     {
       type: "heading",
       level: 2,
-      content: "The Big Three at a glance",
+      content: "Большая тройка с первого взгляда",
     },
     {
       type: "text",
       content:
-        "**AWS** has the broadest service catalog and market share. **Azure** integrates tightly with Microsoft identity, Office, and enterprise agreements—common in Accenture client landscapes. **GCP** is strong in data analytics, BigQuery, and Kubernetes (GKE). For GenAI, all three offer managed model APIs and ML platforms (covered in later lessons).",
+        "**AWS** имеет самый широкий каталог услуг и самую широкую долю рынка. **Azure** тесно интегрируется с соглашениями Microsoft об идентификации, Office и корпоративными соглашениями, что часто встречается в клиентских средах Accenture. **GCP** сильна в области анализа данных, BigQuery и Kubernetes (GKE). Для GenAI все три предлагают API управляемых моделей и платформы машинного обучения (о них рассказывается в последующих уроках).",
     },
     {
       type: "heading",
       level: 3,
-      content: "CLI and console",
+      content: "CLI и консоль",
     },
     {
       type: "text",
       content:
-        "Each cloud provides a **web console** for exploration and a **CLI** for automation. You authenticate once (profiles, service principals, SSO), then create and inspect resources from the terminal or scripts.",
+        "Каждое облако предоставляет **веб-консоль** для исследования и **CLI** для автоматизации. Вы проходите аутентификацию один раз (профили, субъекты службы, единый вход), затем создаете и проверяете ресурсы с помощью терминала или сценариев.",
     },
     {
       type: "code",
@@ -145,7 +145,7 @@ gcloud compute zones list`,
     },
     {
       type: "diagram",
-      alt: "One cloud region containing multiple isolated availability zones",
+      alt: "Один облачный регион, содержащий несколько изолированных зон доступности.",
       content: `flowchart TB
   subgraph region [Region e.g. West Europe]
     subgraph az1 [Availability Zone 1]
@@ -165,99 +165,99 @@ gcloud compute zones list`,
     {
       type: "callout",
       variant: "warning",
-      title: "Interview pitfall",
+      title: "Ошибка на собеседовании",
       content:
-        "Avoid claiming you are \"certified\" in a cloud you only clicked through once. Say what you have **built or debugged** (e.g. deployed a function, set IAM roles, read billing) and what you would **look up** in docs.",
+        "Не заявляйте, что вы «сертифицированы» в облаке, через которое вы прошли только один раз. Расскажите, что вы **создали или отладили** (например, развернули функцию, установили роли IAM, прочитали информацию о счетах) и что вы бы **поискивали** в документации.",
     },
   ],
   keyTakeaways: [
-    "IaaS vs PaaS vs SaaS is about the boundary of provider-managed vs team-managed responsibility.",
-    "Regions and AZs trade off latency, compliance, and resilience; multi-AZ is a standard resilience pattern.",
-    "Compute, storage, networking, and data services are the vocabulary for almost every architecture question.",
-    "On-demand, reserved, and spot/preemptible pricing match different workload shapes and risk tolerance.",
-    "Azure is central to many Accenture engagements; AWS and GCP remain important for cross-cloud literacy.",
+    "IaaS, PaaS и SaaS — это граница ответственности, управляемой поставщиком и командой.",
+    "Регионы и зоны доступности обеспечивают компромисс между задержкой, соответствием требованиям и устойчивостью; несколько зон доступности — это стандартный шаблон устойчивости.",
+    "Службы вычислений, хранения, сетей и данных — это словарь практически для каждого вопроса об архитектуре.",
+    "Цены по требованию, зарезервированные и спотовые/вытесняемые цены соответствуют различным формам рабочих нагрузок и устойчивости к риску.",
+    "Azure занимает центральное место во многих проектах Accenture; AWS и GCP по-прежнему важны для кросс-облачной грамотности.",
   ],
   interviewTips: [
-    "Lead with **business outcomes** (speed, cost, resilience) before listing product names.",
-    "When comparing clouds, use one sentence each—avoid a feature dump.",
-    "Mention **identity** (Azure AD / Entra ID, IAM roles) as the gate for any real project.",
-    "If you lack hands-on depth, say how you would validate an answer: official docs, Well-Architected / CAF frameworks, or a small proof in a sandbox subscription.",
+    "Прежде чем перечислять названия продуктов, ориентируйтесь на **бизнес-результаты** (скорость, стоимость, устойчивость).",
+    "При сравнении облаков используйте каждое предложение по одному — избегайте дампа функций.",
+    "Упоминайте **идентификацию** (Azure AD/Entra ID, роли IAM) как ворота для любого реального проекта.",
+    "Если вам не хватает практического опыта, скажите, как вы бы подтвердили ответ: официальная документация, фреймворки Well-Architected/CAF или небольшое доказательство в подписке на песочницу.",
   ],
   exercises: [
     {
       type: "multiple-choice",
       id: "cp01-mc-paas",
       question:
-        "Your team deploys a Python API as containers but does not want to patch OS kernels or manage VM fleets. Which model best describes **Azure Container Apps** or **AWS App Runner** at a high level?",
+        "Ваша команда развертывает API Python в виде контейнеров, но не хочет исправлять ядра ОС или управлять парками виртуальных машин. Какая модель лучше всего описывает **Azure Container Apps** или **AWS App Runner** на высоком уровне?",
       options: [
-        "Pure IaaS—you still install hypervisors",
-        "PaaS-style managed runtime with scaling abstracted away",
-        "SaaS—end users subscribe in a browser only",
-        "On-prem private cloud with no provider APIs",
+        "Чистый IaaS — вы по-прежнему устанавливаете гипервизоры",
+        "Управляемая среда выполнения в стиле PaaS с абстрактным масштабированием",
+        "SaaS — конечные пользователи подписываются только в браузере.",
+        "Локальное частное облако без API-интерфейсов провайдера",
       ],
       correctIndex: 1,
       explanation:
-        "These offerings abstract much of the infrastructure and orchestration so teams focus on container images and configuration—characteristic of PaaS or 'serverless containers' patterns rather than raw IaaS VMs.",
+        "Эти предложения абстрагируют большую часть инфраструктуры и оркестрации, поэтому команды сосредотачиваются на образах и конфигурации контейнеров, что характерно для шаблонов PaaS или «бессерверных контейнеров», а не на необработанных виртуальных машинах IaaS.",
       interviewNote:
-        "Nuance: Kubernetes services (AKS/EKS/GKE) sit between IaaS and PaaS—you manage more than App Service but less than bare metal.",
+        "Нюанс: службы Kubernetes (AKS/EKS/GKE) находятся между IaaS и PaaS — вы управляете больше, чем Службой приложений, но меньше, чем «голым железом».",
     },
     {
       type: "ordering",
       id: "cp01-ord-responsibility",
       question:
-        "Order these **IaaS** responsibilities from **most provider-managed** (top) to **most customer-managed** (bottom).",
+        "Упорядочите обязанности **IaaS** от **наиболее управляемых поставщиком** (вверху) до **наиболее управляемых клиентами** (внизу).",
       items: [
-        "Patching the guest OS and application runtime on a VM",
-        "Physical data-center cooling and power",
-        "Choosing instance type and attaching disks in the console",
-        "Hypervisor and host hardware maintenance",
+        "Исправление гостевой ОС и среды выполнения приложений на виртуальной машине",
+        "Охлаждение и электропитание физического центра обработки данных",
+        "Выбор типа инстанса и подключение дисков в консоли",
+        "Обслуживание гипервизора и хост-оборудования",
       ],
       correctOrder: [1, 3, 2, 0],
       explanation:
-        "Provider handles physical facilities and host/hypervisor layers. Customer picks VM shape and storage, then owns guest OS patching and application stack on IaaS.",
+        "Провайдер управляет физическими объектами и уровнями хоста/гипервизора. Клиент выбирает форму и хранилище виртуальной машины, а затем получает исправления для гостевой ОС и стек приложений в IaaS.",
       interviewNote:
-        "On PaaS, more of the bottom moves to the provider—be ready to redraw the line per service.",
+        "В PaaS большая часть дна переходит к провайдеру — будьте готовы перекроить грань для каждой услуги.",
     },
     {
       type: "true-false",
       id: "cp01-tf-single-region",
       statement:
-        "For maximum availability, a production system should always run in exactly one availability zone to avoid cross-AZ network cost.",
+        "Для обеспечения максимальной доступности производственная система всегда должна работать ровно в одной зоне доступности, чтобы избежать затрат на сеть между зонами доступности.",
       correct: false,
       explanation:
-        "A single AZ is a fault domain; provider outages or maintenance can take it offline. Production patterns typically span multiple AZs in a region (and sometimes multiple regions for disaster recovery), accepting small extra complexity and cost for resilience.",
+        "Одна зона доступности является доменом сбоя; сбои в работе провайдера или техническое обслуживание могут вывести его из строя. Модели производства обычно охватывают несколько зон доступности в регионе (а иногда и несколько регионов для аварийного восстановления), допуская небольшую дополнительную сложность и затраты для обеспечения устойчивости.",
       interviewNote:
-        "Mention trade-offs: multi-region DR vs RPO/RTO requirements and data replication costs.",
+        "Упомяните о компромиссах: аварийное восстановление в нескольких регионах, требования к RPO/RTO и затраты на репликацию данных.",
     },
     {
       type: "scenario",
       id: "cp01-sc-accenture",
       scenario:
-        "An Accenture client asks why they should use **hybrid cloud** instead of moving everything to Azure public cloud in one year.",
+        "Клиент Accenture спрашивает, почему ему следует использовать **гибридное облако** вместо того, чтобы через год переносить все в общедоступное облако Azure.",
       question:
-        "Give a concise answer naming at least two realistic drivers and one migration pattern.",
+        "Дайте краткий ответ, назвав как минимум два реальных фактора и одну схему миграции.",
       sampleAnswer:
-        "Drivers can include regulatory data residency, legacy mainframes or apps that cannot be lifted easily, and operational risk of a big-bang cutover. A pattern is to keep sensitive data on-prem or in a private environment while migrating new digital workloads to Azure, connected with hybrid identity and networking, then retire systems incrementally.",
+        "Движущими факторами могут быть местонахождение нормативных данных, устаревшие мейнфреймы или приложения, которые невозможно легко отменить, а также операционный риск резкого отключения. Обычно конфиденциальные данные хранятся локально или в частной среде при переносе новых цифровых рабочих нагрузок в Azure, связанных с гибридной идентификацией и сетью, а затем постепенно выводятся из эксплуатации систем.",
       keyPoints: [
-        "Compliance and legacy constraints justify hybrid.",
-        "Phased migration reduces risk versus big bang.",
-        "Hybrid identity/network ties environments together.",
+        "Ограничения соответствия и наследия оправдывают гибрид.",
+        "Поэтапная миграция снижает риск по сравнению с «большим взрывом».",
+        "Гибридная идентичность/сеть связывает среды вместе.",
       ],
       interviewNote:
-        "Tie to Azure Stack HCI / Arc only if you can explain them simply; otherwise stay conceptual.",
+        "Привязывайтесь к Azure Stack HCI/Arc только в том случае, если вы можете их просто объяснить; в противном случае оставайтесь концептуальными.",
     },
     {
       type: "code-completion",
       id: "cp01-cc-azure-cli",
       question:
-        "Complete the Azure CLI **parameter name** (after `--`) that sets the **region** when creating a resource group.",
+        "Введите **имя параметра** Azure CLI (после `--`), который задает **регион** при создании группы ресурсов.",
       codeTemplate: `az group create --name rg-ai-lab --________ westeurope`,
       language: "bash",
       correctAnswer: "location",
       explanation:
-        "`--location` (or `-l`) specifies the Azure region for the resource group. `--name` already sets the group name; the blank asks for the location parameter name.",
+        "`--location` (или `-l`) указывает регион Azure для группы ресурсов. `--name` уже устанавливает имя группы; пустое поле запрашивает имя параметра местоположения.",
       interviewNote:
-        "If the interviewer probes, mention `az configure` defaults and that region choice affects latency and SKUs available.",
+        "Если интервьюер будет задавать вопросы, упомяните настройки по умолчанию az configure и укажите, что выбор региона влияет на задержку и доступные SKU.",
     },
   ],
 };

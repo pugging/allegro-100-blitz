@@ -4,31 +4,31 @@ export const lesson: Lesson = {
   id: "python-04",
   skillId: "python",
   order: 4,
-  title: "Error Handling, Testing & Best Practices",
+  title: "Обработка ошибок, тесты и практики",
   subtitle:
-    "Ship reliable GenAI services: fail gracefully, log intelligently, test behavior, and keep environments reproducible.",
+    "Надёжные GenAI-сервисы: корректные сбои, осмысленные логи, проверка поведения и воспроизводимые окружения.",
   estimatedMinutes: 15,
   objectives: [
-    "Use try/except/finally and design domain-specific exceptions.",
-    "Apply structured logging instead of print in production-minded code.",
-    "Write focused pytest tests and explain common fixture patterns.",
-    "Isolate dependencies with venv, follow PEP 8, and use mypy for static checks.",
+    "Использовать try/except/finally и проектировать предметные исключения.",
+    "Применять структурированное логирование вместо print в коде, ориентированном на продакшен.",
+    "Писать сфокусированные тесты pytest и объяснять типичные приёмы с фикстурами.",
+    "Изолировать зависимости через venv, следовать PEP 8 и применять mypy для статических проверок.",
   ],
   content: [
     {
       type: "text",
       content:
-        "Interviewers and reviewers judge engineering maturity by how you handle failures, observability, and repeatability. GenAI pipelines fail on rate limits, malformed JSON, and model timeouts — your Python should surface errors clearly and stay testable.",
+        "Зрелость инженера на интервью и в ревью судят по тому, как вы обрабатываете сбои, наблюдаемость и повторяемость. Пайплайны GenAI падают на лимитах, битом JSON и таймаутах моделей — Python должен ясно отдавать ошибки и оставаться тестируемым.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Exceptions: try / except / else / finally",
+      content: "Исключения: try / except / else / finally",
     },
     {
       type: "text",
       content:
-        "Catch the narrowest exception you can handle; avoid bare except. Use else for code that runs only when no exception occurred, and finally for cleanup (closing files, releasing locks). Re-raise or chain exceptions with `raise ... from e` to preserve context.",
+        "Ловите максимально узкое исключение, которое можете обработать; избегайте голого except. Блок else — для кода, который выполняется только если исключения не было; finally — для очистки (закрытие файлов, снятие блокировок). Повторно выбрасывайте или связывайте цепочкой: `raise ... from e`, чтобы сохранить контекст.",
     },
     {
       type: "code",
@@ -42,44 +42,44 @@ def parse_model_response(raw: str) -> dict[str, Any]:
     try:
         data = json.loads(raw)
     except json.JSONDecodeError as exc:
-        raise ValueError("Model returned invalid JSON") from exc
+        raise ValueError("Модель вернула некорректный JSON") from exc
     else:
         if not isinstance(data, dict):
-            raise TypeError("Expected JSON object at top level")
+            raise TypeError("Ожидался JSON-объект на верхнем уровне")
         return data
     finally:
-        # Placeholder for metrics or cleanup hooks
+        # Заглушка под метрики или хуки очистки
         pass
 
 
 try:
     parse_model_response("{not json")
 except ValueError as err:
-    print("Handled:", err.__cause__)  # original JSONDecodeError`,
+    print("Обработано:", err.__cause__)  # исходный JSONDecodeError`,
     },
     {
       type: "callout",
       variant: "warning",
-      title: "Never swallow errors silently",
+      title: "Не глотайте ошибки молча",
       content:
-        "Empty except blocks and vague except Exception hides bugs. Log or re-wrap with context, then fail fast or return a structured error to callers.",
+        "Пустые блоки except и размытое except Exception скрывают баги. Логируйте или оборачивайте с контекстом, затем быстро падайте или возвращайте структурированную ошибку вызывающему коду.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Custom exceptions",
+      content: "Пользовательские исключения",
     },
     {
       type: "code",
       language: "python",
       filename: "custom_errors.py",
       code: `class ModelAPIError(Exception):
-    """Base for all vendor API failures."""
+    """Базовый класс для сбоев API поставщика."""
 
 
 class RateLimitError(ModelAPIError):
     def __init__(self, retry_after: float | None = None) -> None:
-        super().__init__("Rate limited")
+        super().__init__("Превышен лимит запросов")
         self.retry_after = retry_after
 
 
@@ -87,26 +87,26 @@ def call_stub(status: int) -> None:
     if status == 429:
         raise RateLimitError(retry_after=2.5)
     if status >= 400:
-        raise ModelAPIError("upstream error")
+        raise ModelAPIError("ошибка upstream")
 
 
 try:
     call_stub(429)
 except RateLimitError as e:
-    print("Backoff seconds:", e.retry_after)`,
+    print("Пауза, сек:", e.retry_after)`,
     },
     {
       type: "heading",
       level: 2,
-      content: "Logging",
+      content: "Логирование",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "Use the logging module; configure handlers once at process entry (level, format, destination).",
-        "Log with extra context (request_id, user_id) using structured logging or key=value patterns.",
-        "Reserve print for quick scripts; libraries and services should use loggers.",
+        "Используйте модуль logging; настройте обработчики один раз при старте процесса (уровень, формат, назначение).",
+        "Логируйте с дополнительным контекстом (request_id, user_id) через структурированные логи или шаблон key=value.",
+        "print оставьте для быстрых скриптов; библиотеки и сервисы должны использовать логгеры.",
       ],
     },
     {
@@ -125,22 +125,22 @@ log.info("job_started", extra={"job_id": "42"})
 try:
     1 / 0
 except ZeroDivisionError:
-    log.exception("unhandled_math")  # includes traceback`,
+    log.exception("unhandled_math")  # включает traceback`,
     },
     {
       type: "tip",
       content:
-        "In interviews, mention correlation IDs across LLM calls — the same idea as request_id in HTTP middleware.",
+        "На интервью упомяните корреляционные идентификаторы между вызовами LLM — та же идея, что request_id в HTTP middleware.",
     },
     {
       type: "heading",
       level: 2,
-      content: "pytest basics",
+      content: "Основы pytest",
     },
     {
       type: "text",
       content:
-        "Name test files `test_*.py` and functions `test_*`. Use assert with simple expressions; pytest rewrites asserts for rich failures. Parametrize tests to cover edge cases without copy-paste.",
+        "Тестовые файлы называйте `test_*.py`, функции — `test_*`. Используйте assert с простыми выражениями; pytest переписывает assert для подробных сообщений об ошибках. Параметризуйте тесты, чтобы покрывать краевые случаи без копипаста.",
     },
     {
       type: "code",
@@ -172,7 +172,7 @@ def test_rejects_non_object(payload: str):
     {
       type: "heading",
       level: 2,
-      content: "Virtual environments and packaging hygiene",
+      content: "Виртуальные окружения и гигиена зависимостей",
     },
     {
       type: "code",
@@ -186,112 +186,112 @@ pip install -r requirements.txt`,
     {
       type: "text",
       content:
-        "Commit requirements.txt or pyproject.toml lock metadata; never rely on a global site-packages for team projects. `pip freeze` is a blunt instrument — prefer explicit version pins for reproducible GenAI stacks.",
+        "Коммитьте requirements.txt или зафиксированные метаданные pyproject.toml; не полагайтесь на глобальный site-packages в командных проектах. `pip freeze` груб — предпочитайте явные пины версий для воспроизводимых стеков GenAI.",
     },
     {
       type: "heading",
       level: 2,
-      content: "PEP 8 and mypy",
+      content: "PEP 8 и mypy",
     },
     {
       type: "list",
       ordered: true,
       items: [
-        "PEP 8: snake_case functions, PascalCase classes, 4-space indent, two blank lines between top-level defs.",
-        "Run `ruff` or `flake8` in CI; auto-format with `black` or `ruff format` if the team agrees.",
-        "Add `mypy` gradually: start with public APIs and data models; use typing.Protocol for duck-typed clients.",
+        "PEP 8: функции в snake_case, классы в PascalCase, отступ 4 пробела, две пустые строки между определениями верхнего уровня.",
+        "Запускайте `ruff` или `flake8` в CI; автоформат — `black` или `ruff format`, если команда согласна.",
+        "Подключайте `mypy` постепенно: сначала публичные API и модели данных; для утиной типизации клиентов — typing.Protocol.",
       ],
     },
     {
       type: "diagram",
-      alt: "Flow from try block through except to logging and test coverage",
+      alt: "Поток: try → except → логирование и покрытие тестами",
       content: `flowchart LR
-  A[try operation] --> B{Exception?}
-  B -->|yes| C[specific except]
-  C --> D[log + re-raise or fallback]
-  B -->|no| E[return result]
-  D --> F[pytest asserts behavior]`,
+  A[try операция] --> B{Исключение?}
+  B -->|да| C[конкретный except]
+  C --> D[лог + повторный raise или fallback]
+  B -->|нет| E[вернуть результат]
+  D --> F[pytest проверяет поведение]`,
     },
   ],
   keyTakeaways: [
-    "Chain exceptions with `from` so operators see root causes in logs.",
-    "pytest.raises documents expected failures better than manual try/except in tests.",
-    "venv + pinned deps prevent \"works on my laptop\" drift across notebooks and APIs.",
-    "Linting and mypy pay off fastest on shared GenAI service code paths.",
+    "Связывайте исключения через `from`, чтобы в логах была первопричина.",
+    "pytest.raises лучше документирует ожидаемый сбой, чем ручной try/except в тестах.",
+    "venv + зафиксированные зависимости предотвращают «у меня на ноутбуке работает» в ноутбуках и API.",
+    "Линтеры и mypy быстрее всего окупаются на общих путях кода GenAI-сервисов.",
   ],
   interviewTips: [
-    "When asked about testing LLM outputs, separate deterministic parsing tests from stochastic model behavior (snapshots, schema checks, golden files).",
-    "Say you would log latency, token usage, and error class — not raw prompts with PII.",
-    "Mention feature flags or circuit breakers if the conversation turns to resilience.",
+    "Когда спрашивают про тестирование выходов LLM, разделяйте детерминированные тесты разбора и стохастическое поведение модели (снимки, проверки схемы, эталонные файлы).",
+    "Скажите, что логируете задержку, расход токенов и класс ошибки — но не сырые промпты с ПДн.",
+    "Упомяните feature flags или circuit breaker, если разговор идёт об устойчивости.",
   ],
   exercises: [
     {
       type: "ordering",
       id: "py04-ord-except",
       question:
-        "Order these practices from generally best (top) to riskiest (bottom) when handling exceptions in application code.",
+        "Упорядочьте эти практики от обычно лучшей (сверху) до самой рискованной (снизу) при обработке исключений в прикладном коде.",
       items: [
-        "Catch BaseException to silence all failures including KeyboardInterrupt",
-        "Catch specific types (ValueError, HTTPError) close to where you can recover",
-        "Let exceptions propagate after logging context at a boundary layer",
-        "Use bare `except:` with pass",
+        "Ловить BaseException, чтобы заглушить все сбои, включая KeyboardInterrupt",
+        "Ловить конкретные типы (ValueError, HTTPError) там, где можно восстановиться",
+        "Дать исключению подняться после логирования контекста на границе слоя",
+        "Использовать голый `except:` с pass",
       ],
       correctOrder: [1, 2, 0, 3],
       explanation:
-        "Specific catches and boundary logging are sound. Catching BaseException is worse (masks interrupts). Bare except with pass is the riskiest — it swallows everything without context.",
+        "Конкретные перехваты и логирование на границе — разумно. BaseException хуже (маскирует прерывания). Голый except с pass — самое рискованное: глотает всё без контекста.",
       interviewNote:
-        "Relate to FastAPI/Starlette exception handlers vs. inner loops.",
+        "Свяжите с обработчиками исключений FastAPI/Starlette и внутренними циклами.",
     },
     {
       type: "true-false",
       id: "py04-tf-finally",
       statement:
-        "The `finally` block of a try statement runs even when a return statement executes inside the `try` block.",
+        "Блок `finally` у try выполняется даже если внутри `try` выполнился return.",
       correct: true,
       explanation:
-        "finally is guaranteed to run on the way out (unless the interpreter is killed abruptly), including when try or except returns.",
+        "finally гарантированно выполняется на выходе (если интерпретатор не убит аварийно), в том числе когда try или except делают return.",
       interviewNote:
-        "Useful for closing httpx clients or releasing semaphores — say that aloud in system-design questions.",
+        "Полезно для закрытия клиентов httpx или освобождения семафоров — проговорите это на вопросах про архитектуру.",
     },
     {
       type: "multiple-choice",
       id: "py04-mc-pytest",
       question:
-        "Which pytest pattern best documents that a function must raise ValueError for invalid input?",
+        "Какой приём pytest лучше всего документирует, что функция должна выбросить ValueError при неверном вводе?",
       options: [
-        "Wrap the call in try/except and assert False if no error",
-        "Use pytest.raises(ValueError) as a context manager around the call",
-        "Monkeypatch sys.exit and assert exit code 1",
-        "Call pytest.fail() before invoking the function",
+        "Обернуть вызов в try/except и assert False, если ошибки не было",
+        "Использовать pytest.raises(ValueError) как менеджер контекста вокруг вызова",
+        "Подменить sys.exit и проверить код выхода 1",
+        "Вызвать pytest.fail() до вызова функции",
       ],
       correctIndex: 1,
       explanation:
-        "`with pytest.raises(ValueError):` is idiomatic and fails the test if the exception type does not occur.",
+        "`with pytest.raises(ValueError):` — идиоматично и валит тест, если исключение нужного типа не произошло.",
       interviewNote:
-        "Mention match= for exception messages when using pytest 7+.",
+        "Упомяните match= для текста исключения в pytest 7+.",
     },
     {
       type: "scenario",
       id: "py04-sc-retry",
       scenario:
-        "Your OpenAI-compatible client sometimes returns HTTP 429 with a Retry-After header. You wrap calls in a function `complete(prompt: str) -> str`.",
+        "Клиент, совместимый с OpenAI, иногда отвечает HTTP 429 с заголовком Retry-After. Вы оборачиваете вызовы в функцию `complete(prompt: str) -> str`.",
       question:
-        "How do you structure try/except, logging, and a retry loop without catching programming bugs like TypeError?",
+        "Как устроить try/except, логирование и цикл повторов, не перехватывая баги вроде TypeError?",
       sampleAnswer:
-        "Catch a narrow HTTPError or a custom RateLimitError raised from the client layer. Log status, retry_after, and request_id. Retry only on 429 with exponential backoff capped at N attempts. Let TypeError and ValueError propagate — they indicate code bugs, not transient API conditions.",
+        "Ловите узкий HTTPError или свой RateLimitError, поднятый на уровне клиента. Логируйте статус, retry_after и request_id. Повторяйте только при 429 с экспоненциальной задержкой, ограничив число попыток N. TypeError и ValueError пусть поднимаются — это баги кода, а не временные сбои API.",
       keyPoints: [
-        "Separate retryable transport errors from logic bugs.",
-        "Log structured fields; avoid logging full prompts if they contain secrets.",
-        "Cap retries and surface failure after exhaustion.",
+        "Разделяйте повторяемые транспортные ошибки и логические баги.",
+        "Логируйте структурированные поля; не логируйте полные промпты, если там секреты.",
+        "Ограничивайте число повторов и после исчерпания отдавайте сбой наверх.",
       ],
       interviewNote:
-        "Connect to production patterns: tenacity library or httpx built-in retries.",
+        "Свяжите с продакшеном: библиотека tenacity или встроенные повторы в httpx.",
     },
     {
       type: "code-completion",
       id: "py04-cc-mypy",
       question:
-        "You run mypy on a file and it complains that a function may return None. You add an explicit return type that includes None. Fill in the blank using typing.Optional shorthand for str | None.",
+        "mypy ругается, что функция может вернуть None. Вы добавляете явный тип возврата с None через сокращение Optional. Заполните пропуск для str | None.",
       codeTemplate: `from typing import Optional
 
 def find_model(name: str) -> Optional[str]:
@@ -302,9 +302,9 @@ def find_model(name: str) -> Optional[str]:
       correctAnswer: "None",
       acceptableAnswers: ["none"],
       explanation:
-        "Optional[str] is equivalent to str | None (PEP 604). Returning None matches the declared type.",
+        "Optional[str] эквивалентен str | None (PEP 604). Возврат None соответствует объявленному типу.",
       interviewNote:
-        "In interviews, mention narrowing checks like `if x is None: raise` before use.",
+        "На интервью упомяните сужение типов: `if x is None: raise` до использования.",
     },
   ],
 };

@@ -4,57 +4,57 @@ export const lesson: Lesson = {
   id: "vector-databases-01",
   skillId: "vector-databases",
   order: 1,
-  title: "Vector Similarity & Distance Metrics",
+  title: "Метрики векторного сходства и расстояния",
   subtitle:
-    "How embeddings become searchable numbers: similarity scores, distance metrics, and what changes when dimensionality grows.",
+    "Как вложения становятся числами, доступными для поиска: оценки сходства, метрики расстояний и что меняется с ростом размерности.",
   estimatedMinutes: 15,
   objectives: [
-    "Explain why high-dimensional vectors represent text, images, and other data in GenAI systems.",
-    "Compute and interpret cosine similarity, dot product similarity, and Euclidean distance with NumPy.",
-    "Choose an appropriate metric for normalized vs. unnormalized embedding spaces.",
-    "Describe how distance concentration (curse of dimensionality) affects naive nearest-neighbor intuition.",
+    "Объясните, почему многомерные векторы представляют текст, изображения и другие данные в системах GenAI.",
+    "Вычислите и интерпретируйте косинусное сходство, сходство скалярного произведения и евклидово расстояние с помощью NumPy.",
+    "Выберите подходящую метрику для нормализованных и ненормализованных пространств вложения.",
+    "Опишите, как концентрация расстояния (проклятие размерности) влияет на наивную интуицию ближайшего соседа.",
   ],
   content: [
     {
       type: "text",
       content:
-        "In retrieval-augmented generation (RAG) and semantic search, a model turns content into fixed-length lists of numbers called **embedding vectors**. Your vector database does not “understand” language—it compares vectors using geometry. Picking the right similarity or distance function is as important as picking the right embedding model.",
+        "При генерации с расширенным поиском (RAG) и семантическом поиске модель преобразует контент в списки чисел фиксированной длины, называемые **векторами внедрения**. Ваша векторная база данных не «понимает» язык — она сравнивает векторы, используя геометрию. Выбор правильной функции сходства или расстояния так же важен, как и выбор правильной модели внедрения.",
     },
     {
       type: "callout",
       variant: "info",
-      title: "Notation cheat sheet",
+      title: "Шпаргалка по обозначениям",
       content:
-        "Bold symbols like **a** and **b** denote vectors. ||**a**|| is the L2 (Euclidean) length. **a**·**b** is the dot product. θ is the angle between vectors in the plane they span.",
+        "Жирные символы, такие как **a** и **b**, обозначают векторы. ||**а**|| – длина L2 (евклидова). **a**·**b** — скалярное произведение. θ — угол между векторами в плоскости, которую они охватывают.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Vectors in the ML and GenAI context",
+      content: "Векторы в контексте ML и GenAI",
     },
     {
       type: "text",
       content:
-        "Each dimension captures (opaquely) some aspect learned during training. Similar meanings tend to land in nearby regions of this space, so “closeness” approximates semantic relatedness. Dimensions are rarely human-interpretable one-by-one; you reason about the vector as a whole.",
+        "Каждое измерение отражает (непрозрачно) некоторый аспект, изученный во время обучения. Подобные значения имеют тенденцию приземляться в близлежащих регионах этого пространства, поэтому «близость» приближается к семантической родственности. Измерения редко интерпретируются человеком по отдельности; вы рассуждаете о векторе в целом.",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "Embeddings are often L2-normalized by the API—check your provider docs before assuming raw magnitudes mean anything.",
-        "Batch your vectors for throughput; similarity is embarrassingly parallel across query–document pairs.",
-        "Outliers (very long or zero vectors) can dominate naive metrics if you skip normalization.",
+        "API-интерфейс часто нормализует встраивания L2 — проверьте документацию своего провайдера, прежде чем предполагать, что необработанные величины что-то значат.",
+        "Пакетируйте свои векторы для обеспечения пропускной способности; Сходство поразительно параллельно в парах запрос-документ.",
+        "Выбросы (очень длинные или нулевые векторы) могут доминировать над наивными метриками, если вы пропустите нормализацию.",
       ],
     },
     {
       type: "heading",
       level: 2,
-      content: "Dot product and cosine similarity",
+      content: "Скалярное произведение и сходство косинусов",
     },
     {
       type: "text",
       content:
-        "The **dot product** **a**·**b** = Σᵢ aᵢbᵢ measures alignment. For two non-zero vectors, **cosine similarity** is the cosine of the angle between them: cos(θ) = (**a**·**b**) / (||**a**|| ||**b**||). It ranges from −1 to 1 for real vectors (often only non-negative for text embeddings).",
+        "**Скалярное произведение** **a**·**b** = Σᵢ aᵢbᵢ измеряет выравнивание. Для двух ненулевых векторов **косинусное подобие** — это косинус угла между ними: cos(θ) = (**a**·**b**) / (||**a**|| ||**b**||). Оно варьируется от -1 до 1 для действительных векторов (часто только неотрицательное для встраивания текста).",
     },
     {
       type: "code",
@@ -63,12 +63,12 @@ export const lesson: Lesson = {
       code: `import numpy as np
 
 def cosine_similarity(a: np.ndarray, b: np.ndarray) -> float:
-    """Cosine similarity for 1-D vectors (not batched)."""
+    """Косинусное сходство для одномерных векторов (не пакетно)."""
     a = np.asarray(a, dtype=np.float64)
     b = np.asarray(b, dtype=np.float64)
     denom = np.linalg.norm(a) * np.linalg.norm(b)
     if denom == 0:
-        raise ValueError("Zero vector — cosine undefined.")
+        raise ValueError("Нулевой вектор — неопределенный косинус.")
     return float(np.dot(a, b) / denom)
 
 u = np.array([1.0, 0.0, 1.0])

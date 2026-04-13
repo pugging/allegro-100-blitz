@@ -4,112 +4,112 @@ export const lesson: Lesson = {
   id: "rag-01",
   skillId: "rag",
   order: 1,
-  title: "What is RAG?",
+  title: "Что такое РАГ?",
   subtitle:
-    "Why retrieval matters for trustworthy GenAI, how RAG differs from fine-tuning and prompting alone, and the shape of a production pipeline.",
+    "Почему извлечение имеет значение для заслуживающего доверия GenAI, чем RAG отличается от простой настройки и подсказки, а также формы производственного конвейера.",
   estimatedMinutes: 17,
   objectives: [
-    "Explain which problems RAG addresses (hallucinations, stale knowledge, domain grounding).",
-    "Compare RAG with fine-tuning and prompt engineering and when to combine approaches.",
-    "Describe the end-to-end RAG pipeline from ingest to generation.",
-    "Recognize common enterprise use cases and trade-offs of naive RAG.",
+    "Объясните, какие проблемы решает RAG (галлюцинации, устаревшие знания, заземление предметной области).",
+    "Сравните RAG с тонкой настройкой и быстрым проектированием и определите, когда следует комбинировать подходы.",
+    "Описать сквозной конвейер RAG от приема до генерации.",
+    "Распознайте распространенные варианты корпоративного использования и компромиссы с простым RAG.",
   ],
   content: [
     {
       type: "text",
       content:
-        "Large language models compress broad patterns from training data into weights. They can sound authoritative while being wrong or outdated. Retrieval-Augmented Generation (RAG) grounds answers in **documents you control** by fetching relevant passages before the model writes the final response.",
+        "Большие языковые модели сжимают общие шаблоны обучающих данных в веса. Они могут звучать авторитетно, но при этом быть неправильными или устаревшими. Поисково-дополненная генерация (RAG) обосновывает ответы в **документах, которые вы контролируете**, извлекая соответствующие отрывки до того, как модель запишет окончательный ответ.",
     },
     {
       type: "callout",
       variant: "info",
-      title: "Interview framing",
+      title: "Оформление интервью",
       content:
-        "A crisp one-liner wins: \"RAG reduces reliance on parametric memory by injecting non-parametric knowledge at inference time.\" Follow with when that helps (policies, tickets, code) vs when it does not (pure reasoning with no corpus).",
+        "Четкая фраза побеждает: «RAG снижает зависимость от параметрической памяти, вводя непараметрические знания во время вывода». Далее укажите, когда это помогает (политики, билеты, код), а когда нет (чистые рассуждения без корпуса).",
     },
     {
       type: "heading",
       level: 2,
-      content: "Problems RAG helps solve",
+      content: "Проблемы, которые помогает решить RAG",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "Hallucinations: the model invents facts; retrieved citations give the generator something to stay faithful to.",
-        "Knowledge cutoff: your index can hold this week’s release notes or HR policies without retraining the base model.",
-        "Domain specificity: proprietary playbooks, contracts, and logs are rarely in pre-training; RAG brings them into context.",
-        "Auditability: you can log which chunks were retrieved—useful for compliance and debugging.",
+        "Галлюцинации: модель выдумывает факты; полученные цитаты дают генератору что-то, чему можно оставаться верным.",
+        "Ограничение знаний: ваш индекс может содержать примечания к выпуску на этой неделе или кадровую политику без переобучения базовой модели.",
+        "Специфика предметной области: проприетарные сборники сценариев, контракты и журналы редко проходят предварительное обучение; RAG приводит их в контекст.",
+        "Возможность аудита: вы можете регистрировать, какие фрагменты были получены, что полезно для обеспечения соответствия требованиям и отладки.",
       ],
     },
     {
       type: "callout",
       variant: "warning",
-      title: "RAG is not magic",
+      title: "ТРЯПКА - это не волшебство",
       content:
-        "Bad chunks, wrong embeddings, or vague queries still produce weak or misleading answers. RAG shifts the bottleneck to retrieval quality and evaluation, not away from engineering rigor.",
+        "Плохие фрагменты, неправильные встраивания или расплывчатые запросы по-прежнему дают слабые или вводящие в заблуждение ответы. RAG смещает узкое место в сторону качества поиска и оценки, а не от инженерной строгости.",
     },
     {
       type: "heading",
       level: 2,
-      content: "RAG vs fine-tuning vs prompt engineering",
+      content: "RAG vs тонкая настройка vs оперативное проектирование",
     },
     {
       type: "text",
       content:
-        "**Prompt engineering** shapes behavior and output format with instructions and examples in the context window. It does not add new factual knowledge beyond what fits in the prompt unless you paste documents yourself—RAG automates that paste step at scale.",
+        "**Быстрое проектирование** формирует поведение и формат вывода с помощью инструкций и примеров в контекстном окне. Он не добавляет новых фактических знаний сверх того, что умещается в подсказке, если вы не вставляете документы самостоятельно — RAG автоматизирует этот этап вставки в нужном масштабе.",
     },
     {
       type: "text",
       content:
-        "**Fine-tuning** updates model weights (full, LoRA, etc.) to specialize tone, format, or task priors. It is expensive to refresh frequently and risky for volatile facts. Teams often use **RAG for facts**, **fine-tuning for style or tool-use habits**, and **prompting for guardrails**.",
+        "**Точная настройка** обновляет веса модели (полная, LoRA и т. д.) для специализации тона, формата или априорных задач. Частое обновление обходится дорого и рискованно из-за нестабильных фактов. Команды часто используют **RAG для сбора фактов**, **тонкую настройку стиля или привычек использования инструментов** и **подсказку об установлении ограничений**.",
     },
     {
       type: "tip",
       content:
-        "In interviews, mention \"data freshness\" and \"cost/latency\": RAG can update a vector index in minutes; full fine-tuning cycles are slower and need curated datasets.",
+        "В интервью упоминайте «свежесть данных» и «стоимость/задержку»: RAG может обновить векторный индекс за считанные минуты; Полные циклы тонкой настройки выполняются медленнее и требуют тщательно подобранных наборов данных.",
     },
     {
       type: "heading",
       level: 2,
-      content: "End-to-end RAG pipeline",
+      content: "Сквозной конвейер RAG",
     },
     {
       type: "list",
       ordered: true,
       items: [
-        "Ingest: load sources (PDFs, HTML, tickets, code) and normalize text.",
-        "Chunk: split documents into segments sized for embedding models and context windows.",
-        "Embed: turn each chunk into a dense vector (and optionally sparse signals for hybrid search).",
-        "Store / index: upsert vectors (+ metadata) into a vector database or search backend.",
-        "Retrieve: given a user query, fetch top-k similar chunks (maybe re-rank).",
-        "Augment: build a prompt with system rules + retrieved passages + user question.",
-        "Generate: call the LLM; optionally validate citations or run a second critique step.",
+        "Всасывание: загрузка источников (PDF, HTML, заявки, код) и нормализация текста.",
+        "Чанк: разбивайте документы на сегменты, размер которых позволяет встраивать модели и контекстные окна.",
+        "Внедрение: превратите каждый фрагмент в плотный вектор (и, возможно, в разреженные сигналы для гибридного поиска).",
+        "Хранение/индексирование: вставка векторов (+ метаданные) в базу данных векторов или сервер поиска.",
+        "Извлечение: по запросу пользователя извлеките топ-k похожих фрагментов (возможно, повторно ранжируйте).",
+        "Дополнение: создайте подсказку с системными правилами + найденными отрывками + вопросом пользователя.",
+        "Создать: позвонить в LLM; при необходимости проверьте цитаты или выполните второй этап критики.",
       ],
     },
     {
       type: "heading",
       level: 2,
-      content: "Real-world use cases",
+      content: "Реальные варианты использования",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "Enterprise search and internal Q&A over wikis, SharePoint, and Confluence.",
-        "Customer support assistants grounded in KB articles and past resolved tickets.",
-        "Developer copilots that retrieve repo docs, ADRs, and API references.",
-        "Regulated domains (finance, healthcare) where answers should cite approved sources.",
+        "Корпоративный поиск и внутренние вопросы и ответы через вики, SharePoint и Confluence.",
+        "Помощники по поддержке клиентов, знакомые со статьями базы знаний и ранее решенными заявками.",
+        "Вторые пилоты разработчиков, которые получают документы репозиториев, ADR и ссылки на API.",
+        "Регулируемые области (финансы, здравоохранение), ответы в которых должны содержать утвержденные источники.",
       ],
     },
     {
       type: "heading",
       level: 3,
-      content: "Naive RAG in one diagram",
+      content: "Наивный RAG в одной диаграмме",
     },
     {
       type: "diagram",
-      alt: "Naive RAG flow from documents through chunking and embedding to vector store, then query retrieval into LLM",
+      alt: "Наивный поток RAG из документов через разбиение на фрагменты и встраивание в векторное хранилище, а затем поиск по запросу в LLM.",
       content: `flowchart LR
   subgraph ingest [Ingest]
     D[Documents] --> C[Chunking]
@@ -131,11 +131,11 @@ export const lesson: Lesson = {
 # 1) Chunks live in a vector store with metadata.
 # 2) At query time, retrieve → stuff into prompt → generate.
 
-SYSTEM = """Answer using ONLY the context. If missing, say you don't know."""
+SYSTEM = """Отвечайте, используя ТОЛЬКО контекст. Если отсутствует, скажите, что не знаете."""
 
 def build_prompt(context_chunks: list[str], question: str) -> str:
     context = "\\n\\n".join(context_chunks)
-    return f"{SYSTEM}\\n\\nContext:\\n{context}\\n\\nQuestion: {question}"
+    return f"{СИСТЕМА}\\\n\\\nКонтекст:\\\n{контекст}\\\n\\\nВопрос: {вопрос}"
 
 # retrieve(query) → embed query → similarity search → return chunk texts
 # generate(prompt) → call your LLM API`,
@@ -221,8 +221,8 @@ def build_prompt(context_chunks: list[str], question: str) -> str:
       question:
         "Complete the f-string placeholder so the prompt includes a joined context block before the user question.",
       codeTemplate: `context_chunks = ["Chunk A...", "Chunk B..."]
-question = "What is the refund policy?"
-prompt = f"Use only this context:\\n\\n{________}\\n\\nQuestion: {question}"`,
+question = "Какова политика возврата?"
+prompt = f"Используйте только этот контекст:\\\n\\\n{________}\\\n\\\nВопрос: {вопрос}"`,
       language: "python",
       correctAnswer: '"\\n\\n".join(context_chunks)',
       acceptableAnswers: ["'\\n\\n'.join(context_chunks)", '"\\n".join(context_chunks)'],

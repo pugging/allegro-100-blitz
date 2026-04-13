@@ -4,31 +4,31 @@ export const lesson: Lesson = {
   id: "langchain-langgraph-02",
   skillId: "langchain-langgraph",
   order: 2,
-  title: "Chains, Tools & Agents",
+  title: "Цепи, инструменты и агенты",
   subtitle:
-    "Composing runnables into chains, parallel steps, tool definitions, ReAct-style agents, function calling, execution loops, streaming, and callbacks.",
+    "Объединение исполняемых файлов в цепочки, параллельные шаги, определения инструментов, агенты в стиле ReAct, вызов функций, циклы выполнения, потоковую передачу и обратные вызовы.",
   estimatedMinutes: 18,
   objectives: [
-    "Describe chains versus single LLM calls and when to use RunnableSequence vs RunnableParallel.",
-    "Define tools with the `@tool` decorator and wire built-in or custom tools to a model.",
-    "Explain the ReAct pattern and how tool calling maps to OpenAI-style function schemas.",
-    "Outline streaming and callbacks for UX and observability in agent loops.",
+    "Опишите цепочки по сравнению с одиночными вызовами LLM и когда использовать RunnableSequence или RunnableParallel.",
+    "Определите инструменты с помощью декоратора @tool и подключите встроенные или пользовательские инструменты к модели.",
+    "Объясните шаблон ReAct и то, как вызовы инструментов сопоставляются со схемами функций в стиле OpenAI.",
+    "Опишите потоковую передачу и обратные вызовы для UX и наблюдаемости в циклах агента.",
   ],
   content: [
     {
       type: "text",
       content:
-        "A **chain** is a composed **Runnable** pipeline: prompt → model → parser, or more complex graphs with branches. LangChain encourages small, testable steps you can swap (e.g. swap retriever implementation) without rewriting orchestration code.",
+        "**Цепочка** — это составной **Runnable** конвейер: подсказка → модель → парсер или более сложные графики с ветвями. LangChain поощряет небольшие, тестируемые шаги, которые вы можете поменять (например, реализацию средства извлечения подкачки) без переписывания кода оркестрации.",
     },
     {
       type: "heading",
       level: 2,
-      content: "RunnableSequence and RunnableParallel",
+      content: "RunnableSequence и RunnableParallel",
     },
     {
       type: "text",
       content:
-        "**RunnableSequence** (often written with `|`) runs steps in order, passing the previous output forward. **RunnableParallel** runs independent steps with the same input dict and merges outputs—ideal for \"retrieve + classify + rewrite\" fan-out patterns before a final merge step.",
+        "**RunnableSequence** (часто пишется с `|`) выполняет шаги по порядку, передавая предыдущий результат вперед. **RunnableParallel** выполняет независимые шаги с одним и тем же входным словарем и объединяет выходные данные — идеально подходит для шаблонов разветвления «извлечение + классификация + перезапись» перед финальным шагом слияния.",
     },
     {
       type: "code",
@@ -44,26 +44,26 @@ chain = RunnableParallel(
 )
 
 def fake_retrieve(q: str) -> str:
-    return "doc snippets..."
+    return "фрагменты документов..."
 
 def detect_lang(q: str) -> str:
     return "en"
 
-out = chain.invoke({"question": "Refund policy?"})
+out = chain.invoke({"question": "Политика возврата?"})
 # {"question": {...}, "context": "...", "language": "en"}`,
     },
     {
       type: "heading",
       level: 2,
-      content: "Tools: built-in patterns",
+      content: "Инструменты: встроенные шаблоны",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "**Web search**: delegate to Tavily, SerpAPI, or Bing—wrap as a tool returning summarized snippets.",
-        "**Calculator / code**: sandboxed eval or SymPy-style math—expose only safe operations in production.",
-        "**Retriever**: wrap `vector_store.as_retriever()` as a tool so the agent decides when to fetch context.",
+        "**Веб-поиск**: делегируйте полномочия Tavily, SerpAPI или Bing – используйте инструмент, возвращающий обобщенные фрагменты.",
+        "**Калькулятор/код**: оценка в песочнице или математические вычисления в стиле SymPy — в рабочей среде доступны только безопасные операции.",
+        "**Retriever**: оберните `vector_store.as_retriever()` как инструмент, чтобы агент решал, когда получать контекст.",
       ],
     },
     {
@@ -71,12 +71,12 @@ out = chain.invoke({"question": "Refund policy?"})
       variant: "warning",
       title: "Security",
       content:
-        "Tools are arbitrary Python. In enterprise settings, enforce authz, input validation, and rate limits per tool. Never expose raw SQL or shell without hard guardrails.",
+        "Инструменты — это произвольный Python. В корпоративных настройках включите аутентификацию, проверку ввода и ограничения скорости для каждого инструмента. Никогда не раскрывайте необработанный SQL или оболочку без жестких ограждений.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Custom tools with @tool",
+      content: "Пользовательские инструменты с помощью @tool",
     },
     {
       type: "code",
@@ -86,13 +86,13 @@ out = chain.invoke({"question": "Refund policy?"})
 
 @tool
 def crm_lookup(account_id: str) -> str:
-    """Fetch account status from CRM by opaque account id."""
+    """Получите статус учетной записи из CRM по непрозрачному идентификатору учетной записи."""
     # call internal API with service credentials
-    return "status=active tier=gold"
+    return "статус=активный уровень=золото"
 
 @tool
 def sum_numbers(a: float, b: float) -> float:
-    """Add two numbers."""
+    """Добавьте два числа."""
     return a + b
 
 tools = [crm_lookup, sum_numbers]`,
@@ -100,27 +100,27 @@ tools = [crm_lookup, sum_numbers]`,
     {
       type: "tip",
       content:
-        "Docstrings become the tool description sent to the model—write them like API docs: what it does, args, and failure behavior.",
+        "Строки документации становятся описанием инструмента, отправляемым в модель — записывайте их как документацию API: что он делает, аргументы и поведение при сбоях.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Agents and ReAct",
+      content: "Агенты и ReAct",
     },
     {
       type: "text",
       content:
-        "An **agent** lets the model choose **actions** (tool calls) iteratively. **ReAct** (Reason + Act) interleaves thought-like narration, tool calls, and observations until a stop condition. Modern chat models often use **native tool / function calling** instead of parsing \"Action:\" lines from free text—more reliable for production.",
+        "**Агент** позволяет модели итеративно выбирать **действия** (вызовы инструментов). **ReAct** (Причина + Действие) чередует мысленное повествование, вызовы инструментов и наблюдения до момента остановки. Современные модели чата часто используют **собственный вызов инструментов/функций** вместо анализа строк «Действие:» из свободного текста, что более надежно для производства.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Tool calling with OpenAI functions",
+      content: "Вызов инструментов с помощью функций OpenAI",
     },
     {
       type: "text",
       content:
-        "OpenAI-compatible models return `tool_calls` on the assistant message. LangChain’s agent executor binds tools to the model, executes the requested tool, appends a **ToolMessage**, and loops until the model responds without tools or hits max iterations.",
+        "Модели, совместимые с OpenAI, возвращают `tool_calls` в сообщении помощника. Исполнитель агента LangChain привязывает инструменты к модели, запускает запрошенный инструмент, добавляет **ToolMessage** и выполняет цикл до тех пор, пока модель не ответит без инструментов или не достигнет максимального количества итераций.",
     },
     {
       type: "code",
@@ -134,7 +134,7 @@ from langchain_core.prompts import ChatPromptTemplate
 llm = ChatOpenAI(model="gpt-4o", temperature=0)
 
 prompt = ChatPromptTemplate.from_messages([
-    ("system", "Use tools when needed. If unsure, ask a clarifying question."),
+    ("system", "Используйте инструменты, когда это необходимо. Если не уверены, задайте уточняющий вопрос."),
     ("placeholder", "{chat_history}"),
     ("human", "{input}"),
     ("placeholder", "{agent_scratchpad}"),
@@ -143,28 +143,28 @@ prompt = ChatPromptTemplate.from_messages([
 # tools = [crm_lookup, ...]
 # agent = create_tool_calling_agent(llm, tools, prompt)
 # executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
-# result = executor.invoke({"input": "What's the status for ACC-123?", "chat_history": []})`,
+# result = executor.invoke({"input": "Каков статус ACC-123?", "chat_history": []})`,
     },
     {
       type: "callout",
       variant: "info",
-      title: "Interview angle",
+      title: "Угол интервью",
       content:
-        "Be ready to compare **single-shot RAG** (always retrieve) vs **agentic retrieval** (model decides when to call the retriever tool). Agents add flexibility and risk—loops, cost, and harder evaluation.",
+        "Будьте готовы сравнить **однократный RAG** ​​(всегда извлекать) и **агентный поиск** (модель решает, когда вызывать инструмент извлечения). Агенты добавляют гибкости и риска — циклы, стоимость и более сложная оценка.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Streaming and callbacks",
+      content: "Потоковая передача и обратные вызовы",
     },
     {
       type: "text",
       content:
-        "**Streaming** (`astream_events` or model `.stream`) improves perceived latency for chat UIs. **Callbacks** hook into chain lifecycle events for logging, metrics, and token counting—pair with LangSmith or OpenTelemetry in real systems.",
+        "**Потоковая передача** (`astream_events` или модель `.stream`) уменьшает воспринимаемую задержку для пользовательского интерфейса чата. **Обратные вызовы** подключаются к событиям жизненного цикла цепочки для ведения журналов, показателей и подсчета токенов — в сочетании с LangSmith или OpenTelemetry в реальных системах.",
     },
     {
       type: "diagram",
-      alt: "Agent loop with model tool calls and tool execution feeding back ToolMessages",
+      alt: "Цикл агента с вызовами инструментов модели и выполнением инструментов с обратной связью ToolMessages",
       content: `flowchart TD
   U[User input] --> A[Agent / LLM]
   A -->|tool_calls| T[Tool execution]
@@ -174,98 +174,98 @@ prompt = ChatPromptTemplate.from_messages([
     },
   ],
   keyTakeaways: [
-    "Chains compose Runnables; parallel steps reduce latency when tasks are independent.",
-    "Tools are typed, documented callables—retrieval, search, and domain APIs are common.",
-    "Agents loop: model proposes tools, runtime executes, results return as ToolMessages.",
-    "Streaming and callbacks matter for UX and production observability.",
+    "Цепочки составляют Runnables; параллельные шаги уменьшают задержку, когда задачи независимы.",
+    "Инструменты представляют собой типизированные, документированные вызываемые объекты — API-интерфейсы извлечения, поиска и доменные API являются общими.",
+    "Цикл агентов: модель предлагает инструменты, среда выполнения выполняется, результаты возвращаются в виде ToolMessages.",
+    "Потоковая передача и обратные вызовы важны для UX и наблюдения за производством.",
   ],
   interviewTips: [
-    "State a stop policy: max iterations, timeouts, and fallback to human handoff.",
-    "Compare text-parsed ReAct vs native function calling for reliability.",
-    "Mention cost: each loop may invoke the model again—budget tokens per session.",
-    "Tie tools to authorization: the LLM proposes; the backend still enforces ACLs.",
+    "Укажите политику остановки: максимальное количество итераций, таймауты и возврат к передаче управления человеком.",
+    "Сравните ReAct с анализом текста и встроенную функцию, вызывающую надежность.",
+    "Упомяните стоимость: каждый цикл может снова вызвать модель — токены бюджета за сеанс.",
+    "Привяжите инструменты к авторизации: предлагает LLM; серверная часть по-прежнему применяет ACL.",
   ],
   exercises: [
     {
       type: "ordering",
       id: "lc02-ord-agent",
       question:
-        "Order the typical first iteration of a tool-calling agent turn (earliest first).",
+        "Укажите типичную первую итерацию обращения агента, вызывающего инструмент (сначала самый ранний).",
       items: [
-        "Runtime executes the tool and wraps output in a ToolMessage",
-        "Model returns an AIMessage with tool_calls",
-        "User sends HumanMessage with a task",
-        "Model receives updated message list including ToolMessage",
+        "Среда выполнения запускает инструмент и переносит выходные данные в ToolMessage.",
+        "Модель возвращает AIMessage с помощьюtool_calls",
+        "Пользователь отправляет HumanMessage с задачей",
+        "Модель получает обновленный список сообщений, включая ToolMessage.",
       ],
       correctOrder: [2, 1, 0, 3],
       explanation:
-        "User message → model proposes tool_calls → runtime runs tools → ToolMessages are appended → model called again with full history.",
+        "Сообщение пользователя → модель предлагает вызовы инструментов → инструменты запускаются во время выполнения → добавляются сообщения ToolMessages → модель вызывается снова с полной историей.",
       interviewNote:
-        "Note parallel tool_calls if the model batches multiple tools in one turn.",
+        "Обратите внимание на параллельные вызовы инструментов, если модель объединяет несколько инструментов за один ход.",
     },
     {
       type: "multiple-choice",
       id: "lc02-mc-parallel",
       question:
-        "You need to run embedding a query and fetching user profile from cache concurrently before merging into one prompt. Which Runnable fits best?",
+        "Вам необходимо одновременно запустить внедрение запроса и получение профиля пользователя из кэша, прежде чем объединить его в одно приглашение. Какой Runnable подходит лучше всего?",
       options: [
-        "A single `StrOutputParser`",
-        "`RunnableParallel` with named branches",
-        "`HumanMessage` only",
-        "A while-loop that calls `input()`",
+        "Один StrOutputParser",
+        "`RunnableParallel` с именованными ветвями",
+        "Только `HumanMessage`",
+        "Цикл while, вызывающий `input()`",
       ],
       correctIndex: 1,
       explanation:
-        "`RunnableParallel` executes branches over the same input and combines outputs. Parsers handle output shape, not concurrency; HumanMessage is a message type; stdin loops are unrelated.",
+        "RunnableParallel выполняет переходы по одному и тому же входу и объединяет выходы. Синтаксические анализаторы обрабатывают форму вывода, а не параллелизм; HumanMessage — тип сообщения; Циклы stdin не связаны между собой.",
       interviewNote:
-        "Mention thread pools or async runnables if I/O-bound and your stack supports it.",
+        "Упомяните пулы потоков или асинхронные исполняемые файлы, если они привязаны к вводу-выводу и ваш стек это поддерживает.",
     },
     {
       type: "true-false",
       id: "lc02-tf-shell",
       statement:
-        "In production, it is always safer to give an agent unrestricted shell access so it can fix its own errors.",
+        "В производственной среде всегда безопаснее предоставить агенту неограниченный доступ к оболочке, чтобы он мог исправить свои собственные ошибки.",
       correct: false,
       explanation:
-        "Unrestricted shell is high risk (data exfiltration, destructive commands). Prefer allow-listed tools, sandboxed execution, and human approval for sensitive operations.",
+        "Неограниченная оболочка представляет собой высокий риск (хищение данных, деструктивные команды). Предпочитайте инструменты из списка разрешенных, изолированное выполнение и одобрение человеком конфиденциальных операций.",
       interviewNote:
-        "Accenture clients often require audit trails—tie actions to service accounts, not end-user shells.",
+        "Клиентам Accenture часто требуются журналы аудита — привязывайте действия к учетным записям служб, а не к оболочкам конечных пользователей.",
     },
     {
       type: "code-completion",
       id: "lc02-cc-tool",
       question:
-        "Complete the decorator that registers `lookup_policy` as a LangChain tool.",
+        "Завершите декоратор, который регистрирует `lookup_policy` как инструмент LangChain.",
       codeTemplate: `from langchain_core.tools import ________
 
 @________
 def lookup_policy(topic: str) -> str:
-    """Return internal policy text for a topic keyword."""
+    """Возвращает текст внутренней политики для ключевого слова темы."""
     return "Policy: ..."
 `,
       language: "python",
       correctAnswer: "tool",
       acceptableAnswers: ["tool"],
       explanation:
-        "`@tool` (from `langchain_core.tools`) wraps a function with name, description, and args schema inferred from the signature.",
+        "`@tool` (из `langchain_core.tools`) оборачивает функцию именем, описанием и схемой аргументов, полученной из сигнатуры.",
       interviewNote:
-        "If asked about typing, mention Annotated and Field for richer JSON schemas.",
+        "Если вас спросят о вводе текста, упомяните «Аннотации» и «Поле» для более богатых схем JSON.",
     },
     {
       type: "scenario",
       id: "lc02-sc-support",
       scenario:
-        "A support bot can search a KB (retriever tool), create a ticket (API tool), and escalate to a human (tool that posts to Slack). The model sometimes calls `create_ticket` before searching the KB.",
+        "Бот службы поддержки может выполнить поиск в базе знаний (инструмент извлечения информации), создать заявку (инструмент API) и передать сообщение человеку (инструмент, который отправляет сообщения в Slack). Модель иногда вызывает create_ticket перед поиском в базе знаний.",
       question:
-        "What two controls would you propose (policy + technical)?",
+        "Какие два механизма контроля вы бы предложили (политический + технический)?",
       sampleAnswer:
-        "Policy: update the system prompt to require KB search first unless the user explicitly requests a ticket. Technical: add a lightweight router chain or state machine (LangGraph in the next lesson) that enforces \"search before ticket\" edges, plus max-iteration and logging on tool calls.",
+        "Политика: обновите системное приглашение, чтобы оно сначала требовало поиска в базе знаний, если только пользователь явно не запрашивает билет. Техническое: добавьте облегченную цепочку маршрутизаторов или конечный автомат (LangGraph в следующем уроке), который обеспечивает выполнение ребер «поиска перед заявкой», а также максимальную итерацию и журналирование вызовов инструментов.",
       keyPoints: [
-        "Prompt/system rules for ordering preferences.",
-        "Explicit graph or guard middleware—not only prompt hope.",
+        "Подсказка/системные правила заказа предпочтений.",
+        "Явный граф или промежуточное программное обеспечение защиты — не только вселяет надежду.",
       ],
       interviewNote:
-        "Mention evaluation: log traces where ticket fires without retrieval and fix with tests.",
+        "Оценка упоминания: регистрируйте следы срабатывания билета без извлечения и исправляйте его с помощью тестов.",
     },
   ],
 };

@@ -4,27 +4,27 @@ export const lesson: Lesson = {
   id: "git-03",
   skillId: "git",
   order: 3,
-  title: "Collaboration, PRs & CI/CD",
+  title: "Совместная работа, PR и CI/CD",
   subtitle:
-    "Remotes, pull requests, reviews, branching strategies, GitHub Actions, protected branches, and releases for delivery teams.",
+    "Удалённые репозитории, pull request, ревью, стратегии ветвления, GitHub Actions, защита веток и релизы для команд поставки.",
   estimatedMinutes: 15,
   objectives: [
-    "Use fetch, pull, and push correctly with remote tracking branches.",
-    "Describe pull requests and constructive code review for GenAI codebases.",
-    "Contrast Git Flow and trunk-based development at a high level.",
-    "Read a basic GitHub Actions workflow and understand branch protection.",
-    "Explain tags and releases for versioning services and artifacts.",
+    "Корректно использовать fetch, pull и push с отслеживаемыми ветками remote.",
+    "Описывать pull request и конструктивное код-ревью для кодовых баз GenAI.",
+    "Сопоставлять Git Flow и trunk-based development на концептуальном уровне.",
+    "Читать базовый workflow GitHub Actions и понимать защиту веток.",
+    "Объяснять теги и релизы для версионирования сервисов и артефактов.",
   ],
   content: [
     {
       type: "heading",
       level: 2,
-      content: "Remote repositories",
+      content: "Удалённые репозитории",
     },
     {
       type: "text",
       content:
-        "A **remote** (usually `origin`) is another copy of the repo on a server. Your local branches are independent until you **fetch** or **push**. `git clone` sets `origin` and checks out a default branch. For consulting squads, remotes live on GitHub Enterprise, Azure Repos, or GitLab—Git commands stay the same; URLs and auth differ.",
+        "**Remote** (обычно `origin`) — ещё одна копия репозитория на сервере. Локальные ветки независимы, пока вы не сделаете **fetch** или **push**. `git clone` настраивает `origin` и переключает ветку по умолчанию. У консалтинговых команд remote на GitHub Enterprise, Azure Repos или GitLab — команды Git те же, отличаются URL и аутентификация.",
     },
     {
       type: "code",
@@ -38,59 +38,59 @@ git push -u origin feature/rag-metrics`,
     {
       type: "callout",
       variant: "info",
-      title: "fetch vs pull",
+      title: "fetch и pull",
       content:
-        "`git fetch` downloads commits and updates remote-tracking branches (e.g. `origin/main`) **without** merging into your current branch. `git pull` is typically `fetch` + `merge` (or `rebase`, depending on config). Many seniors prefer **fetch then merge/rebase explicitly** to see incoming changes first.",
+        "`git fetch` скачивает коммиты и обновляет ветки отслеживания remote (например `origin/main`) **без** слияния в текущую ветку. `git fetch` + `merge` (или `rebase`, по настройке). Многие сеньоры предпочитают **сначала fetch, затем явно merge/rebase**, чтобы увидеть входящие изменения.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Pull requests (PRs) / merge requests",
+      content: "Pull request (PR) / merge request",
     },
     {
       type: "text",
       content:
-        "A **pull request** is a request to merge one branch into another (often `feature/*` → `main`). It bundles **diff**, description, linked ticket, CI results, and **review** threads. For GenAI work, PRs should call out prompt changes, new dependencies, evaluation impact, and any data-handling implications—reviewers cannot guess risk from code alone.",
+        "**Pull request** — запрос влить одну ветку в другую (часто `feature/*` → `main`). В PR входят **diff**, описание, ссылка на тикет, результаты CI и **треды ревью**. В работе GenAI в описании нужно явно указывать изменения промптов, новые зависимости, влияние на оценку и обработку данных — ревьюеры не угадают риски только по коду.",
     },
     {
       type: "list",
       ordered: false,
       items: [
-        "Keep PRs **small** when possible: easier review, faster feedback, simpler rollback.",
-        "Write a **title** that states intent; use the body for context, screenshots, and test notes.",
-        "Respond to review comments with commits or replies; resolve threads when addressed.",
+        "Держите PR **небольшими**, когда возможно: проще ревью, быстрее фидбек, проще откат.",
+        "**Заголовок** отражает намерение; в теле — контекст, скриншоты, заметки о тестах.",
+        "Отвечайте на комментарии ревью коммитами или ответами; закрывайте треды, когда вопрос снят.",
       ],
     },
     {
       type: "tip",
       content:
-        "When your PR touches both Python and prompts, consider splitting into two PRs or clearly section the description so reviewers can approve each concern.",
+        "Если PR трогает и Python, и промпты, разделите на два PR или явно структурируйте описание, чтобы можно было одобрить каждый риск отдельно.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Git Flow vs trunk-based (conceptual)",
+      content: "Git Flow и trunk-based (идея)",
     },
     {
       type: "text",
       content:
-        "**Git Flow** uses long-lived branches like `develop`, `release/*`, and `hotfix/*` with prescribed merges—good for scheduled releases, heavier process. **Trunk-based** favors short-lived branches off `main`, frequent merges, feature flags, and strong CI—common in high-velocity product teams. Enterprises often blend: protected `main`, release tags, and automation gates.",
+        "**Git Flow** использует долгоживущие ветки `develop`, `release/*`, `hotfix/*` с регламентированными слияниями — удобно при календарных релизах и тяжёлом процессе. **Trunk-based** — короткие ветки от `main`, частые merge, флаги фич и сильный CI — типично для продуктовых команд с высокой скоростью. В корпорациях часто смесь: защищённый `main`, теги релизов и автоматические ворота.",
     },
     {
       type: "diagram",
-      alt: "Trunk-based short branches versus Git Flow branches",
+      alt: "Короткие ветки trunk-based и ветки Git Flow",
       content:
-        "Trunk-based: contributors branch briefly from main, PR, merge often.\\nGit Flow: parallel develop/release/hotfix lines with merge choreography.\\nBoth rely on code review + CI; trunk-based stresses smaller batches.",
+        "Trunk-based: короткие ветки от main, PR, частые merge.\\nGit Flow: параллельные develop/release/hotfix и хореография merge.\\nОба опираются на ревью и CI; trunk-based делает упор на малые партии изменений.",
     },
     {
       type: "heading",
       level: 2,
-      content: "GitHub Actions basics",
+      content: "Основы GitHub Actions",
     },
     {
       type: "text",
       content:
-        "CI/CD often starts with **GitHub Actions**: YAML workflows under `.github/workflows/` triggered by `push`, `pull_request`, or `schedule`. A job runs on a runner (Ubuntu, etc.), checks out code, installs dependencies, runs **lint/tests/build**, and can publish artifacts. GenAI repos might add secret-backed smoke tests against sandboxes—never print keys in logs.",
+        "CI/CD часто начинается с **GitHub Actions**: YAML в `.github/workflows/` по событиям `push`, `pull_request` или `schedule`. Job выполняется на раннере (Ubuntu и т. д.): checkout, установка зависимостей, **lint/test/build**, публикация артефактов. В GenAI-репозиториях добавляют дымовые тесты с секретами в песочницах — ключи в логи не выводить.",
     },
     {
       type: "code",
@@ -117,29 +117,29 @@ jobs:
     {
       type: "callout",
       variant: "warning",
-      title: "Secrets in Actions",
+      title: "Секреты в Actions",
       content:
-        "Store API keys in **GitHub Secrets** or vault integrations; reference them as `${{ secrets.NAME }}`. Redact outputs and avoid echoing environment variables that contain credentials.",
+        "API-ключи храните в **GitHub Secrets** или интеграциях с vault; в workflow — `${{ secrets.NAME }}`. Маскируйте вывод и не печатайте переменные окружения с учётными данными.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Protecting branches",
+      content: "Защита веток",
     },
     {
       type: "text",
       content:
-        "**Branch protection rules** on `main` typically require: PR before merge, approving reviews, passing status checks, linear history (optional), and no force-push. This prevents accidental direct pushes that skip CI—critical when multiple Accenture pods touch the same client repo.",
+        "**Правила защиты** на `main` обычно требуют: merge только через PR, одобрения ревью, зелёные проверки, опционально линейную историю и запрет force-push. Это предотвращает случайные прямые push мимо CI — важно, когда несколько подрядчиков ведут один клиентский репозиторий.",
     },
     {
       type: "heading",
       level: 2,
-      content: "Tags and releases",
+      content: "Теги и релизы",
     },
     {
       type: "text",
       content:
-        "A **tag** points to a specific commit—often `v1.3.0` for semantic versioning. **Releases** attach notes, binaries, or container images to a tag. For services, tags trigger deploy pipelines; for libraries, they mark PyPI/npm versions. Lightweight vs annotated tags: annotated (`git tag -a`) stores author, date, message—preferred for releases.",
+        "**Тег** указывает на конкретный коммит — часто `v1.3.0` по семантическому версионированию. **Релизы** добавляют заметки, бинарники или образы к тегу. Для сервисов теги запускают деплой; для библиотек — версии PyPI/npm. Лёгкие vs аннотированные теги: аннотированный (`git tag -a`) хранит автора, дату, сообщение — предпочтителен для релизов.",
     },
     {
       type: "code",
@@ -151,30 +151,30 @@ git push origin v0.2.0`,
     {
       type: "callout",
       variant: "success",
-      title: "Interview sound bite",
+      title: "Фраза на интервью",
       content:
-        "“We use PRs into protected `main`, required CI green, at least one reviewer, and semver tags to cut releases.” That sentence maps cleanly to enterprise delivery.",
+        "«Мы вливаем через PR в защищённый `main`, CI должен быть зелёным, нужен как минимум один ревьюер, релизы режем по semver-тегам». Так формулировка хорошо ложится на корпоративную поставку.",
     },
   ],
   keyTakeaways: [
-    "Remotes sync work; fetch vs pull matters for controlled integration.",
-    "PRs are the collaboration unit: diff + context + CI + review.",
-    "Git Flow vs trunk-based is a tradeoff of release cadence versus batch size.",
-    "GitHub Actions encodes CI in YAML; secrets must never leak into logs.",
-    "Tags/releases anchor deployable versions for services and libraries.",
+    "Remote синхронизирует работу; разница fetch и pull важна для контролируемой интеграции.",
+    "PR — единица совместной работы: diff + контекст + CI + ревью.",
+    "Git Flow и trunk-based — компромисс между каденцией релизов и размером партий изменений.",
+    "GitHub Actions кодирует CI в YAML; секреты нельзя светить в логах.",
+    "Теги/релизы фиксируют выкатываемые версии сервисов и библиотек.",
   ],
   interviewTips: [
-    "Mention protected `main`, required checks, and PR reviews as non-negotiables on client work.",
-    "Connect Actions to your stack: pytest, ruff, mypy, or npm test—show you have run CI locally too.",
-    "If asked about rollback, tie tags/releases to deploy pipelines and prior artifacts.",
-    "For GenAI: call out human review for prompt and safety-related changes, not only code style.",
+    "Упомяните защищённый `main`, обязательные проверки и ревью PR как базовые требования на клиентской работе.",
+    "Свяжите Actions со стеком: pytest, ruff, mypy или npm test — покажите, что гоняли CI локально.",
+    "Если спросят про откат — свяжите теги/релизы с пайплайном деплоя и прошлыми артефактами.",
+    "Для GenAI: человеческое ревью для промптов и безопасности, а не только стиль кода.",
   ],
   exercises: [
     {
       type: "multiple-choice",
       id: "git-03-ex-01",
       question:
-        "Your teammate pushed new commits to `origin/main`. You want to **see** those commits locally **without** merging them into your current branch yet. What do you run?",
+        "Коллега запушил новые коммиты в `origin/main`. Вы хотите **увидеть** их локально **без** слияния в текущую ветку. Что выполнить?",
       options: [
         "`git pull`",
         "`git push origin main`",
@@ -183,67 +183,67 @@ git push origin v0.2.0`,
       ],
       correctIndex: 2,
       explanation:
-        "`git fetch` updates remote-tracking branches like `origin/main` while leaving your current branch untouched. You can then `git log origin/main` or merge/rebase when ready.",
+        "`git fetch` обновляет ветки отслеживания вроде `origin/main`, не трогая текущую ветку. Затем можно `git log origin/main` или merge/rebase, когда готовы.",
       interviewNote:
-        "Separating fetch from pull signals mature daily workflow.",
+        "Разделение fetch и pull показывает зрелый ежедневный процесс.",
     },
     {
       type: "ordering",
       id: "git-03-ex-02",
       question:
-        "Order these steps for a typical **first push** of a new local branch to `origin` and upstream tracking.",
+        "Упорядочьте шаги типичного **первого push** новой локальной ветки на `origin` с настройкой upstream.",
       items: [
         "`git push -u origin feature/my-branch`",
-        "Commit work on `feature/my-branch` locally",
-        "`git switch -c feature/my-branch` (create branch from updated base)",
+        "Закоммитить работу локально на `feature/my-branch`",
+        "`git switch -c feature/my-branch` (создать ветку от обновлённой базы)",
       ],
       correctOrder: [2, 1, 0],
       explanation:
-        "Create the branch from the right base, commit locally, then push and set upstream with `-u` so future `git push`/`git pull` know the remote branch.",
+        "Создать ветку от правильной базы, закоммитить локально, затем push с `-u`, чтобы дальнейшие `git push`/`git pull` знали remote-ветку.",
       interviewNote:
-        "Upstream (`-u`) is a common follow-up question in live coding setups.",
+        "Upstream (`-u`) — частый уточняющий вопрос на живой настройке.",
     },
     {
       type: "true-false",
       id: "git-03-ex-03",
       statement:
-        "Branch protection rules on `main` replace the need for code review—CI passing is sufficient quality gates.",
+        "Правила защиты ветки на `main` заменяют код-ревью — достаточно зелёного CI.",
       correct: false,
       explanation:
-        "Protection rules **enforce** process (e.g. reviews required), they do not replace human judgment. CI catches many issues but not product correctness, prompt safety, or architectural fit.",
+        "Правила защиты **закрепляют** процесс (например, обязательные ревью), но не заменяют человеческую оценку. CI ловит много проблем, но не продуктовую корректность, безопасность промптов или архитектурную уместность.",
       interviewNote:
-        "Shows balance between automation and governance—relevant to regulated clients.",
+        "Показывает баланс автоматизации и управления — важно для регулируемых клиентов.",
     },
     {
       type: "code-completion",
       id: "git-03-ex-04",
       question:
-        "Fill in the workflow path so GitHub Actions discovers the file (conventional location).",
+        "Допишите путь к каталогу, где GitHub Actions ищет workflow (принятое расположение).",
       codeTemplate: "___/workflows/ci.yml",
       language: "bash",
       correctAnswer: ".github",
       acceptableAnswers: [".github"],
       explanation:
-        "GitHub loads workflow YAML from `.github/workflows/` in the repository root.",
+        "GitHub загружает YAML workflow из `.github/workflows/` в корне репозитория.",
       interviewNote:
-        "Basic CI path knowledge is often assumed for full-stack or platform interns.",
+        "Базовое знание путей CI часто подразумевается для full-stack или платформенных стажировок.",
     },
     {
       type: "scenario",
       id: "git-03-ex-05",
       scenario:
-        "The client’s repo requires two approvals on `main`, CI must pass, and force-push is disabled. You need to hotfix a production bug in the inference service tonight.",
+        "В репозитории клиента на `main` нужны два апрува, CI обязателен, force-push запрещён. Нужен хотфикс сервиса инференса в продакшене сегодня ночью.",
       question:
-        "Outline how you use branches, PR, CI, and tagging so the fix is traceable and compliant.",
+        "Опишите использование веток, PR, CI и тегов, чтобы фикс был прослеживаемым и соответствовал политике.",
       sampleAnswer:
-        "Create `hotfix/inference-timeout` from the tagged production commit (or protected release branch if used). Implement the minimal fix, open a PR to `main` with clear description and risk. Request two reviewers per policy; if on-call allows, use designated approvers. Ensure CI green. Merge via PR (no direct push). Tag a new patch release (e.g. `v1.4.1`) on the merge commit or follow the client’s release job. Deploy via their pipeline; attach release notes linking ticket and rollback plan.",
+        "Создать `hotfix/inference-timeout` от тега продакшена (или защищённой release-ветки, если принято). Минимальный фикс, PR в `main` с ясным описанием и риском. Запросить двух ревьюеров по политике; при онколле — назначенных approvers. Дождаться зелёного CI. Влить через PR (без прямого push). Поставить патч-тег (например `v1.4.1`) на merge-коммит или по процессу клиента. Деплой через их пайплайн; в релиз-нотах — тикет и план отката.",
       keyPoints: [
-        "Hotfixes still go through protected `main` unless client defines `release/*` exception.",
-        "Traceability: ticket, PR, CI run, tag, deploy record.",
-        "Semantic patch bump for bugfixes communicates scope to ops.",
+        "Хотфиксы всё равно идут в защищённый `main`, если нет исключения для `release/*`.",
+        "Прослеживаемость: тикет, PR, прогон CI, тег, запись деплоя.",
+        "Патч по semver передаёт масштаб операциям.",
       ],
       interviewNote:
-        "Accenture interviews value policy-aware answers over cowboy deploys.",
+        "На интервью Accenture ценят ответы с учётом политики, а не «ковбойский» деплой.",
     },
   ],
 };
