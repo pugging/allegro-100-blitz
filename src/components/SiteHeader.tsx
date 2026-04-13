@@ -37,6 +37,18 @@ export async function SiteHeader() {
           >
             Результаты
           </Link>
+          <Link
+            href="/process-excellence"
+            className="rounded-md px-2 py-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            PE тест
+          </Link>
+          <Link
+            href="/accenture-training"
+            className="rounded-md px-2 py-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            Accenture
+          </Link>
           {user ? (
             <div className="ml-2 flex items-center gap-2 border-l border-border pl-3">
               <span
